@@ -1,0 +1,38 @@
+{
+  "name": "support-admin-app",
+  "version": "2.3.0",
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "angular-animate": "~1.4.4",
+    "angular-cookies": "~1.4.4",
+    "angular-touch": "~1.4.4",
+    "angular-sanitize": "~1.4.4",
+    "angular-resource": "~1.4.4",
+    "angular-ui-router": "~0.2.13",
+    "bootstrap": "~3.3.5",
+    "angular-bootstrap": "0.12.x",
+    "angular": "~1.4.4",
+    "PACE": "https://github.com/HubSpot/pace.git#~1.0.2",
+    "metisMenu": "~2.0.2",
+    "font-awesome": "~4.3.0",
+    "footable": "~2.0.3",
+    "icheck": "1.0.2",
+    "auth0-lock": "~7.6.2",
+    "auth0.js": "~6.4.2",
+    "auth0-angular": "~4.0.5",
+    "a0-angular-storage": "~0.0.11",
+    "angular-jwt": "~0.0.9",
+    "angular-footable": "~1.0.3",
+    "appirio-tech-ng-auth": "3.x.x",
+    "appirio-tech-ng-login-reg": "0.x.x",
+    "appirio-tech-ng-api-services": "0.x.x"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.4"
+  },
+  "resolutions": {
+    "jquery": "~2.1.1",
+    "angular": "1.4.7",
+    "angular-resource": "1.4.x"
+  }
+}

@@ -1,0 +1,34 @@
+<div class="inmodal">
+  <div class="modal-header" style="padding:14px"></div>
+  <div class="modal-body">
+    <div class="row">
+      <form role="form" name="userForm">
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+        <div class="form-group">
+          <label>ID</label>
+          <input ng-model="form.id" type="text" class="form-control" disabled="disabled">
+        </div>
+        <div class="form-group">
+          <label>Handle</label>
+          <input ng-model="form.handle" type="text" class="form-control" ng-disabed="form.isLoading">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input ng-model="form.email" type="email" class="form-control" ng-disabed="form.isLoading">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="cancel()" ng-disabed="form.isLoading">
+      Close
+    </button>
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="!userForm.$dirty || form.isLoading">
+      Save
+    </button>
+  </div>
+  <div style="text-align:center;position:absolute;top:65px;left:0;width:100%;height:100%;zIndex:1;"
+      ng-show="form.isLoading">
+    <img src="assets/images/loading.gif"/>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+'use strict';
+
+angular.module('supportAdminApp')
+  .factory('UserService', ['$q','$http', 'API_URL',
+    function ($q, $http, API_URL) {
+      // local dev
+      //API_URL = 'http://local.topcoder-dev.com:8080';
+      return ({
+
+        /** find users */
+        find: function(options) {
+          var opts = options || {};
+          var query = "";
+          angular.forEach({
+            "fields": opts.fields || "id,handle,email,active,credential,firstName,lastName,createdAt,modifiedAt",
+            "filter": opts.filter
+          //"limit" : null,
+          //"offset": null,
+          //"orderBy": null,
+          }, function(value, key) {
+            query += ('&' + key + '=' + encodeURIComponent(value));
+          });
+
+          var request = $http({
+            method: 'GET',
+            url: API_URL + '/v3/users?' + query,
+            headers: {
+              "Content-Type":"application/json"
+            }
+          });
+
+          return request.then(
+            function(response) {
+              console.log(response);
+              return response.data.result.content;
+            },
+            function(error) {
+              console.log(error);
+              var err;
+              if(error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error : error.data.result.content
+                };
+              }
+              if(!err) {
+                err = {
+                  status: error.status,
+                  error : error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        }, // find()
+
+        activate: function(activationCode) {
+
+          var request = $http({
+            method: 'PUT',
+            url: API_URL + '/v3/users/activate?code=' + activationCode,
+            headers: {
+              "Content-Type":"application/json"
+            },
+            data: {}
+          });
+
+          return request.then(
+            function(response) {
+              console.log(response);
+              return response.data.result.content;
+            },
+            function(error) {
+              console.log(error);
+              var err;
+              if(error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error : error.data.result.content
+                };
+              }
+              if(!err) {
+                err = {
+                  status: error.status,
+                  error : error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        } // activate()
+      });
+    }]);

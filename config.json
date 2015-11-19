@@ -1,0 +1,30 @@
+{
+  "local": {
+    "API_URL" : "http://localhost:8080",
+    "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
+    "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
+    "AUTH0_TOKEN_NAME" : "userJWTToken",
+    "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
+  },
+  "dev": {
+    "API_URL" : "https://api.topcoder-dev.com",
+    "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
+    "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
+    "AUTH0_TOKEN_NAME" : "userJWTToken",
+    "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
+  },
+  "qa": {
+    "API_URL" : "https://api.topcoder-qa.com",
+    "AUTH0_CLIENT_ID" : "EVOgWZlCtIFlbehkq02treuRRoJk12UR",
+    "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
+    "AUTH0_TOKEN_NAME" : "userJWTToken",
+    "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
+  },
+  "prod": {
+    "API_URL" : "https://api.topcoder.com",
+    "AUTH0_CLIENT_ID" : "6ZwZEUo2ZK4c50aLPpgupeg5v2Ffxp9P",
+    "AUTH0_DOMAIN" : "topcoder.auth0.com",
+    "AUTH0_TOKEN_NAME" : "userJWTToken",
+    "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
+  }
+}

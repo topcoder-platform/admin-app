@@ -1,0 +1,116 @@
+<!--
+<link href="../bower_components/icheck/skins/square/green.css" rel="stylesheet">
+<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+-->
+
+<script src="../bower_components/bootstrap/js/modal.js"></script>
+<script src="../bower_components/footable/js/footable.filter.js"></script>
+<script src="../bower_components/footable/js/footable.paginate.js"></script>
+<script src="../bower_components/footable/js/footable.sort.js"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Members</h2>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row" ng-controller="users.UserSearchController">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <div class="row">
+            <form role="form">
+              <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+              <div class="form-group col-md-5">
+                <label for="search-condition-handle">Handle</label>
+                <input id="search-condition-handle" type="text" class="form-control"
+                        ng-model="formSearch.handle" ng-disabled="formSearch.isLoading">
+              </div>
+              <div class="form-group col-md-5">
+                <label for="search-condition-email">Email</label>
+                <input id="search-condition-email" type="text" class="form-control"
+                        ng-model="formSearch.email" ng-disabled="formSearch.isLoading">
+              </div>
+              <div class="col-md-2">
+                <label for="search-condition-active">Status</label>
+                <select class="form-control m-b" ng-model="formSearch.status" ng-disabled="formSearch.isLoading">
+                    <option></option>
+                    <option>active</option>
+                    <option>inactive</option>
+                </select>
+              </div>
+              <div class="col-md-10 text-left">
+                <p class="text-muted">
+                  Tips:<br>
+                  - Wildcard(*) is available for partial matching. (e.g. ChrisB*, chris*@appirio.com) <br/>
+                  - Maximum number of searched results is 500.
+                </p>
+              </div>
+              <div class="col-md-2">
+                <button ng-click="search()" ng-disabled="formSearch.isLoading"
+                        type="submit" class="btn btn-sm btn-warning pull-right m-t-n-xs">
+                  <strong>Find members</strong>
+                </button>
+              </div>
+            </form>
+
+          </div>
+      </div>
+      <div class="ibox-content">
+        <div class="text-center" ng-show="formSearch.isLoading">
+          <img src="assets/images/loading.gif"/>
+        </div>
+        <div ng-show="!formSearch.isLoading">
+          <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
+              <thead>
+              <tr>
+                  <th data-type="numeric" data-toggle="true">User ID</th>
+                  <th>Handle</th>
+                  <th>Email</th>
+                  <th>Registred at</th>
+                  <th>Activation Code</th>
+                  <th>Active</th>
+                  <th data-sort-ignore="true">Action</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr ng-repeat="user in users">
+                  <td>{{user.id}}</td>
+                  <td>{{user.handle}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{format(user.createdAt)}}</td>
+                  <td>{{user.credential.activationCode}}</td>
+                  <td data-value="{{user.active}}">
+                    <a href="#" ng-show="user.active"><i class="fa fa-check text-navy"></i></a>
+                  </td>
+                  <td>
+                    <a data-toggle="modal" class="btn btn-sm btn-primary" ng-click="openDialog($index)">
+                      EDIT
+                    </a>
+                    <a class="btn btn-sm btn-success" ng-show="!user.active" ng-click="activate($index)">
+                      Activate
+                    </a>
+                    <a class="btn btn-sm btn-danger" ng-show="user.active" ng-click="deactivate($index)">
+                      Deactivate
+                    </a>
+                  </td>
+              </tr>
+              </tbody>
+
+              <tfoot>
+              <tr>
+                  <td colspan="5">
+                      <ul class="pagination pull-right"></ul>
+                  </td>
+              </tr>
+              </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
