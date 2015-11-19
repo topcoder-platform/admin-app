@@ -25,7 +25,7 @@ gulp.task('publish', function() {
 
   return gulp.src(['./dist/**/*','./dist/*'])
     // gzip, Set Content-Encoding headers and add .gz extension
-    .pipe(awspublish.gzip())
+    //.pipe(awspublish.gzip())
 
     // publisher will add Content-Length, Content-Type and headers specified above
     // If not specified it will set x-amz-acl to public-read by default
