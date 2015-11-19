@@ -25,6 +25,7 @@ gulp.task('publish', function() {
 
   return gulp.src(['./dist/**/*','./dist/*'])
     // gzip, Set Content-Encoding headers and add .gz extension
+    // kohata: commented out to avoid the issue (https://github.com/pgherveou/gulp-awspublish/issues/86)
     //.pipe(awspublish.gzip())
 
     // publisher will add Content-Length, Content-Type and headers specified above
