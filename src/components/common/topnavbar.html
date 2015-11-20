@@ -1,18 +1,23 @@
 <div class="row border-bottom">
-    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-        <div ng-show="$root.currentUser" ng-controller="MainController">
-          <ul class="nav navbar-top-links navbar-right">
-            <li>
-                  <span class="clear">
-                      <span class="block m-t-xs">
-                          <strong class="font-bold">{{$root.currentUser.handle}}</strong>
-                    </span>
-                    <a href="" ng-click="logout()"><i class="fa fa-sign-out"></i><small>Log out</small></a>
-                  </span>
-            </li>
-          </ul>
-        </div>
-    </nav>
+  <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+    <div ng-controller="MainController">
+      <ul class="nav navbar-top-links navbar-right">
+        <li ng-show="authorized()">
+          <span class="clear">
+            <span class="block m-t-xs">
+              <strong class="font-bold">{{$root.currentUser.handle}}</strong>
+            </span>
+            <a href="" ng-click="logout()"><i class="fa fa-sign-out"></i> <small>Log out</small></a>
+          </span>
+        </li>
+        <li ng-show="!authorized()">
+          <span class="clear">
+            <a href="" ng-click="login()"><i class="fa fa-sign-in"></i> <small>Log in</small></a>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </div>
 
 <!--

@@ -17,7 +17,7 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row" ng-controller="users.UserSearchController">
+  <div class="row" ng-controller="users.UserSearchController" ng-show="authorized()">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
         <div class="ibox-title">
@@ -94,7 +94,7 @@
                     <a class="btn btn-sm btn-success" ng-show="!user.active" ng-click="activate($index)">
                       Activate
                     </a>
-                    <a class="btn btn-sm btn-danger" ng-show="user.active" ng-click="deactivate($index)">
+                    <a class="btn btn-sm btn-danger" ng-show="user.active" disabled="disabled"> <!-- ng-click="deactivate($index)" -->
                       Deactivate
                     </a>
                   </td>

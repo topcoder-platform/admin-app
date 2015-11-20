@@ -16,12 +16,13 @@ angular.module('supportAdminApp', [
               'appirio-tech-ng-auth',
               'ui.footable'])
   // In the run phase of your Angular application
-  .run(function($rootScope, AuthService, $state, UserV3Service) {
+  .run(function($rootScope, $location, AuthService, $state, UserV3Service) {
     // Listen to '$locationChangeSuccess', not '$stateChangeStart'
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
       if(toState.name === "login") {
         return;
       }
+      console.log('state changed. loggedIn: '+AuthService.isLoggedIn()); // debug
       if(!AuthService.isLoggedIn()) {
         $state.go('login');
       } else {
@@ -33,6 +34,7 @@ angular.module('supportAdminApp', [
     })
   })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
     $stateProvider
         .state('login', {
            url: "/login",

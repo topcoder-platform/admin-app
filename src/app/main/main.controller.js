@@ -8,4 +8,13 @@ angular.module('supportAdminApp')
       $authService.logout();
       $state.go('login');
     };
+
+    $scope.login = function() {
+      $state.go('login');
+    };
+
+    // auth
+    $scope.authorized = function() {
+      return $authService.isLoggedIn();
+    }
 }]);

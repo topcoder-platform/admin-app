@@ -6,6 +6,11 @@ module.controller('users.UserSearchController', [
   '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService','UserService',
     function ($scope, $rootScope, $timeout, $state, $modal, $authService, $userService) {
 
+      // auth
+      $scope.authorized = function() {
+        return $authService.isLoggedIn();
+      }
+
       // search
       $scope.formSearch = {
         handle   : "",
@@ -95,6 +100,7 @@ module.controller('users.UserSearchController', [
 
       $scope.deactivate = function(index) {
         var user = $scope.users[index];
+
         if(window.confirm('Are you sure you want to deactivate user \'' + user.handle + '\'?')) {
           // dummy
           user.active = false;
