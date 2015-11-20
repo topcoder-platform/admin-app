@@ -4,8 +4,47 @@ angular.module('supportAdminApp')
   .factory('UserService', ['$q','$http', 'API_URL',
     function ($q, $http, API_URL) {
       // local dev
-      //API_URL = 'http://local.topcoder-dev.com:8080';
       return ({
+
+        /** find user by ID */
+        findById: function(userId) {
+          if(!userId) {
+            return $q.reject({error : 'userId must be specified.'});
+          }
+
+          var request = $http({
+            method: 'GET',
+            url: API_URL + '/v3/users/' + userId,
+            headers: {
+              "Content-Type":"application/json"
+            }
+          });
+
+          return request.then(
+            function(response) {
+              console.log(response);
+              return response.data.result.content;
+            },
+            function(error) {
+              console.log(error);
+              var err;
+              if(error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error : error.data.result.content
+                };
+              }
+              if(!err) {
+                err = {
+                  status: error.status,
+                  error : error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        }, // findById()
+
 
         /** find users */
         find: function(options) {
