@@ -72,7 +72,8 @@ gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
     .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
     .pipe($.flatten())
-    .pipe(gulp.dest(paths.dist + '/fonts/'));
+    .pipe(gulp.dest(paths.dist + '/fonts/'))
+    .pipe(gulp.dest(paths.dist + '/styles/fonts/'));
 });
 
 gulp.task('fontawesome', function () {
