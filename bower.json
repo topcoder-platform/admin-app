@@ -27,6 +27,18 @@
     "appirio-tech-ng-login-reg": "0.x.x",
     "appirio-tech-ng-api-services": "0.x.x"
   },
+  "overrides": {
+    "footable": {
+      "main": [
+        "dist/footable.all.min.js",
+        "css/footable.core.css",
+        "css/fonts/footable.eot",
+        "css/fonts/footable.svg",
+        "css/fonts/footable.ttf",
+        "css/fonts/footable.woff"
+      ]
+    }
+  },
   "devDependencies": {
     "angular-mocks": "~1.4.4"
   },
