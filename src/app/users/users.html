@@ -69,11 +69,14 @@
           <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
               <thead>
               <tr>
-                  <th data-type="numeric" data-toggle="true">User ID</th>
+                  <th data-toggle="true" data-type="numeric">User ID</th>
                   <th>Handle</th>
                   <th>Email</th>
-                  <th>Registred at</th>
-                  <th>Activation Code</th>
+                  <th data-hide="all">Name</th>
+                  <th data-hide="all">Status</th>
+                  <th data-hide="all">Created at</th>
+                  <th data-hide="all">Modified at</th>
+                  <th data-hide="all">Activation Code</th>
                   <th>Active</th>
                   <th data-sort-ignore="true">Action</th>
               </tr>
@@ -84,19 +87,22 @@
                   <td>{{user.id}}</td>
                   <td>{{user.handle}}</td>
                   <td>{{user.email}}</td>
+                  <td>{{user.firstName}} {{user.lastName}}</td>
+                  <td>{{statusLabel(user.status)}}</td>
                   <td>{{format(user.createdAt)}}</td>
+                  <td>{{format(user.modifiedAt)}}</td>
                   <td>{{user.credential.activationCode}}</td>
                   <td data-value="{{user.active}}">
                     <a href="#" ng-show="user.active"><i class="fa fa-check text-navy"></i></a>
                   </td>
                   <td>
-                    <a data-toggle="modal" class="btn btn-sm btn-primary" ng-click="openDialog($index)">
+                    <a data-toggle="modal" class="btn btn-sm btn-primary" ng-click="openEditDialog($index)">
                       EDIT
                     </a>
                     <a class="btn btn-sm btn-success" ng-show="!user.active" ng-click="activate($index)">
                       Activate
                     </a>
-                    <a class="btn btn-sm btn-danger" ng-show="user.active" disabled="disabled"> <!-- ng-click="deactivate($index)" -->
+                    <a class="btn btn-sm btn-danger" ng-show="user.active" ng-click="openDeactivateDialog($index)">
                       Deactivate
                     </a>
                   </td>
