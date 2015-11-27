@@ -4,6 +4,7 @@ angular.module('supportAdminApp')
   .factory('UserService', ['$q','$http', 'API_URL',
     function ($q, $http, API_URL) {
       // local dev
+      //var API_URL = 'http://local.topcoder-dev.com:8080';
       return ({
 
         /** find user by ID */
@@ -51,7 +52,7 @@ angular.module('supportAdminApp')
           var opts = options || {};
           var query = "";
           angular.forEach({
-            "fields": opts.fields || "id,handle,email,active,credential,firstName,lastName,createdAt,modifiedAt",
+            "fields": opts.fields || "id,handle,email,active,status,credential,firstName,lastName,createdAt,modifiedAt",
             "filter": opts.filter
           //"limit" : null,
           //"offset": null,
@@ -127,6 +128,43 @@ angular.module('supportAdminApp')
               return $q.reject(err);
             }
           );
-        } // activate()
+        }, // activate()
+
+        updateStatus: function(userId, status, comment) {
+
+          var param = comment ? '?comment=' + encodeURIComponent(comment) : '';
+          var request = $http({
+            method: 'PATCH',
+            url: API_URL + '/v3/users/'+userId+'/status/'+status+param,
+            headers: {
+              "Content-Type":"application/json"
+            },
+            data: {}
+          });
+
+          return request.then(
+            function(response) {
+              console.log(response);
+              return response.data.result.content;
+            },
+            function(error) {
+              console.log(error);
+              var err;
+              if(error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error : error.data.result.content
+                };
+              }
+              if(!err) {
+                err = {
+                  status: error.status,
+                  error : error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        } // updateStatus()
       });
     }]);
