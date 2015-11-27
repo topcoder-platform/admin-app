@@ -2,8 +2,8 @@
 
 angular.module('supportAdminApp')
   .controller('LoginController', [
-              '$scope', '$rootScope', '$location', '$state', 'AuthService', 'TokenService', 'UserV3Service',
-    function ($scope, $rootScope, $location, $state, $authService, $tokenService, $userV3Service) {
+              '$scope', '$rootScope', '$location', '$state', 'AuthService', 'TokenService', 'UserService',
+    function ($scope, $rootScope, $location, $state, $authService, $tokenService, $userService) {
 
       $scope.loggingIn = false;
 
@@ -21,7 +21,7 @@ angular.module('supportAdminApp')
             $scope.loggingIn = false;
             return;
           }
-          $userV3Service.loadUser().then(function(currentUser) {
+          $userService.findById(token.userId).then(function(currentUser) {
             console.log('Login Success');
             $rootScope.currentUser = currentUser;
             $state.go('index.main')
