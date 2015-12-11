@@ -109,7 +109,7 @@ module.controller('users.UserSearchController', [
         };
         if(window.confirm('Are you sure you want to activate user \'' + user.handle + '\'?')) {
           $scope.formSearch.setLoading(true);
-          $userService.activate(user.credential.activationCode).then(
+          $userService.updateStatus(user.id, 'A').then(
             function(responseUser) {
               user.active = responseUser.active;
               user.status = responseUser.status;
@@ -137,16 +137,28 @@ module.controller('users.UserSearchController', [
         });
       };
 
-      $scope.openEditDialog = function(index) {
+      $scope.openHandleEditDialog = function(index) {
         var modalInstance = $modal.open({
           size: 'sm',
-          templateUrl: 'app/users/user-edit-dialog.html',
+          templateUrl: 'app/users/handle-edit-dialog.html',
           controller: 'users.UserEditDialogController',
           resolve: {
 				    user: function(){ return $scope.users[index]; }
 			    }
         });
       };
+      
+      $scope.openEmailEditDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/users/email-edit-dialog.html',
+          controller: 'users.UserEditDialogController',
+          resolve: {
+				    user: function(){ return $scope.users[index]; }
+			    }
+        });
+      };
+      
     }
 ]);
 
@@ -154,6 +166,8 @@ module.controller('users.UserEditDialogController', [
   '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'user',
     function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, user) {
 
+      $scope.user = user;
+      
       $scope.form = {
         id     : user.id,
         handle : user.handle,
@@ -171,21 +185,52 @@ module.controller('users.UserEditDialogController', [
         $modalInstance.close();
       };
 
-      $scope.save = function() {
+      $scope.saveHandle = function() {
         $scope.$broadcast('alert.ClearAll', {});
+        if(user.handle === $scope.form.handle) {
+          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Handle is not changed.'});
+          return;
+        }
+        
         if(window.confirm('Are you sure you want to save changes?')) {
           $scope.form.setLoading(true);
-          // dummy
-          setTimeout(function() {
-            $scope.form.setLoading(false);
-            user.handle = $scope.form.handle;
-            user.email = $scope.form.email;
-            user.firstName = $scope.form.firstName;
-            user.lastName = $scope.form.lastName;
-            $modalInstance.close();
-          }, 1200);
+          $userService.updateHandle(user.id, $scope.form.handle).then(
+            function(responseUser) {
+              user.handle = responseUser.handle;
+              $scope.form.setLoading(false);
+              $modalInstance.close();
+            },
+            function(error) {
+              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $scope.form.setLoading(false);
+            }
+          );
         }
-      }
+      };
+      
+      $scope.saveEmail = function() {
+        $scope.$broadcast('alert.ClearAll', {});
+        if(user.email.toLowerCase() === $scope.form.email.toLowerCase()) {
+          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Email is not changed.'});
+          return;
+        }
+        
+        if(window.confirm('Are you sure you want to save changes?')) {
+          $scope.form.setLoading(true);
+          $userService.updateEmail(user.id, $scope.form.email).then(
+            function(responseUser) {
+              user.email = responseUser.email;
+              $scope.form.setLoading(false);
+              $modalInstance.close();
+            },
+            function(error) {
+              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $scope.form.setLoading(false);
+            }
+          );
+        }
+      };
+      
     }
 ]);
 
@@ -209,7 +254,7 @@ module.controller('users.StatusUpdateDialogController', [
       $scope.save = function() {
         $scope.$broadcast('alert.ClearAll', {});
         if(user.status === $scope.form.status) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Status not changed.'});
+          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Status is not changed.'});
           return;
         }
         if(window.confirm('Are you sure you want to save changes?')) {
@@ -226,8 +271,8 @@ module.controller('users.StatusUpdateDialogController', [
               $scope.form.setLoading(false);
             }
           );
-
         }
-      }
+      };
+      
     }
 ]);

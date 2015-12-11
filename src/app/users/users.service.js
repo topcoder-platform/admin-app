@@ -130,16 +130,89 @@ angular.module('supportAdminApp')
           );
         }, // activate()
 
-        updateStatus: function(userId, status, comment) {
-
-          var param = comment ? '?comment=' + encodeURIComponent(comment) : '';
+        updateHandle: function(userId, handle) {
+          var payload = JSON.stringify({ param: { handle: handle } });
           var request = $http({
             method: 'PATCH',
-            url: API_URL + '/v3/users/'+userId+'/status/'+status+param,
+            url: API_URL + '/v3/users/'+userId+'/handle',
             headers: {
               "Content-Type":"application/json"
             },
-            data: {}
+            data: payload
+          });
+
+          return request.then(
+            function(response) {
+              console.log(response);
+              return response.data.result.content;
+            },
+            function(error) {
+              console.log(error);
+              var err;
+              if(error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error : error.data.result.content
+                };
+              }
+              if(!err) {
+                err = {
+                  status: error.status,
+                  error : error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        }, // updateHandle()
+
+        updateEmail: function(userId, email) {
+          var payload = JSON.stringify({ param: { email: email } });
+          var request = $http({
+            method: 'PATCH',
+            url: API_URL + '/v3/users/'+userId+'/email',
+            headers: {
+              "Content-Type":"application/json"
+            },
+            data: payload
+          });
+
+          return request.then(
+            function(response) {
+              console.log(response);
+              return response.data.result.content;
+            },
+            function(error) {
+              console.log(error);
+              var err;
+              if(error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error : error.data.result.content
+                };
+              }
+              if(!err) {
+                err = {
+                  status: error.status,
+                  error : error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        }, // updateEmail()
+        
+        updateStatus: function(userId, status, comment) {
+
+          var payload = JSON.stringify({ param: { status: status } }),
+              param = comment ? '?comment=' + encodeURIComponent(comment) : '',
+              request = $http({
+            method: 'PATCH',
+            url: API_URL + '/v3/users/'+userId+'/status'+param,
+            headers: {
+              "Content-Type":"application/json"
+            },
+            data: payload
           });
 
           return request.then(
