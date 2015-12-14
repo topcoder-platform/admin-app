@@ -56,7 +56,7 @@
                         type="submit" class="btn btn-sm btn-warning pull-right m-t-n-xs">
                   <strong>Find members</strong>
                 </button>
-              </div>
+              </div>             
             </form>
 
           </div>
@@ -96,10 +96,16 @@
                     <a href="#" ng-show="user.active"><i class="fa fa-check text-navy"></i></a>
                   </td>
                   <td>
-                    <a data-toggle="modal" class="btn btn-sm btn-primary" ng-click="openEditDialog($index)">
-                      EDIT
-                    </a>
-                    <a class="btn btn-sm btn-success" ng-show="!user.active" ng-click="activate($index)">
+                    <div class="btn-group" dropdown >
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" dropdown-toggle>
+                            Edit <i class="fa fa-caret-down"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="" ng-click="openHandleEditDialog($index)">Handle</a></li>
+                            <li><a href="" ng-click="openEmailEditDialog($index)">Primary Email</a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-sm btn-success" ng-show="!user.active" ng-click="activate($index)" style="margin-left: 4px">
                       Activate
                     </a>
                     <a class="btn btn-sm btn-danger" ng-show="user.active" ng-click="openDeactivateDialog($index)">
