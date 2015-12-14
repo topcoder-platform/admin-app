@@ -28,6 +28,13 @@
     "appirio-tech-ng-api-services": "0.x.x"
   },
   "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/js/bootstrap.js",
+        "css/bootstrap.css"
+      ]
+    },
     "footable": {
       "main": [
         "dist/footable.all.min.js",
