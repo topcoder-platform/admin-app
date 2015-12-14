@@ -4,7 +4,7 @@ angular.module('supportAdminApp')
   .factory('UserService', ['$q','$http', 'API_URL',
     function ($q, $http, API_URL) {
       // local dev
-      var API_URL = 'http://local.topcoder-dev.com:8080';
+      //var API_URL = 'http://local.topcoder-dev.com:8080';
       return ({
 
         /** find user by ID */
