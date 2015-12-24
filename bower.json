@@ -24,7 +24,6 @@
     "angular-jwt": "~0.0.9",
     "angular-footable": "~1.0.3",
     "appirio-tech-ng-auth": "3.x.x",
-    "appirio-tech-ng-login-reg": "0.x.x",
     "appirio-tech-ng-api-services": "0.x.x"
   },
   "overrides": {
