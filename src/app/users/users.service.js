@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('UserService', ['$q','$http', 'API_URL',
-    function ($q, $http, API_URL) {
+  .factory('UserService', ['$log', '$q','$http', 'API_URL',
+    function ($log, $q, $http, API_URL) {
       // local dev
       //var API_URL = 'http://local.topcoder-dev.com:8080';
       return ({
@@ -23,11 +23,11 @@ angular.module('supportAdminApp')
 
           return request.then(
             function(response) {
-              console.log(response);
+              $log.debug(response);
               return response.data.result.content;
             },
             function(error) {
-              console.log(error);
+              $log.error(error);
               var err;
               if(error && error.data && error.data.result) {
                 err = {
@@ -71,11 +71,11 @@ angular.module('supportAdminApp')
 
           return request.then(
             function(response) {
-              console.log(response);
+              $log.debug(response);
               return response.data.result.content;
             },
             function(error) {
-              console.log(error);
+              $log.error(error);
               var err;
               if(error && error.data && error.data.result) {
                 err = {
@@ -107,11 +107,11 @@ angular.module('supportAdminApp')
 
           return request.then(
             function(response) {
-              console.log(response);
+              $log.debug(response);
               return response.data.result.content;
             },
             function(error) {
-              console.log(error);
+              $log.error(error);
               var err;
               if(error && error.data && error.data.result) {
                 err = {
@@ -143,11 +143,11 @@ angular.module('supportAdminApp')
 
           return request.then(
             function(response) {
-              console.log(response);
+              $log.debug(response);
               return response.data.result.content;
             },
             function(error) {
-              console.log(error);
+              $log.error(error);
               var err;
               if(error && error.data && error.data.result) {
                 err = {
@@ -179,11 +179,11 @@ angular.module('supportAdminApp')
 
           return request.then(
             function(response) {
-              console.log(response);
+              $log.debug(response);
               return response.data.result.content;
             },
             function(error) {
-              console.log(error);
+              $log.error(error);
               var err;
               if(error && error.data && error.data.result) {
                 err = {
@@ -217,11 +217,11 @@ angular.module('supportAdminApp')
 
           return request.then(
             function(response) {
-              console.log(response);
+              $log.debug(response);
               return response.data.result.content;
             },
             function(error) {
-              console.log(error);
+              $log.error(error);
               var err;
               if(error && error.data && error.data.result) {
                 err = {
