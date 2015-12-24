@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('users.UserSearchController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService','UserService',
-    function ($scope, $rootScope, $timeout, $state, $modal, $authService, $userService) {
+  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService','UserService', 'Alert',
+    function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert) {
 
       // footable
       angular.element(document).ready(function () {
@@ -36,7 +36,7 @@ module.controller('users.UserSearchController', [
 
       $scope.search = function() {
 
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
 
         var handle = $scope.formSearch.handle,
             email  = $scope.formSearch.email,
@@ -75,7 +75,7 @@ module.controller('users.UserSearchController', [
               }, 100);
           },
           function(error) {
-            $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+            $alert.error(error.error, $scope);
             $scope.formSearch.setLoading(false);
           }
         );
@@ -100,11 +100,10 @@ module.controller('users.UserSearchController', [
       };
 
       $scope.activate = function(index) {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         var user = $scope.users[index];
         if(!user.credential || !user.credential.activationCode) {
-          $scope.$broadcast('alert.AlertIssued',
-            {type:'danger', message:'The user \'' + user.handle + '\' is invalid. Unable to activate it.'});
+          $alert.error('The user \'' + user.handle + '\' is invalid. Unable to activate it.', $scope);
           return;
         };
         if(window.confirm('Are you sure you want to activate user \'' + user.handle + '\'?')) {
@@ -116,7 +115,7 @@ module.controller('users.UserSearchController', [
               $scope.formSearch.setLoading(false);
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.formSearch.setLoading(false);
             }
           );
@@ -163,8 +162,8 @@ module.controller('users.UserSearchController', [
 ]);
 
 module.controller('users.UserEditDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, user) {
+  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'Alert', 'user',
+    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, $alert, user) {
 
       $scope.user = user;
       
@@ -186,9 +185,9 @@ module.controller('users.UserEditDialogController', [
       };
 
       $scope.saveHandle = function() {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         if(user.handle === $scope.form.handle) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Handle is not changed.'});
+          $alert.error('Handle is not changed.', $scope);
           return;
         }
         
@@ -201,7 +200,7 @@ module.controller('users.UserEditDialogController', [
               $modalInstance.close();
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.form.setLoading(false);
             }
           );
@@ -209,9 +208,9 @@ module.controller('users.UserEditDialogController', [
       };
       
       $scope.saveEmail = function() {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         if(user.email.toLowerCase() === $scope.form.email.toLowerCase()) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Email is not changed.'});
+          $alert.error('Email is not changed.', $scope);
           return;
         }
         
@@ -224,7 +223,7 @@ module.controller('users.UserEditDialogController', [
               $modalInstance.close();
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.form.setLoading(false);
             }
           );
@@ -235,8 +234,8 @@ module.controller('users.UserEditDialogController', [
 ]);
 
 module.controller('users.StatusUpdateDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, user) {
+  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'Alert', 'user',
+    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, $alert, user) {
 
       $scope.form = {
         status  : user.status,
@@ -252,9 +251,9 @@ module.controller('users.StatusUpdateDialogController', [
       };
 
       $scope.save = function() {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         if(user.status === $scope.form.status) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Status is not changed.'});
+          $alert.error('Status is not changed.', $scope);
           return;
         }
         if(window.confirm('Are you sure you want to save changes?')) {
@@ -267,7 +266,7 @@ module.controller('users.StatusUpdateDialogController', [
               $modalInstance.close();
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.form.setLoading(false);
             }
           );

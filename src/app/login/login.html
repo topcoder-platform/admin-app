@@ -1,14 +1,33 @@
-<div class="middle-box text-center loginscreen  animated fadeInDown">
-  <div ng-controller="LoginController">
-    <div>
-      <h1 class="logo-name"><img src="assets/images/appirio-logo.png"/></h1>
+<div class="middle-box text-center loginscreen animated fadeInDown">
+  <div ng-controller="LoginController" style="margin-top: 70px">
+    <div class="login-box">
+      <div class="logo-header">
+        <img src="assets/images/appirio-logo.png"/>
+      </div>
+      <form role="form" class="form-horizontal">
+        <h3>Admin app login</h3>
+        <div ng-include src="'components/alert/alert-simple.html'"></div>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <input type="text" placeholder="username" class="form-control"
+                  ng-model="formLogin.username" ng-disabled="formLogin.loggingIn">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <input type="password" placeholder="password" class="form-control"
+                  ng-model="formLogin.password" ng-disabled="formLogin.loggingIn">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-12">
+            <button class="btn btn-sm btn-primary" ng-click="login()" ng-disabled="formLogin.loggingIn || !formLogin.valid()">
+              <span ng-show="!formLogin.loggingIn">Login</span>
+              <span ng-show="formLogin.loggingIn">Logging in...</span>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="text-ceneter" ng-include src="'components/alert/alert.html'"></div>
-    <form ng-submit="submit()" class="m-t" role="form" method="post">
-      <button type="submit" class="btn btn-primary block full-width m-b">
-        <span ng-show="!isLoggingIn()">Login</span>
-        <span ng-show="isLoggingIn()">Logging in...</span>
-      </button>
-    </form>
   </div>
 </div>
