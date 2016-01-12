@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('users.UserSearchController', [
-  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService','UserService', 'Alert',
-    function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert) {
+  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService', 'UserService', 'Alert', 'users.Constants', 'API_URL',
+    function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert, $const, API_URL) {
 
       // footable
       angular.element(document).ready(function () {
@@ -72,7 +72,7 @@ module.controller('users.UserSearchController', [
             $scope.formSearch.setLoading(false);
             $timeout(function(){
               $('.footable').trigger('footable_redraw');
-              }, 100);
+            }, 100);
           },
           function(error) {
             $alert.error(error.error, $scope);
@@ -80,23 +80,23 @@ module.controller('users.UserSearchController', [
           }
         );
       };
-
+      
       // list
       $scope.users = [];
 
-      $scope.format = function(isoDateText) {
-        return isoDateText && isoDateText.replace("T"," ").replace(".000Z","");
-      };
+      // tooltip for activation link copy
+      $scope.tooltip = {
+        message : $const.MSG_CLIPBORD_TOOLTIP,
 
-      var statusLabels = {
-        'A': 'Active',
-        'U': 'Unverified',
-        '4': 'Deactivated(User request)',
-        '5': 'Deactivated(Duplicate account)',
-        '6': 'Deactivated(Cheating account)'
-      };
-      $scope.statusLabel = function(status) {
-        return statusLabels[status] || 'Unknown';
+        success : function() {
+          this.message = $const.MSG_CLIPBOARD_COPIED;
+        },
+        fail : function(err) {
+          $log.debug(err);
+        },
+        reset : function() {
+          $timeout(function(){ $scope.tooltip.message = $const.MSG_CLIPBORD_TOOLTIP; }, 250);
+        }
       };
 
       $scope.activate = function(index) {
@@ -123,9 +123,6 @@ module.controller('users.UserSearchController', [
       };
 
       $scope.openDeactivateDialog = function(index) {
-        var user = $scope.users[index];
-
-        //if(window.confirm('Are you sure you want to deactivate user \'' + user.handle + '\'?')) {
         var modalInstance = $modal.open({
           size: 'sm',
           templateUrl: 'app/users/status-update-dialog.html',
@@ -234,8 +231,8 @@ module.controller('users.UserEditDialogController', [
 ]);
 
 module.controller('users.StatusUpdateDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'Alert', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, $alert, user) {
+  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, $const, $alert, user) {
 
       $scope.form = {
         status  : user.status,
