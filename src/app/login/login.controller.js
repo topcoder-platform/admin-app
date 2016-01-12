@@ -32,12 +32,12 @@ angular.module('supportAdminApp')
           $userService.findById(token.userId).then(
             function(currentUser) {
               $rootScope.currentUser = currentUser;
-              $state.go('index.main');
+              $state.go('index.users');
             },
             function(err) {
               $log.error('Failed to get user data.');
               $log.error(err);
-              $state.go('index.main');
+              $state.go('index.users');
             }
           );
         };

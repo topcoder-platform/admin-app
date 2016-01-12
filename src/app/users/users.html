@@ -9,7 +9,7 @@
 <script src="../bower_components/footable/js/footable.paginate.js"></script>
 <script src="../bower_components/footable/js/footable.sort.js"></script>
 -->
-
+    
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Members</h2>
@@ -88,10 +88,23 @@
                   <td>{{user.handle}}</td>
                   <td>{{user.email}}</td>
                   <td>{{user.firstName}} {{user.lastName}}</td>
-                  <td>{{statusLabel(user.status)}}</td>
-                  <td>{{format(user.createdAt)}}</td>
-                  <td>{{format(user.modifiedAt)}}</td>
-                  <td>{{user.credential.activationCode}}</td>
+                  <td>{{user.statusDesc()}}</td>
+                  <td>{{user.createdAtLabel()}}</td>
+                  <td>{{user.modifiedAtLabel()}}</td>
+                  <td>
+                    {{user.credential.activationCode}}
+                    <div class="input-group" style="width: 400px;">
+                      <input type="text" value="{{user.getActivationLink()}}" class="form-control" readonly="readonly">
+                      
+                      <span class="input-group-btn" data-tooltip="{{tooltip.message}}" placement="right" title="Copy to clipboard">
+                        <button clipboard text="user.getActivationLink()" type="button" class="btn btn-default"
+                              on-copied="tooltip.success()" on-error="tooltip.fail(err)" ng-mouseleave="tooltip.reset()">
+                          <i class="fa fa-clipboard text-primary"></i>
+                        </button>
+                      </span>
+                      </span>
+                    </div>
+                  </td>
                   <td data-value="{{user.active}}">
                     <a href="#" ng-show="user.active"><i class="fa fa-check text-navy"></i></a>
                   </td>

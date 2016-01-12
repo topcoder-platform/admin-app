@@ -14,7 +14,8 @@ angular.module('supportAdminApp', [
               'app.constants',
               'appirio-tech-ng-api-services',
               'appirio-tech-ng-auth',
-              'ui.footable'])
+              'ui.footable',
+              'angular-clipboard'])
   // In the run phase of your Angular application
   .run(function($rootScope, $location, AuthService, $state, UserV3Service) {
     // Listen to '$locationChangeSuccess', not '$stateChangeStart'
