@@ -3,7 +3,9 @@
 var module = angular.module('supportAdminApp');
 
 module.constant('users.Constants', {
-    
+  
+  MSG_NO_RECORD_FOUND: "No record found",
+  
   MSG_CLIPBORD_TOOLTIP: "Copy to clipboard",
 
   MSG_CLIPBOARD_COPIED: "Copied",

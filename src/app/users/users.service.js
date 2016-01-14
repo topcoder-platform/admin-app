@@ -250,6 +250,45 @@ angular.module('supportAdminApp')
         );
       }; // updateStatus()
       
+      /** get achievements for the specified user id */
+      UserService.getAchievements = function(userId) {
+        if(!userId) {
+          return $q.reject({error : 'userId must be specified.'});
+        }
+
+        var request = $http({
+          method: 'GET',
+          url: API_URL + '/v3/users/' + userId + '/achievements',
+          headers: {
+            "Content-Type":"application/json"
+          }
+        });
+
+        return request.then(
+          function(response) {
+            $log.debug(response);
+            return response.data.result.content;
+          },
+          function(error) {
+            $log.error(error);
+            var err;
+            if(error && error.data && error.data.result) {
+              err = {
+                status: error.status,
+                error : error.data.result.content
+              };
+            }
+            if(!err) {
+              err = {
+                status: error.status,
+                error : error.statusText
+              };
+            }
+            return $q.reject(err);
+          }
+        );
+      }; // getAchievements()
+      
       /**
        * Instantiate a user object(s)
        */
@@ -257,11 +296,11 @@ angular.module('supportAdminApp')
         if(angular.isArray(data)) {
           var result = [];
           angular.forEach(data, function(elem){
-            result.push(angular.extend(new User(), elem));
+            result.push(User.createInstance(elem));
           });
           return result;
         } else {
-          return angular.extend(new User(), data);
+          return User.createInstance(data);
         }
       };
     
