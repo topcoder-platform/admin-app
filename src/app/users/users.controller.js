@@ -9,9 +9,16 @@ module.controller('users.UserSearchController', [
       // footable
       angular.element(document).ready(function () {
         $('.footable').footable({
-            addRowToggle: true
+          addRowToggle: true
         });
       });
+      
+      $scope.$on('users.TableDataUpdated', function(event){
+        $timeout(function(){
+          $('.footable').trigger('footable_redraw');
+        }, 100);
+			});
+
 
       // auth
       $scope.authorized = function() {
@@ -70,9 +77,7 @@ module.controller('users.UserSearchController', [
           function(users) {
             $scope.users = users;
             $scope.formSearch.setLoading(false);
-            $timeout(function(){
-              $('.footable').trigger('footable_redraw');
-            }, 100);
+            $scope.$broadcast('users.TableDataUpdated');
           },
           function(error) {
             $alert.error(error.error, $scope);
@@ -106,13 +111,18 @@ module.controller('users.UserSearchController', [
           $alert.error('The user \'' + user.handle + '\' is invalid. Unable to activate it.', $scope);
           return;
         };
-        if(window.confirm('Are you sure you want to activate user \'' + user.handle + '\'?')) {
+        
+        var confirmation = 'Are you sure you want to activate user \'' + user.handle + '\'?';
+        if(!user.emailActive) {
+          confirmation += '\nEmail address is also verified by the operation. Please confirm it\'s valid.';
+        }
+        if(window.confirm(confirmation)) {
           $scope.formSearch.setLoading(true);
           $userService.updateStatus(user.id, 'A').then(
             function(responseUser) {
-              user.active = responseUser.active;
-              user.status = responseUser.status;
+              angular.copy(responseUser, user);
               $scope.formSearch.setLoading(false);
+              $scope.$broadcast('users.TableDataUpdated');
             },
             function(error) {
               $alert.error(error.error, $scope);
@@ -170,8 +180,8 @@ module.controller('users.UserSearchController', [
 ]);
 
 module.controller('users.UserEditDialogController', [
-  '$scope', '$modalInstance', 'UserService', 'Alert', 'user',
-    function ($scope, $modalInstance, $userService, $alert, user) {
+  '$scope', '$rootScope', '$modalInstance', 'UserService', 'Alert', 'user',
+    function ($scope, $rootScope, $modalInstance, $userService, $alert, user) {
 
       $scope.user = user;
       
@@ -242,8 +252,8 @@ module.controller('users.UserEditDialogController', [
 ]);
 
 module.controller('users.StatusUpdateDialogController', [
-  '$scope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
-    function ($scope, $modalInstance, $userService, $const, $alert, user) {
+  '$scope', '$rootScope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $rootScope, $modalInstance, $userService, $const, $alert, user) {
 
       $scope.form = {
         status  : user.status,
@@ -268,9 +278,9 @@ module.controller('users.StatusUpdateDialogController', [
           $scope.form.setLoading(true);
           $userService.updateStatus(user.id, $scope.form.status, $scope.form.comment).then(
             function(responseUser) {
-              user.active = responseUser.active;
-              user.status = responseUser.status;
+              angular.copy(responseUser, user);
               $scope.form.setLoading(false);
+              $rootScope.$broadcast('users.TableDataUpdated');
               $modalInstance.close();
             },
             function(error) {
@@ -285,8 +295,8 @@ module.controller('users.StatusUpdateDialogController', [
 ]);
 
 module.controller('users.StatusHistoryDialogController', [
-  '$scope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
-    function ($scope, $modalInstance, $userService, $const, $alert, user) {
+  '$scope', '$rootScope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $rootScope, $modalInstance, $userService, $const, $alert, user) {
 
       $scope.init = function() {
         $scope.achievements = [];

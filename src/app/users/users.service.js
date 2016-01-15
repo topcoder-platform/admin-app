@@ -53,7 +53,7 @@ angular.module('supportAdminApp')
         var opts = options || {};
         var query = "";
         angular.forEach({
-          "fields": opts.fields || "id,handle,email,active,status,credential,firstName,lastName,createdAt,modifiedAt",
+          "fields": opts.fields || "id,handle,email,active,emailActive,status,credential,firstName,lastName,createdAt,modifiedAt",
           "filter": opts.filter
         //"limit" : null,
         //"offset": null,

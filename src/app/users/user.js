@@ -14,6 +14,10 @@ module.factory('User', ['$log', 'users.Constants', 'API_URL',
     User.prototype.statusDesc = function() {
       return $const.DICT_USER_STATUS[this.status];
     };
+
+    User.prototype.emailStatusDesc = function() {
+      return !!this.emailActive ? $const.LABEL_EMAIL_STATUS_VERIFIED : $const.LABEL_EMAIL_STATUS_UNVERIFIED;
+    };
     
     User.prototype.createdAtLabel = function() {
       return this.formatDate(this.createdAt);
