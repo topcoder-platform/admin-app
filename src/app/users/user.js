@@ -7,6 +7,9 @@ module.factory('User', ['$log', 'users.Constants', 'API_URL',
 
     var User = function() {};
     
+    User.createInstance = function(src) {
+      return angular.extend(new User(), src);
+    };
     
     User.prototype.statusDesc = function() {
       return $const.DICT_USER_STATUS[this.status];

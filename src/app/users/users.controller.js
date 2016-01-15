@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('users.UserSearchController', [
-  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService', 'UserService', 'Alert', 'users.Constants', 'API_URL',
-    function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert, $const, API_URL) {
+  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService', 'UserService', 'Alert', 'users.Constants',
+    function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert, $const) {
 
       // footable
       angular.element(document).ready(function () {
@@ -155,12 +155,23 @@ module.controller('users.UserSearchController', [
         });
       };
       
+      $scope.openStatusHistoryDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/users/status-history-dialog.html',
+          controller: 'users.StatusHistoryDialogController',
+          resolve: {
+				    user: function(){ return $scope.users[index]; }
+			    }
+        });
+      };
+      
     }
 ]);
 
 module.controller('users.UserEditDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'Alert', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, $alert, user) {
+  '$scope', '$modalInstance', 'UserService', 'Alert', 'user',
+    function ($scope, $modalInstance, $userService, $alert, user) {
 
       $scope.user = user;
       
@@ -231,8 +242,8 @@ module.controller('users.UserEditDialogController', [
 ]);
 
 module.controller('users.StatusUpdateDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'users.Constants', 'Alert', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, $const, $alert, user) {
+  '$scope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $modalInstance, $userService, $const, $alert, user) {
 
       $scope.form = {
         status  : user.status,
@@ -270,5 +281,52 @@ module.controller('users.StatusUpdateDialogController', [
         }
       };
       
+    }
+]);
+
+module.controller('users.StatusHistoryDialogController', [
+  '$scope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $modalInstance, $userService, $const, $alert, user) {
+
+      $scope.init = function() {
+        $scope.achievements = [];
+        $alert.clear();
+        $scope.setLoading(true);
+        $userService.getAchievements(user.id).then(
+          function(achievements) {
+            $scope.setLoading(false);
+            if(!!achievements && achievements.length>0) {
+              angular.forEach(achievements, function(achievement){
+                if(achievement && achievement.typeId == 2) {
+                  $scope.achievements.push(achievement);
+                }
+              });
+            }
+            if($scope.achievements.length==0) {
+              $alert.info($const.MSG_NO_RECORD_FOUND, $scope);
+            }
+          },
+          function(error) {
+            $alert.error(error.error, $scope);
+            $scope.setLoading(false);
+          }
+        );
+      };
+
+      $scope.isLoading = function() {
+        return !!this.loading;
+      };
+
+      $scope.setLoading = function(loading) {
+        return this.loading = !!loading;
+      };
+
+      $scope.close = function() {
+        $modalInstance.close();
+      };
+      
+      $scope.formatDate = function(isoDateText) {
+        return isoDateText && isoDateText.substring(0, 10);
+      };
     }
 ]);

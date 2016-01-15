@@ -1,0 +1,34 @@
+
+<div class="inmodal" ng-init="init()">
+  <div class="modal-header" style="padding:14px"></div>
+  <div class="modal-body">
+    <div class="row">
+      <div>
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Comment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="animate-repeat" ng-repeat="achievement in achievements">
+                <td style="white-space: nowrap;">{{formatDate(achievement.createdAt)}}</td>
+                <td>{{achievement.description}}</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="close()">
+      Close
+    </button>
+  </div>
+  <div style="text-align:center;position:absolute;top:65px;left:0;width:100%;height:100%;zIndex:1;"
+      ng-show="isLoading()">
+    <img src="assets/images/loading.gif"/>
+  </div>
+</div>

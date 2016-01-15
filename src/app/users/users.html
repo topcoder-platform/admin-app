@@ -1,15 +1,4 @@
-<!--
-<link href="../bower_components/icheck/skins/square/green.css" rel="stylesheet">
-<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
--->
 
-<!--
-<script src="../bower_components/bootstrap/js/modal.js"></script>
-<script src="../bower_components/footable/js/footable.filter.js"></script>
-<script src="../bower_components/footable/js/footable.paginate.js"></script>
-<script src="../bower_components/footable/js/footable.sort.js"></script>
--->
-    
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Members</h2>
@@ -83,12 +72,17 @@
               </thead>
 
               <tbody>
-              <tr ng-repeat="user in users">
+              <tr class="animate-repeat" ng-repeat="user in users">
                   <td>{{user.id}}</td>
                   <td>{{user.handle}}</td>
                   <td>{{user.email}}</td>
                   <td>{{user.firstName}} {{user.lastName}}</td>
-                  <td>{{user.statusDesc()}}</td>
+                  <td>
+                    {{user.statusDesc()}}
+                    <span title="Change history" ng-click="openStatusHistoryDialog($index)">
+                      <i class="fa fa-list-alt text-primary"></i>
+                    </span>
+                  </td>
                   <td>{{user.createdAtLabel()}}</td>
                   <td>{{user.modifiedAtLabel()}}</td>
                   <td>
