@@ -10,6 +10,10 @@ module.constant('users.Constants', {
 
   MSG_CLIPBOARD_COPIED: "Copied",
 
+  LABEL_EMAIL_STATUS_VERIFIED: "Verified",
+  
+  LABEL_EMAIL_STATUS_UNVERIFIED: "Unverified",
+  
   DICT_USER_STATUS: {
     'A': 'Active',
     'U': 'Unverified',
