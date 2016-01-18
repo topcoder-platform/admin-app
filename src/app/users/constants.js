@@ -15,7 +15,7 @@ module.constant('users.Constants', {
   LABEL_EMAIL_STATUS_UNVERIFIED: "Unverified",
   
   DICT_USER_STATUS: {
-    'A': 'Active',
+    'A': 'Verified',
     'U': 'Unverified',
     '4': 'Deactivated(User request)',
     '5': 'Deactivated(Duplicate account)',
