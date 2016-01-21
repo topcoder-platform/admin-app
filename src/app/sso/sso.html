@@ -1,0 +1,62 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Add SSO Users</h2>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+
+  <div class="" ng-controller="sso.AddSSOController">
+    <form action="" method="post" enctype="multipart/form-data">
+      <div class='form-group'>
+          <div class="title"><h4>Select your CSV file: </h4></div>
+          <div class="block right">
+              <ng-csv-import
+                      class="import"
+                      content="csv.content"
+                      header="csv.header"
+                      header-visible=""
+                      separator="csv.separator"
+                      separator-visible=""
+                      result="csv.result"
+                      encoding="csv.encoding"
+                      encoding-visible="">
+              </ng-csv-import>
+          </div>
+      </div>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="showCSVData" ng-change="showCSVDataChanged();">Show preview of csv file
+        </label>
+      </div>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="showJSONData" ng-change="showJSONDataChanged();">Show JSON form of csv file data
+            </label>
+        </div>
+
+        <div class="col-md-2">
+            <button ng-click="search()" ng-disabled="formSearch.isLoading"
+                    type="submit" class="btn btn-sm btn-warning pull-right m-t-n-xs">
+                <strong>Add SSO Members</strong>
+            </button>
+        </div>
+
+      <div ng-show="showCSVData">
+          <div ng-if="csv.content" class="block left">
+              <h2>CSV</h2>
+              <div class="content"><pre>{{ csv.content }}</pre></div>
+          </div>
+      </div>
+        <div ng-show="showJSONData">
+            <!--<div hljs hljs-source="toPrettyJSON(csv.result, 2)"></div>-->
+            <div ng-if="csv.result" class="block left">
+                <h2>JSON</h2>
+                <div class="result"><pre>{{ csv.result }}</pre></div>
+            </div>
+        </div>
+    </form>
+  </div>

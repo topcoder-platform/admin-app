@@ -9,6 +9,8 @@ angular.module('supportAdminApp', [
               'ngTouch',
               'ngSanitize',
               'ngResource',
+              'ngCsvImport',
+              'hljs',
               'ui.router',
               'ui.bootstrap',
               'app.constants',
@@ -55,6 +57,11 @@ angular.module('supportAdminApp', [
             url: "/users",
             templateUrl: "app/users/users.html",
             data: { pageTitle: 'User Management' }
+        })
+        .state('index.sso', {
+            url: "/sso",
+            templateUrl: "app/sso/sso.html",
+            data: {pageTitle: 'SSO User Management' }
         });
 
     $urlRouterProvider.otherwise('/login');
