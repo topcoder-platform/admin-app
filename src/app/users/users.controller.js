@@ -3,15 +3,22 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('users.UserSearchController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService','UserService',
-    function ($scope, $rootScope, $timeout, $state, $modal, $authService, $userService) {
+  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService', 'UserService', 'Alert', 'users.Constants',
+    function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert, $const) {
 
       // footable
       angular.element(document).ready(function () {
         $('.footable').footable({
-            addRowToggle: true
+          addRowToggle: true
         });
       });
+      
+      $scope.$on('users.TableDataUpdated', function(event){
+        $timeout(function(){
+          $('.footable').trigger('footable_redraw');
+        }, 100);
+			});
+
 
       // auth
       $scope.authorized = function() {
@@ -36,7 +43,7 @@ module.controller('users.UserSearchController', [
 
       $scope.search = function() {
 
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
 
         var handle = $scope.formSearch.handle,
             email  = $scope.formSearch.email,
@@ -70,53 +77,55 @@ module.controller('users.UserSearchController', [
           function(users) {
             $scope.users = users;
             $scope.formSearch.setLoading(false);
-            $timeout(function(){
-              $('.footable').trigger('footable_redraw');
-              }, 100);
+            $scope.$broadcast('users.TableDataUpdated');
           },
           function(error) {
-            $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+            $alert.error(error.error, $scope);
             $scope.formSearch.setLoading(false);
           }
         );
       };
-
+      
       // list
       $scope.users = [];
 
-      $scope.format = function(isoDateText) {
-        return isoDateText && isoDateText.replace("T"," ").replace(".000Z","");
-      };
+      // tooltip for activation link copy
+      $scope.tooltip = {
+        message : $const.MSG_CLIPBORD_TOOLTIP,
 
-      var statusLabels = {
-        'A': 'Active',
-        'U': 'Unverified',
-        '4': 'Deactivated(User request)',
-        '5': 'Deactivated(Duplicate account)',
-        '6': 'Deactivated(Cheating account)'
-      };
-      $scope.statusLabel = function(status) {
-        return statusLabels[status] || 'Unknown';
+        success : function() {
+          this.message = $const.MSG_CLIPBOARD_COPIED;
+        },
+        fail : function(err) {
+          $log.debug(err);
+        },
+        reset : function() {
+          $timeout(function(){ $scope.tooltip.message = $const.MSG_CLIPBORD_TOOLTIP; }, 250);
+        }
       };
 
       $scope.activate = function(index) {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         var user = $scope.users[index];
         if(!user.credential || !user.credential.activationCode) {
-          $scope.$broadcast('alert.AlertIssued',
-            {type:'danger', message:'The user \'' + user.handle + '\' is invalid. Unable to activate it.'});
+          $alert.error('The user \'' + user.handle + '\' is invalid. Unable to activate it.', $scope);
           return;
         };
-        if(window.confirm('Are you sure you want to activate user \'' + user.handle + '\'?')) {
+        
+        var confirmation = 'Are you sure you want to activate user \'' + user.handle + '\'?';
+        if(!user.emailActive) {
+          confirmation += '\nEmail address is also verified by the operation. Please confirm it\'s valid.';
+        }
+        if(window.confirm(confirmation)) {
           $scope.formSearch.setLoading(true);
           $userService.updateStatus(user.id, 'A').then(
             function(responseUser) {
-              user.active = responseUser.active;
-              user.status = responseUser.status;
+              angular.copy(responseUser, user);
               $scope.formSearch.setLoading(false);
+              $scope.$broadcast('users.TableDataUpdated');
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.formSearch.setLoading(false);
             }
           );
@@ -124,9 +133,6 @@ module.controller('users.UserSearchController', [
       };
 
       $scope.openDeactivateDialog = function(index) {
-        var user = $scope.users[index];
-
-        //if(window.confirm('Are you sure you want to deactivate user \'' + user.handle + '\'?')) {
         var modalInstance = $modal.open({
           size: 'sm',
           templateUrl: 'app/users/status-update-dialog.html',
@@ -159,12 +165,23 @@ module.controller('users.UserSearchController', [
         });
       };
       
+      $scope.openStatusHistoryDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/users/status-history-dialog.html',
+          controller: 'users.StatusHistoryDialogController',
+          resolve: {
+				    user: function(){ return $scope.users[index]; }
+			    }
+        });
+      };
+      
     }
 ]);
 
 module.controller('users.UserEditDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, user) {
+  '$scope', '$rootScope', '$modalInstance', 'UserService', 'Alert', 'user',
+    function ($scope, $rootScope, $modalInstance, $userService, $alert, user) {
 
       $scope.user = user;
       
@@ -186,9 +203,9 @@ module.controller('users.UserEditDialogController', [
       };
 
       $scope.saveHandle = function() {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         if(user.handle === $scope.form.handle) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Handle is not changed.'});
+          $alert.error('Handle is not changed.', $scope);
           return;
         }
         
@@ -201,7 +218,7 @@ module.controller('users.UserEditDialogController', [
               $modalInstance.close();
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.form.setLoading(false);
             }
           );
@@ -209,9 +226,9 @@ module.controller('users.UserEditDialogController', [
       };
       
       $scope.saveEmail = function() {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         if(user.email.toLowerCase() === $scope.form.email.toLowerCase()) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Email is not changed.'});
+          $alert.error('Email is not changed.', $scope);
           return;
         }
         
@@ -224,7 +241,7 @@ module.controller('users.UserEditDialogController', [
               $modalInstance.close();
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.form.setLoading(false);
             }
           );
@@ -235,8 +252,8 @@ module.controller('users.UserEditDialogController', [
 ]);
 
 module.controller('users.StatusUpdateDialogController', [
-  '$scope', '$rootScope', '$timeout', '$state', '$modalInstance', 'AuthService', 'UserService', 'user',
-    function ($scope, $rootScope, $timeout, $state, $modalInstance, $authService, $userService, user) {
+  '$scope', '$rootScope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $rootScope, $modalInstance, $userService, $const, $alert, user) {
 
       $scope.form = {
         status  : user.status,
@@ -252,27 +269,74 @@ module.controller('users.StatusUpdateDialogController', [
       };
 
       $scope.save = function() {
-        $scope.$broadcast('alert.ClearAll', {});
+        $alert.clear();
         if(user.status === $scope.form.status) {
-          $scope.$broadcast('alert.AlertIssued', {type:'danger', message:'Status is not changed.'});
+          $alert.error('Status is not changed.', $scope);
           return;
         }
         if(window.confirm('Are you sure you want to save changes?')) {
           $scope.form.setLoading(true);
           $userService.updateStatus(user.id, $scope.form.status, $scope.form.comment).then(
             function(responseUser) {
-              user.active = responseUser.active;
-              user.status = responseUser.status;
+              angular.copy(responseUser, user);
               $scope.form.setLoading(false);
+              $rootScope.$broadcast('users.TableDataUpdated');
               $modalInstance.close();
             },
             function(error) {
-              $scope.$broadcast('alert.AlertIssued', {type:'danger', message:error.error});
+              $alert.error(error.error, $scope);
               $scope.form.setLoading(false);
             }
           );
         }
       };
       
+    }
+]);
+
+module.controller('users.StatusHistoryDialogController', [
+  '$scope', '$rootScope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+    function ($scope, $rootScope, $modalInstance, $userService, $const, $alert, user) {
+
+      $scope.init = function() {
+        $scope.achievements = [];
+        $alert.clear();
+        $scope.setLoading(true);
+        $userService.getAchievements(user.id).then(
+          function(achievements) {
+            $scope.setLoading(false);
+            if(!!achievements && achievements.length>0) {
+              angular.forEach(achievements, function(achievement){
+                if(achievement && achievement.typeId == 2) {
+                  $scope.achievements.push(achievement);
+                }
+              });
+            }
+            if($scope.achievements.length==0) {
+              $alert.info($const.MSG_NO_RECORD_FOUND, $scope);
+            }
+          },
+          function(error) {
+            $alert.error(error.error, $scope);
+            $scope.setLoading(false);
+          }
+        );
+      };
+
+      $scope.isLoading = function() {
+        return !!this.loading;
+      };
+
+      $scope.setLoading = function(loading) {
+        return this.loading = !!loading;
+      };
+
+      $scope.close = function() {
+        $modalInstance.close();
+      };
+      
+      $scope.formatDate = function(isoDateText) {
+        return isoDateText && isoDateText.substring(0, 10);
+      };
     }
 ]);
