@@ -26,8 +26,7 @@
     "appirio-tech-ng-auth": "3.x.x",
     "appirio-tech-ng-login-reg": "0.x.x",
     "appirio-tech-ng-api-services": "0.x.x",
-    "angular-csv-import": "~0.0.27",
-    "angular-highlightjs": "~0.5.1"
+    "angular-clipboard": "~1.2.1"
   },
   "overrides": {
     "bootstrap": {

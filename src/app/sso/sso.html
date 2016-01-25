@@ -9,54 +9,33 @@
 
   <div class="" ng-controller="sso.AddSSOController">
     <form action="" method="post" enctype="multipart/form-data">
-      <div class='form-group'>
-          <div class="title"><h4>Select your CSV file: </h4></div>
-          <div class="block right">
-              <ng-csv-import
-                      class="import"
-                      content="csv.content"
-                      header="csv.header"
-                      header-visible=""
-                      separator="csv.separator"
-                      separator-visible=""
-                      result="csv.result"
-                      encoding="csv.encoding"
-                      encoding-visible="">
-              </ng-csv-import>
-          </div>
-      </div>
+        <div class="form-group" ng-hide="jsonInput">
+            <label class="control-label">CSV file</label>
+            <input type="file" csv-reader results="jsonInput" />
+        </div>
 
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" ng-model="showCSVData" ng-change="showCSVDataChanged();">Show preview of csv file
-        </label>
-      </div>
-
+        <div class="block right" ng-if="jsonInput.length">
+            <h2>JSON</h2>
+            <div class="content">{{ jsonInput }}</div>
+            <div class="form-group">
+                <button class="btn btn-primary" ng-click="add()" type="button">Add</button>
+            </div>
+        </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" ng-model="showJSONData" ng-change="showJSONDataChanged();">Show JSON form of csv file data
+                <input type="checkbox" ng-model="showFullResponse">Show Full Response
             </label>
         </div>
 
-        <div class="col-md-2">
-            <button ng-click="search()" ng-disabled="formSearch.isLoading"
-                    type="submit" class="btn btn-sm btn-warning pull-right m-t-n-xs">
-                <strong>Add SSO Members</strong>
-            </button>
+        <div ng-if="response.length">
+            <h2>SUCCESS</h2>
+            <div class="animate-repeat" style="color:green;" class="content" ng-repeat="res in response">{{ res }}</div>
         </div>
 
-      <div ng-show="showCSVData">
-          <div ng-if="csv.content" class="block left">
-              <h2>CSV</h2>
-              <div class="content"><pre>{{ csv.content }}</pre></div>
-          </div>
-      </div>
-        <div ng-show="showJSONData">
-            <!--<div hljs hljs-source="toPrettyJSON(csv.result, 2)"></div>-->
-            <div ng-if="csv.result" class="block left">
-                <h2>JSON</h2>
-                <div class="result"><pre>{{ csv.result }}</pre></div>
-            </div>
+        <div ng-if="errors.length">
+            <h2>ERRORS</h2>
+            <div class="animate-repeat" style="color:red; line-height:2;"><p style="margin-bottom:5px; border:1px solid black;" ng-repeat="error in errors">{{ error }}</p></div>
         </div>
     </form>
   </div>
+

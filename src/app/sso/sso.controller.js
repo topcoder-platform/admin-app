@@ -1,37 +1,27 @@
 'use strict';
 
-angular.module('supportAdminApp')
- .controller('sso.AddSSOController', ['$scope', '$parse', 'AuthService', 'SSOService', function ($scope, $parse, $authService, $ssoService) {
-    $scope.csv = {
-    	content: null,
-    	header: true,
-    	headerVisible: true,
-    	separator: ',',
-    	separatorVisible: true,
-    	result: null,
-    	encoding: 'ISO-8859-1',
-    	encodingVisible: true,
-    };
+var module = angular.module('supportAdminApp');
 
-    var _lastGoodResult = '';
-    $scope.toPrettyJSON = function (json, tabWidth) {
+module.controller('sso.AddSSOController', ['$log', '$scope', '$parse', 'AuthService', 'SSOService', function ($log, $scope, $parse, $authService, $ssoService) {
 
-			var objStr = JSON.stringify(json);
-			var obj = null;
-			try {
-				obj = $parse(objStr)({});
-			} catch(e){
-				// eat $parse error
-				return _lastGoodResult;
-			}
-
-			var result = JSON.stringify(obj, null, Number(tabWidth));
-			_lastGoodResult = result;
-
-			return result;
+    $scope.errors = [];
+    $scope.response = [];
+    $scope.save = function() {
+        $log.debug($scope.jsonInput);
     };
 
     $scope.add = function() {
-		$ssoService.addSSOUser($scope.result).then
+    	$log.debug($scope.jsonInput);
+
+    	for ( var i=0, len = $scope.jsonInput.length; i<len; i++) {
+		    $ssoService.addSSOUser($scope.jsonInput[i], $scope.showFullResponse).then(
+                   function(response) {
+                        $scope.response.push(response);
+                   },
+                   function(error) {
+                        $scope.errors.push(error);
+                   }
+            );
+        }
     };
 }]);
