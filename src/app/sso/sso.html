@@ -23,13 +23,18 @@
         </div>
         <div class="checkbox">
             <label>
+                <input type="checkbox" ng-model="activate">Activate
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
                 <input type="checkbox" ng-model="showFullResponse">Show Full Response
             </label>
         </div>
 
         <div ng-if="response.length">
             <h2>SUCCESS</h2>
-            <div class="animate-repeat" style="color:green;" class="content" ng-repeat="res in response">{{ res }}</div>
+            <div class="animate-repeat" style="color:green; line-height:2;"><p style="margin-bottom:5px; border:1px solid black;" ng-repeat="res in response">{{ res }}</p></div>
         </div>
 
         <div ng-if="errors.length">

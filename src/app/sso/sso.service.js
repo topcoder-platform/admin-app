@@ -7,7 +7,7 @@ angular.module('supportAdminApp')
     // var API_URL = 'http://local.topcoder-dev.com:8080';
       return ({
         /* add sso user */
-        addSSOUser: function(jsonInput, showFullResponse) {
+        addSSOUser: function(jsonInput, activate, showFullResponse) {
 
                   $log.debug("in addSSOUser");
                   $log.debug(jsonInput);
@@ -16,7 +16,7 @@ angular.module('supportAdminApp')
                                             "\"firstName\": \""+jsonInput.firstName+"\","+
                                             "\"lastName\": \""+jsonInput.lastName+"\","+
                                             "\"email\": \""+jsonInput.email+"\","+
-                                            "\"active\": true,"+
+                                            "\"active\": "+activate+","+
                                             "\"country\": {"+
                                             "\"name\": \""+jsonInput.country+"\"},"+
                                             "\"profile\": {"+
