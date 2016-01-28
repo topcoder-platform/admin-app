@@ -1,0 +1,2 @@
+handle,firstName,lastName,email,country,ssoProviderType,ssoProvider,ssoUserId
+rpemmaraju_ssoTest,ram,p,rpemmaraju+testSSO1@appirio.com,United States,samlp,sfdc-aspdev,rpemmaraju+testSS01@asp.appirio.com.dev
