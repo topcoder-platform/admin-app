@@ -20,9 +20,9 @@ angular.module('supportAdminApp')
                                             "\"country\": {"+
                                             "\"name\": \""+jsonInput.country+"\"},"+
                                             "\"profile\": {"+
-                                            "\"providerType\": \""+jsonInput.providerType+"\","+
-                                            "\"provider\": \""+jsonInput.provider+"\","+
-                                            "\"userId\": \""+jsonInput.userId+"\"}}}";
+                                            "\"providerType\": \""+jsonInput.ssoProviderType+"\","+
+                                            "\"provider\": \""+jsonInput.ssoProvider+"\","+
+                                            "\"userId\": \""+jsonInput.ssoUserId+"\"}}}";
                     $log.debug("payload is "+payload);
                     var request = $http({
                         method: 'POST',
