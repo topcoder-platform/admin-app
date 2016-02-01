@@ -1,0 +1,246 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Submissions</h2>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" ng-controller="submissions.SearchController" ng-show="authorized()">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                            <div class="form-group col-md-12">
+                                <label for="search-condition-handle">Challenge ID</label>
+                                <div class="row">
+                                    <div class="col-md-4 ">
+                                        <input id="search-condition-handle" type="text" class="form-control" ng-model="challengeSearch.challengeId" ng-disabled="challengeSearch.isLoading"
+                                        ng-trim="true">
+                                    </div>
+                                    <div class="col-md-4 no-padding-left">
+                                        <button ng-click="findChallenge()" ng-disabled="challengeSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left">
+                                            <strong>Find challenge</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="ibox-content" ng-show="challengeSearch.isLoading || challengeSearch.submissionSubmitted">
+                    <div class="text-center">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                </div>
+                <div class="ibox-title" ng-show='!challengeSearch.addSubmission && challengeSearch.challengeFound'>
+                    <div class="row">
+                        <form role="form">
+                            <div class="form-group col-md-12">
+                                <label for="search-condition-handle">Challenge Phase</label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <select class="form-control m-b" ng-options="challengePhase as challengePhase.name for challengePhase in challengePhases  track by challengePhase.value"
+                                        ng-model="selectedChallengePhase">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button ng-click="addSubmission()" ng-disabled="challengeSearch.isLoading" type="submit" class="btn btn-sm btn-info pull-right">
+                                            <strong><i class="fa glyphicon-plus"></i> Add submission</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="ibox-content">
+
+                            <div ng-show="!challengeSearch.isLoading">
+                                <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
+                                    <thead>
+                                        <tr>
+                                            <th data-toggle="true">Submission</th>
+                                            <th data-toggle="true">Time stamp</th>
+                                            <th data-toggle="true" data-type="numeric">Rank</th>
+                                            <th data-toggle="true">Handle</th>
+                                            <th data-hide="all">
+                                                <!--PlaceHolder for Status JSON-->
+                                            </th>
+                                            <th data-toggle="true">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="submission in submissions">
+                                            <td>{{submission.id}}</td>
+                                            <td>{{submission.updatedAt*1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                            <td>{{submission.data.submitterRank}}</td>
+                                            <td>{{submission.userId}}</td>
+                                            <td class="form-group">
+                                                <div><b>Status JSON : </b></div>
+                                                <textarea readonly class="form-control submission-json" rows="5" cols="200">{{submission|json}}</textarea>
+                                            </td>
+                                            <td>{{submission.status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-title" ng-show='challengeSearch.addSubmission'>
+                    <div class="row">
+                        <form role="form">
+                            <div class="form-group col-md-3">
+                                <label for="search-condition-handle">Challenge Phase</label>
+                                <select class="form-control m-b" ng-options="challengePhase.value as challengePhase.name for challengePhase in challengePhases"
+                                ng-model="submission.selectedChallengePhase" ng-disabled="challengeSearch.submissionSubmitted ">
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="submission-phase-id">Phase ID</label>
+                                <input id="submission-phase-id" type="text" class="form-control" ng-model="submission.selectedChallengePhaseId" ng-disabled="challengeSearch.submissionSubmitted ">
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="submission-user-handle">User Handle</label>
+                                <input id="submission-user-handle" type="text" class="form-control" ng-model="submission.userHandle" ng-disabled="challengeSearch.submissionSubmitted ">
+                            </div>
+                        </form>
+                    </div>
+                    <form role="form">
+                        <!-- Submission Files Section -->
+                        <div class="ibox-content no-padding-left">
+                            <h3 class="submission-sub-heading">Files</h3>
+                            <div class="row">
+                                <div class="form-group col-md-8">
+                                    <label for="submission-archive">Submission archive (.zip)</label>
+                                    <div class="row">
+                                        <div class="form-group col-md-11 no-padding-right">
+                                            <input type="text" class="form-control" readonly id="submission-archive-fileName" ng-disabled="challengeSearch.submissionSubmitted "/>
+                                        </div>
+                                        <div class="form-group col-md-1  pull-left">
+                                            <span class="btn btn-sm btn-info btn-file">
+                                                <b>Add file</b>
+                                                <input id="submission-archive " type="file" accept=".zip" file-model="submissionArchive" ng-disabled="challengeSearch.submissionSubmitted "/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row " ng-show="challengeObj.track=='DESIGN'">
+                                <div class="form-group col-md-8">
+                                    <label for="source-archive">Source archive (.zip)</label>
+                                    <div class="row">
+                                        <div class="form-group col-md-11 no-padding-right">
+                                            <input type="text" class="form-control" readonly id="source-archive-fileName" ng-disabled="challengeSearch.submissionSubmitted "/>
+                                        </div>
+                                        <div class="form-group col-md-1  pull-left">
+                                            <span class="btn btn-sm btn-info btn-file">
+                                                <b>Add file</b>
+                                                <input id="source-archive " type="file"  accept=".zip" file-model="sourceArchive" ng-disabled="challengeSearch.submissionSubmitted "/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="challengeObj.track=='DESIGN'">
+                                <div class="form-group col-md-8">
+                                    <label for="submission-cover ">Submission cover (.jpb or .png)</label>
+                                    <div class="row">
+                                        <div class="form-group col-md-11 no-padding-right">
+                                            <input type="text " class="form-control " readonly id="submission-cover-fileName" ng-disabled="challengeSearch.submissionSubmitted"/>
+                                        </div>
+                                        <div class="form-group col-md-1  pull-left">
+                                            <span class="btn btn-sm btn-info btn-file">
+                                                <b>Add file</b>
+                                                <input id="submission-cover " type="file" accept=".jpb,.png" file-model="submissionCover" ng-disabled="challengeSearch.submissionSubmitted "/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="challengeObj.track=='DESIGN'">
+                                <div class="form-group col-md-2 ">
+                                    <label for="submission-rank ">Rank</label>
+                                    <input id="submission-rank " type="text " class="form-control " ng-model="submission.submitterRank
+                                            " ng-disabled="challengeSearch.submissionSubmitted">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-content no-padding-left" ng-show="challengeObj.track=='DESIGN'">
+                            <div class="row">
+                                <div class="form-group col-md-8 ">
+                                    <label for="submission-comment ">Comments</label>
+                                    <textarea id="submission-comment " type="text " class="form-control " ng-model="submission.submitterComments
+                                            " ng-disabled="challengeSearch.submissionSubmitted" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Submission Fonts Section -->
+                        <div class="ibox-content no-padding-left" ng-show="challengeObj.track=='DESIGN'">
+                            <h3 class="submission-sub-heading">Fonts</h3>
+                            <div class="ibox-content bottom-border col-md-8 " ng-repeat="submissionFont in submissionFonts ">
+                                <div class="row form-group ">
+                                    <label for="font-source ">Font Source</label>
+                                    <select class="form-control m-b " ng-options="fontSource.name for fontSource in fontSources" ng-init="submissionFont.source=fontSources[0] "
+                                    ng-model="submissionFont.source " ng-disabled="challengeSearch.submissionSubmitted "
+                                    />
+                                </div>
+                                <div class="row form-group ">
+                                    <label for="font-name ">Font name</label>
+                                    <input id="font-name " type="text " class="form-control " ng-model="submissionFont.name
+                                            " ng-disabled="submissionFont.source.value!='-1' ">
+                                </div>
+                                <div class="row form-group ">
+                                    <label for="font-url ">Font URL</label>
+                                    <input id="font-url " type="text " class="form-control " ng-model="submissionFont.sourceUrl
+                                            " ng-disabled="submissionFont.source.value!='-1' ">
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="form-group col-md-8 ">
+                                    <button ng-click="addFont() " type="button " class="btn btn-sm btn-info pull-left m-t-n-xs ">
+                                        <strong><i class="fa glyphicon-plus "></i> Add font</strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Submission Stock Art Section -->
+                        <div class="ibox-content no-padding-left" ng-show="challengeObj.track=='DESIGN'">
+                            <h3 class="submission-sub-heading">Stock art</h3>
+                            <div class="ibox-content bottom-border col-md-8 " ng-repeat="stockArt in stockArts ">
+                                <div class="row form-group ">
+                                    <label for="submission-comment ">Photo description</label>
+                                    <input id="font-name1 " type="text " class="form-control" ng-model="stockArt.description" ng-disabled="challengeSearch.submissionSubmitted">
+                                </div>
+                                <div class="row form-group ">
+                                    <label for="font-name1 ">Photo URL</label>
+                                    <input id="font-name1 " type="text " class="form-control" ng-model="stockArt.sourceUrl" ng-disabled="challengeSearch.submissionSubmitted">
+                                </div>
+                                <div class="row form-group ">
+                                    <label for="font-url ">File number</label>
+                                    <input id="font-url " type="text " class="form-control" ng-model="stockArt.fileNumber" ng-disabled="challengeSearch.submissionSubmitted">
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="form-group col-md-8 ">
+                                    <button ng-click="addStockArt() " type="button " class="btn btn-sm btn-info pull-left m-t-n-xs" ng-disabled="challengeSearch.submissionSubmitted">
+                                        <strong><i class="fa glyphicon-plus "></i> Add Stock Art</strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-1 col-md-offset-5 ">
+                                <button ng-click="submitSubmission() " type="submit " class="btn btn-sm btn-warning pull-left m-t-n-xs " ng-disabled="challengeSearch.submissionSubmitted">
+                                    <strong>SUBMIT</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

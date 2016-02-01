@@ -55,6 +55,11 @@ angular.module('supportAdminApp', [
             url: "/users",
             templateUrl: "app/users/users.html",
             data: { pageTitle: 'User Management' }
+        })
+        .state('index.submissions', {
+            url: "/submissions",
+            templateUrl: "app/submissions/submissions.html",
+            data: { pageTitle: 'Submissions' }
         });
 
     $urlRouterProvider.otherwise('/login');

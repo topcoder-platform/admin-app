@@ -7,7 +7,7 @@
     "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
   },
   "dev": {
-    "API_URL" : "https://api.topcoder-dev.com",
+    "API_URL" : "http://52.91.212.23:8081",
     "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
     "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
     "AUTH0_TOKEN_NAME" : "userJWTToken",
