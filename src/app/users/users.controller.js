@@ -214,8 +214,8 @@ module.controller('users.UserEditDialogController', [
           $userService.updateHandle(user.id, $scope.form.handle).then(
             function(responseUser) {
               user.handle = responseUser.handle;
+              $scope.checkProfile()
               $scope.form.setLoading(false);
-              $modalInstance.close();
             },
             function(error) {
               $alert.error(error.error, $scope);
@@ -223,6 +223,21 @@ module.controller('users.UserEditDialogController', [
             }
           );
         }
+      };
+      
+      $scope.checkProfile = function() {
+        $userService.getProfile($scope.form.handle).then(
+          function(profile) {
+              $modalInstance.close();
+          },
+          function(error) {
+            if(error.status == 404) {
+              $alert.error('The user\'s handle has been updated, but potentially failed to update profile with the new handle.\nPlease check /v.3.0.0/members/'+$scope.form.handle, $scope);
+            } else {
+              $alert.error(error.error, $scope);
+            }
+          }
+        );
       };
       
       $scope.saveEmail = function() {
