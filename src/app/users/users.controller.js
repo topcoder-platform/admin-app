@@ -232,7 +232,9 @@ module.controller('users.UserEditDialogController', [
           },
           function(error) {
             if(error.status == 404) {
-              $alert.error('The user\'s handle has been updated, but potentially failed to update profile with the new handle.\nPlease check /v.3.0.0/members/'+$scope.form.handle, $scope);
+              $alert.error('The user\'s handle has been updated, but potentially failed to update profile with the new handle.\n' +
+                          'Please check ' + $userService.getProfileEndpoint($scope.form.handle),
+                          $scope);
             } else {
               $alert.error(error.error, $scope);
             }

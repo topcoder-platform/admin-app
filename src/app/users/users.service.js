@@ -343,6 +343,10 @@ angular.module('supportAdminApp')
           }
         );
       }; // findById()
+      
+      UserService.getProfileEndpoint = function(handle) {
+        return API_URL + '/'+API_VERSION_PATH+'/members/' + handle;
+      }
     
       return UserService;
     }]);
