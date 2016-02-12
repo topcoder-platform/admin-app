@@ -360,6 +360,13 @@ body.body-small .footer.fixed {
   padding: 0 !important;
 }
 
+.no-padding-left {
+  padding-left: 0 !important;
+}
+.no-padding-right {
+  padding-right: 0 !important;
+}
+
 .no-borders {
   border: none !important;
 }
@@ -536,6 +543,14 @@ code {
   border-style: solid solid none;
   border-width: 1px 0px;
 }
+
+.ibox-content .bottom-border {
+    border-top:none;
+    border-bottom: 1px solid @border-color;
+    padding-bottom: 10px;
+    margin-bottom: 25px;   
+}
+
 
 .ibox-footer {
   color: inherit;
@@ -1290,4 +1305,43 @@ body.mini-navbar.fixed-sidebar .nav-header {
 
 body.mini-navbar.fixed-sidebar .logo-element{
   display: none;
+}
+
+/**  Upload button styling **/
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
+.submission-json{
+    margin-top: 5px;
+    border: 1px solid #676A6C;
+    font-size: 14px;
+    line-height: 18px;
+    background-color: #FFFFFF !important;
+}
+.submission-sub-heading {
+    font-size: 22px;
+    line-height: 28px;
+    color: #676A6C;
+    font-family: 'Open Sans', helvetica, arial, sans-serif;
+    padding-top: 5px;
+    padding-bottom: 10px;
 }

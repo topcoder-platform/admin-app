@@ -8,7 +8,7 @@ gulp.task('ng-config', function () {
   gulp.src('config.json')
   .pipe(
     gulpNgConfig('app.constants', {
-      environment: process.env.BUILD_ENV || 'dev'
+      environment: process.env.BUILD_ENV || 'dev',
   }))
   .pipe(gulp.dest('src/app'))
 });

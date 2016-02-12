@@ -1,0 +1,58 @@
+<div class="ibox-title" ng-hide="challengeObj === null" >
+    <div class="row">
+        <div class="form-group col-md-12">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2>Submissions for Challenge # {{challengeObj.name}}</h2>
+                </div>
+                <div class="col-md-4">
+                    <button ui-sref="index.submissions.new" type="submit" class="btn btn-sm btn-info pull-right">
+                        <strong><i class="fa fa-plus"></i> Add submission</strong>
+                    </button>
+                    <button ng-click="reloadSubmissions()" type="submit" class="btn btn-sm btn-info pull-rigth">
+                        <strong><i class="fa fa-refresh"></i> Reload</strong>&nbsp;&nbsp;
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div ng-show="isLoading">
+                <div class="text-center">
+                    <img src="assets/images/loading.gif" />
+                </div>
+            </div>
+            <div ng-show="!isLoading && submissions.length === 0">
+                <p> No Submissions found for this challenge. </p>
+            </div>
+            <div ng-hide="submissions.length === 0">
+                <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="500">
+                    <thead>
+                        <tr>
+                            <th data-toggle="true">Submission</th>
+                            <th data-toggle="true" >Created At</th>
+                            <th data-toggle="true" data-type="numeric">Rank</th>
+                            <th data-toggle="true">UserId</th>
+                            <th data-hide="all">
+                                <!--PlaceHolder for Status JSON-->
+                            </th>
+                            <th data-toggle="true">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="submission in submissions | orderBy: '-createdAt'">
+                            <td>{{submission.id}}</td>
+                            <td>{{submission.createdAt |amFromUnix| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} </td>
+                            <td>{{submission.data.submitterRank}}</td>
+                            <td>{{submission.userId}}</td>
+                            <td class="form-group">
+                                <div><b>Status JSON : </b></div>
+                                <textarea readonly class="form-control submission-json" rows="10" cols="200">{{submission|prettyJSON}}</textarea>
+                            </td>
+                            <td>{{submission.status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
