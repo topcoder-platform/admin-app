@@ -214,7 +214,7 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
 
       if (isValid) {
         /** Calls the REST endpoint to process and add submission */
-        $submissionService.getUserByHandle($scope.submission.userHandle).then(
+        $submissionService.getUserByHandle($scope.addForm.userHandle).then(
           function(responseUser) {
             // user id
             $scope.newSubmission.userId = responseUser.userId;

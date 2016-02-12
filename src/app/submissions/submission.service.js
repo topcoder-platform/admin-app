@@ -270,8 +270,7 @@ angular.module('supportAdminApp')
               toaster.pop('error', 'Whoops!', 'There was an error uploading your files. Please try again later.');
               deferred.reject(err);
             }
-
-            xhr.send(files[file.type].data);
+            xhr.send(files[file.type]);
 
             return deferred.promise;
           });

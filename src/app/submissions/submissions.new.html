@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group col-md-3" ng-class="{'has-error': addForm.userHandle.$touched && addForm.userHandle.$invalid}">
                     <label for="submission-user-handle">User Handle</label>
-                    <input id="submission-user-handle" type="text" class="form-control" ng-model="userHandle" required>
+                    <input id="submission-user-handle" type="text" class="form-control" ng-model="addForm.userHandle" required>
                     <div class="help-block" ng-messages="addForm.userHandle.$error" ng-show="addForm.userHandle.$touched">
                         <div ng-messages-include="errorMessages.html"></div>
                     </div>
@@ -68,7 +68,7 @@
                 <div class="row" ng-show="challengeObj.track=='DESIGN'">
                     <div class="form-group col-md-2 ">
                         <label for="submission-rank ">Rank</label>
-                        <input id="submission-rank " type="text " class="form-control " ng-model="submission.submitterRank" required>
+                        <input id="submission-rank " type="text " class="form-control " ng-model="newSubmission.data.submitterRank" required>
                     </div>
                 </div>
             </div>
