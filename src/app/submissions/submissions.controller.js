@@ -79,36 +79,6 @@ module.controller('submissions.SearchController', ['$scope', '$rootScope', '$tim
         };
 
         /**
-         * Sets add submission to true indicating form to add
-         * submission needs to be displayed
-         */
-        // $scope.addSubmission = function () {
-        //     $scope.$broadcast('alert.ClearAll', {});
-        //     $scope.challengeSearch.addSubmission = true;
-        //     /** Intialize variables for submission form */
-
-        //     $scope.submission = {};
-        //     $scope.processedFont = [];
-        //     $scope.submissionFonts = [{
-        //         source: $scope.fontSources[0],
-        //         name: '',
-        //         sourceUrl: ''
-        //     }];
-        //     $scope.stockArts = [{
-        //         description: '',
-        //         sourceUrl: '',
-        //         fileNumber: ''
-        //     }];
-        //     $scope.selectedChallengePhase = {};
-        //     $scope.submissionArchive = null;
-        //     $scope.sourceArchive = null;
-        //     $scope.submissionCover = null;
-        //     $('#submission-archive-fileName').val('');
-        //     $('#source-archive-fileName').val('');
-        //     $('#submission-cover-fileName').val('');
-        // };
-
-        /**
          * This method uploads list of submission files to S3
          */
         var uploadFile = function (presignedUrlsObj) {

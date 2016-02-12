@@ -232,22 +232,6 @@ angular.module('supportAdminApp')
             xhr.open('PUT', file.preSignedUploadUrl, true);
             xhr.setRequestHeader('Content-Type', file.mediaType);
 
-            // xhr.upload.addEventListener("progress", function(oEvent) {
-            //   if (oEvent.lengthComputable) {
-            //     var percentComplete = oEvent.loaded / oEvent.total;
-            //     // console.log("Completed " + percentComplete);
-            //     if (progressCallback && typeof progressCallback === 'function') {
-            //       progressCallback.call(progressCallback, 'UPLOAD', {
-            //         file: file.preSignedUploadUrl,
-            //         progress: percentComplete*100
-            //       });
-            //     }
-            //     // ...
-            //   } else {
-            //     // Unable to compute progress information since the total size is unknown
-            //   }
-            // });
-
             // xhr version of the success callback
             xhr.onreadystatechange = function() {
               var status = xhr.status;
@@ -276,11 +260,6 @@ angular.module('supportAdminApp')
           });
           return $q.all(promises)
             .then(function(response) {
-              console.log('response from S3: ', response);
-              // console.log('response to use .save restnagular with: ', presignedURLResponse);
-              // progressCallback.call(progressCallback, 'UPLOAD', 100);
-              // Update and start processing
-              // updateSubmissionStatus(presignedURLResponse.plain(), progressCallback);
               submission.data.files.forEach(function(f) {
                 f.status = 'UPLOADED';
               });
@@ -288,7 +267,6 @@ angular.module('supportAdminApp')
               return updateSubmission(submission);
             })
             .catch(function(err) {
-              // progressCallback.call(progressCallback, 'ERROR', err);
               console.log('error uploading to S3: ', err);
               return err;
             });
