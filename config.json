@@ -1,6 +1,7 @@
 {
   "local": {
-    "API_URL" : "https://api.topcoder-dev.com",
+    "API_URL" : "http://localhost:8080",
+    "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
     "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
     "AUTH0_TOKEN_NAME" : "userJWTToken",
@@ -8,6 +9,7 @@
   },
   "dev": {
     "API_URL" : "https://api.topcoder-dev.com",
+    "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
     "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
     "AUTH0_TOKEN_NAME" : "userJWTToken",
@@ -15,6 +17,7 @@
   },
   "qa": {
     "API_URL" : "https://api.topcoder-qa.com",
+    "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "EVOgWZlCtIFlbehkq02treuRRoJk12UR",
     "AUTH0_DOMAIN" : "topcoder-qa.auth0.com",
     "AUTH0_TOKEN_NAME" : "userJWTToken",
@@ -22,6 +25,7 @@
   },
   "prod": {
     "API_URL" : "https://api.topcoder.com",
+    "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "6ZwZEUo2ZK4c50aLPpgupeg5v2Ffxp9P",
     "AUTH0_DOMAIN" : "topcoder.auth0.com",
     "AUTH0_TOKEN_NAME" : "userJWTToken",

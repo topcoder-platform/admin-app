@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('UserService', ['$log', '$q','$http', 'User', 'API_URL',
-    function ($log, $q, $http, User, API_URL) {
+  .factory('UserService', ['$log', '$q','$http', 'User', 'API_URL', 'API_VERSION_PATH',
+    function ($log, $q, $http, User, API_URL, API_VERSION_PATH) {
       // local dev
       //var API_URL = 'http://local.topcoder-dev.com:8080';
       
@@ -303,6 +303,50 @@ angular.module('supportAdminApp')
           return User.createInstance(data);
         }
       };
+    
+    
+      /** get profile by handle */
+      UserService.getProfile = function(handle) {
+        if(!handle) {
+          return $q.reject({error : 'handle must be specified.'});
+        }
+
+        var request = $http({
+          method: 'GET',
+          url: API_URL + '/'+API_VERSION_PATH+'/members/' + handle,
+          headers: {
+            "Content-Type":"application/json"
+          }
+        });
+
+        return request.then(
+          function(response) {
+            $log.debug(response);
+            return response.data.result.content;
+          },
+          function(error) {
+            $log.error(error);
+            var err;
+            if(error && error.data && error.data.result) {
+              err = {
+                status: error.status,
+                error : error.data.result.content
+              };
+            }
+            if(!err) {
+              err = {
+                status: error.status,
+                error : error.statusText
+              };
+            }
+            return $q.reject(err);
+          }
+        );
+      }; // findById()
+      
+      UserService.getProfileEndpoint = function(handle) {
+        return API_URL + '/'+API_VERSION_PATH+'/members/' + handle;
+      }
     
       return UserService;
     }]);

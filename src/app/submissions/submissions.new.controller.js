@@ -158,59 +158,7 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
       $scope.processing = true;
       /** Validates the Submission form */
       var isValid = true;
-      // if (!$scope.submission.userHandle) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Please enter User handle'
-      //   });
-      //   isValid = false;
-      // } else if (!$scope.submission.selectedChallengePhase) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Please select Challenge Phase'
-      //   });
-      //   isValid = false;
-      // } else if (!submissionArchive) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Please browse Submission Archieve file'
-      //   });
-      //   isValid = false;
-      // } else if (!$scope.valideFileSize(submissionArchive)) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Submission Archieve file should not be more than 500'
-      //   });
-      //   isValid = false;
-      // } else if ($scope.challengeObj.track == 'DESIGN' && !sourceArchive) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Please browse Source Archieve file'
-      //   });
-      //   isValid = false;
-      // } else if ($scope.challengeObj.track == 'DESIGN' && !$scope.valideFileSize(sourceArchive)) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Source Archieve file should not be more than 500'
-      //   });
-      //   isValid = false;
-      // } else if ($scope.challengeObj.track == 'DESIGN' && !submissionCover) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Please browse Submission Cover file'
-      //   });
-      //   isValid = false;
-      // } else if ($scope.challengeObj.track == 'DESIGN' && !$scope.valideFileSize(submissionCover)) {
-      //   $scope.$broadcast('alert.AlertIssued', {
-      //     type: 'danger',
-      //     message: 'Source Archieve file should not be more than 500'
-      //   });
-      //   isValid = false;
-      // } else if ($scope.challengeObj.track == 'DESIGN' && !$scope.validateFonts()) {
-      //   isValid = false;
-      // } else if ($scope.challengeObj.track == 'DESIGN' && !$scope.validateStockArts()) {
-      //   isValid = false;
-      // }
+      // Todo - add more validations
 
       if (isValid) {
         /** Calls the REST endpoint to process and add submission */
