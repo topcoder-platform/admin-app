@@ -16,7 +16,9 @@ angular.module('supportAdminApp', [
               'appirio-tech-ng-api-services',
               'appirio-tech-ng-auth',
               'ui.footable',
-              'angular-clipboard'])
+              'angular-clipboard',
+              'ng-file-model',
+              'angularMoment'])
   // In the run phase of your Angular application
   .run(function($rootScope, $location, AuthService, $state, UserV3Service) {
     // Listen to '$locationChangeSuccess', not '$stateChangeStart'
@@ -62,6 +64,24 @@ angular.module('supportAdminApp', [
             url: "/sso",
             templateUrl: "app/sso/sso.html",
             data: {pageTitle: 'SSO User Management' }
+        })
+        .state('index.submissions', {
+            abstract: true,
+            url: "/submissions",
+            templateUrl: "app/submissions/submissions.html",
+            data: { pageTitle: 'Submissions' }
+        })
+        .state('index.submissions.list', {
+            url: "/list",
+            templateUrl: "app/submissions/submissions.list.html",
+            data: { pageTitle: 'Submissions List' },
+            controller: "SubmissionListCtrl"
+        })
+        .state('index.submissions.new', {
+            url: "/new",
+            templateUrl: "app/submissions/submissions.new.html",
+            controller: "NewSubmissionCtrl",
+            data: { pageTitle: 'New Submission' }
         });
 
     $urlRouterProvider.otherwise('/login');
