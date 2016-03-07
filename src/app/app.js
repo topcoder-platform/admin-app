@@ -65,6 +65,11 @@ angular.module('supportAdminApp', [
             templateUrl: "app/sso/sso.html",
             data: {pageTitle: 'SSO User Management' }
         })
+        .state('index.addmembers', {
+            url: "/add",
+            templateUrl: "app/addmembers/add.html",
+            data: {pageTitle: 'User Management' }
+        })
         .state('index.submissions', {
             abstract: true,
             url: "/submissions",
