@@ -2,8 +2,8 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
-  function($scope, $submissionService, $state) {
+module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state', '$log',
+  function($scope, $submissionService, $state, $log) {
 
     $scope.newSubmission = {};
     $scope.submissionFile = {};
@@ -12,6 +12,12 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
       "SOURCE_ZIP": {},
       "DESIGN_COVER": {}
     };
+    $scope.processing = false;
+    $scope.preparing = false;
+    $scope.uploading = false;
+    $scope.finishing = false;
+    $scope.uploadProgress = 0;
+    var fileUploadProgress = {};
     /** List of possible font Sources */
     var initNewSubmission = function(challengeObj) {
       $scope.newSubmission = {
@@ -155,7 +161,13 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
      */
     $scope.submitSubmission = function(form) {
       $scope.$broadcast('alert.ClearAll', {});
+      $scope.errorInUpload = false;
+      $scope.uploadProgress = 0;
+      fileUploadProgress = {};
       $scope.processing = true;
+      $scope.preparing = true;
+      $scope.uploading = false;
+      $scope.finishing = false;
       /** Validates the Submission form */
       var isValid = true;
       // Todo - add more validations
@@ -182,20 +194,23 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
             }
             $submissionService.createSubmission($scope.newSubmission).then(
               function(submission) {
-                $submissionService.uploadFiles(submission, $scope.files).then(function() {
+                updateProgress('PREPARE', 100);
+                $submissionService.uploadFiles(submission, $scope.files, updateProgress).then(function() {
                   
                   $submissionService.processSubmission(submission).then(function(submission) {
                     console.log("New Submission");
                     console.log(submission);
+                    updateProgress('FINISH', 100);
                     $scope.$broadcast('alert.AlertIssued', {
                       type: "success",
                       message: "Submission submitted."
                     });
 
-                  $state.go('index.submissions.list');
+                    $state.go('index.submissions.list');
                   }, function(error) {
                     console.log("process submission failed");
                     console.log(error);
+                    updateProgress('ERROR', error);
                     $scope.$broadcast('alert.AlertIssued', {
                       type: 'danger',
                       message: error.error
@@ -204,6 +219,7 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
                 }, function(error) {
                   console.log("upload submission failed");
                   console.log(error);
+                  updateProgress('ERROR', error);
                   $scope.$broadcast('alert.AlertIssued', {
                     type: 'danger',
                     message: error.error
@@ -214,8 +230,9 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
               function(error) {
                 console.log('create submission failed');
                 console.log(error);
+                updateProgress('ERROR', error);
                 $scope.challengeSearch.submissionSubmitted = false;
-                $scope.$broadcast('alert.AlertIssued', {
+                $scope.$emit('alert.AlertIssued', {
                   type: 'danger',
                   message: error.error
                 });
@@ -223,6 +240,7 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
           },
           function(error) {
             $scope.challengeSearch.submissionSubmitted = false;
+            updateProgress('ERROR', error);
             $scope.$broadcast('alert.AlertIssued', {
               type: 'danger',
               message: 'User with Handle : ' + $scope.submission.userHandle +
@@ -233,6 +251,59 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
         );
       } 
     };
+
+    // Callback for updating submission upload process. It looks for different phases e.g. PREPARE, UPLOAD, FINISH
+    // of the submission upload and updates the progress UI accordingly.
+    function updateProgress(phase, args) {
+      // for PREPARE phase
+      if (phase === 'PREPARE') {
+        // we are concerned only for completion of the phase
+        if (args === 100) {
+          $scope.preparing = false
+          $scope.uploading = true
+          $log.debug('Prepared for upload.')
+        }
+      } else if (phase === 'UPLOAD') {
+        // if args is object, this update is about XHRRequest's upload progress
+        if (typeof args === 'object') {
+          var requestId = args.file
+          var progress = args.progress
+          if (!fileUploadProgress[requestId] || fileUploadProgress[requestId] < progress) {
+            fileUploadProgress[requestId] = progress
+          }
+          var total = 0, count = 0
+          for(var requestIdKey in fileUploadProgress) {
+            var prog = fileUploadProgress[requestIdKey]
+            total += prog
+            count++
+          }
+          $scope.uploadProgress = total / count
+
+          // initiate digest cycle because this event (xhr event) is caused outside angular
+          $scope.$apply()
+        } else { // typeof args === 'number', mainly used a s fallback to mark completion of the UPLOAD phase
+          $scope.uploadProgress = args
+        }
+
+        // start next phase when UPLOAD is done
+        if ($scope.uploadProgress == 100) {
+          $log.debug('Uploaded files.')
+          $scope.uploading = false
+          $scope.finishing = true
+        }
+      } else if (phase === 'FINISH') {
+        // we are concerned only for completion of the phase
+        if (args === 100) {
+          $log.debug('Finished upload.')
+        }
+      } else {
+        // assume it to be error condition
+        $log.debug('Error Condition: ' + phase);  
+        $scope.errorInUpload = true
+        $scope.processing = false;
+        $scope.error = args;
+      }
+    }
 
   }
 ]);
