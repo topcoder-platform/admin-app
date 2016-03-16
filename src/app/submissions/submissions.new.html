@@ -133,9 +133,9 @@
             <div class="row ">
                 <div class="col-md-12 col-lg-8 col-lg-offset-2">
                     <progress-bar completed="uploadProgress" message="of 3 files uploaded" ng-show="uploading"></progress-bar>
-                    <span ng-show="preparing && !errorInUpload">Preparing...</span>
-                    <span ng-show="finishing && !errorInUpload">Finishing...</span>
-                    <div class="error" ng-show="errorInUpload">{{error}}</div>
+                    <p class="text-center" ng-show="preparing && !errorInUpload">Preparing...</p>
+                    <p class="text-center" ng-show="finishing && !errorInUpload">Finishing...</p>
+                    <div class="error text-center" ng-show="errorInUpload">{{error}}</div>
                 </div>
                 <div class="form-group col-md-1 col-md-offset-5 ">
                     <button ng-click="submitSubmission(addForm) " type="submit " class="btn btn-sm btn-warning pull-left m-t-n-xs " ng-disabled="addForm.$invalid || processing" ng-hide="processing">
