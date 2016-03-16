@@ -232,6 +232,22 @@ angular.module('supportAdminApp')
             xhr.open('PUT', file.preSignedUploadUrl, true);
             xhr.setRequestHeader('Content-Type', file.mediaType);
 
+            xhr.upload.addEventListener('progress', function(oEvent) {
+              if (oEvent.lengthComputable) {
+                var percentComplete = oEvent.loaded / oEvent.total
+                // console.log("Completed " + percentComplete)
+                if (progressCallback && typeof progressCallback === 'function') {
+                  progressCallback.call(progressCallback, 'UPLOAD', {
+                    file: file.preSignedUploadUrl,
+                    progress: percentComplete*100
+                  })
+                }
+                // ...
+              } else {
+                // Unable to compute progress information since the total size is unknown
+              }
+            });
+
             // xhr version of the success callback
             xhr.onreadystatechange = function() {
               var status = xhr.status;
@@ -263,11 +279,13 @@ angular.module('supportAdminApp')
               submission.data.files.forEach(function(f) {
                 f.status = 'UPLOADED';
               });
+              progressCallback.call(progressCallback, 'UPLOAD', 100);
 
               return updateSubmission(submission);
             })
             .catch(function(err) {
               console.log('error uploading to S3: ', err);
+              progressCallback.call(progressCallback, 'ERROR', err)
               return err;
             });
         };
