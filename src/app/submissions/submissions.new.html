@@ -1,0 +1,147 @@
+<div class="ibox-title" ng-show='challengeObj !== null'>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>New Submission</h2>
+                </div>
+                <div class="col-md-8">
+                    <button ui-sref="index.submissions.list" ng-disabled="challengeObj === null" type="submit" class="btn btn-sm btn-info pull-right">
+                        <strong><i class="fa fa-list"></i> List Submissions</strong>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <form role="form" name="addForm" data-toggle="validator">
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="search-condition-handle">Challenge Phase</label>
+                    <select class="form-control m-b" ng-options="challengePhase.value as challengePhase.name for challengePhase in challengePhases" ng-model="selectedChallengePhase" required>
+                    </select>
+                    <div class="help-block" ng-messages="addForm.userHandle.$error" ng-show="addForm.userHandle.$touched">
+                        <div ng-messages-include="errorMessages.html"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3" ng-class="{'has-error': addForm.userHandle.$touched && addForm.userHandle.$invalid}">
+                    <label for="submission-user-handle">User Handle</label>
+                    <input id="submission-user-handle" type="text" class="form-control" ng-model="addForm.userHandle" required>
+                    <div class="help-block" ng-messages="addForm.userHandle.$error" ng-show="addForm.userHandle.$touched">
+                        <div ng-messages-include="errorMessages.html"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Submission Files Section -->
+            <div class="ibox-content no-padding-left">
+                <h3 class="submission-sub-heading">Files</h3>
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label for="submission-archive">Submission archive (.zip)</label>
+                        <div class="row">
+                            <div class="form-group col-md-12 no-padding-right">
+                                <input type="file" accept=".zip" file-model ng-model="files.SUBMISSION_ZIP" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row " ng-show="challengeObj.track=='DESIGN'">
+                    <div class="form-group col-md-8">
+                        <label for="source-archive">Source archive (.zip)</label>
+                        <div class="row">
+                            <div class="form-group col-md-12 no-padding-right">
+                                <input type="file" accept=".zip" file-model ng-model="files.SOURCE_ZIP" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="challengeObj.track=='DESIGN'">
+                    <div class="form-group col-md-8">
+                        <label for="submission-cover ">Submission cover (.jpg or .png)</label>
+                        <div class="row">
+                            <div class="form-group col-md-12 no-padding-right">
+                                <input type="file" accept=".jpg,.png,.jpeg" file-model ng-model="files.DESIGN_COVER" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="challengeObj.track=='DESIGN'">
+                    <div class="form-group col-md-2 ">
+                        <label for="submission-rank ">Rank</label>
+                        <input id="submission-rank " type="text " class="form-control " ng-model="newSubmission.data.submitterRank" required>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content no-padding-left" ng-show="challengeObj.track=='DESIGN'">
+                <div class="row">
+                    <div class="form-group col-md-8 ">
+                        <label for="submission-comment ">Comments</label>
+                        <textarea id="submission-comment " type="text " class="form-control " ng-model="newSubmission.data.submitterComments" />
+                    </div>
+                </div>
+            </div>
+            <!-- Submission Fonts Section -->
+            <div class="ibox-content no-padding-left" ng-show="challengeObj.track=='DESIGN'">
+                <h3 class="submission-sub-heading">Fonts</h3>
+                <div class="ibox-content bottom-border col-md-8 " ng-repeat="submissionFont in newSubmission.data.fonts ">
+                    <div class="row form-group ">
+                        <label for="font-source ">Font Source</label>
+                        <select class="form-control m-b " ng-options="fontSource.name for fontSource in fontSources" ng-init="submissionFont.source=fontSources[0] " ng-model="submissionFont.source " />
+                    </div>
+                    <div class="row form-group ">
+                        <label for="font-name ">Font name</label>
+                        <input id="font-name " type="text " class="form-control " ng-model="submissionFont.name" ng-disabled="submissionFont.source.value!='-1' ">
+                    </div>
+                    <div class="row form-group ">
+                        <label for="font-url ">Font URL</label>
+                        <input id="font-url " type="text " class="form-control " ng-model="submissionFont.sourceUrl" ng-disabled="submissionFont.source.value!='-1' ">
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="form-group col-md-8 ">
+                        <button ng-click="addFont() " type="button " class="btn btn-sm btn-info pull-left m-t-n-xs ">
+                            <strong><i class="fa glyphicon-plus "></i> Add font</strong>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Submission Stock Art Section -->
+            <div class="ibox-content no-padding-left" ng-show="challengeObj.track=='DESIGN'">
+                <h3 class="submission-sub-heading">Stock art</h3>
+                <div class="ibox-content bottom-border col-md-8 " ng-repeat="stockArt in newSubmission.data.stockArts ">
+                    <div class="row form-group ">
+                        <label for="submission-comment ">Photo description</label>
+                        <input id="font-name1 " type="text " class="form-control" ng-model="stockArt.description">
+                    </div>
+                    <div class="row form-group ">
+                        <label for="font-name1 ">Photo URL</label>
+                        <input id="font-name1 " type="text " class="form-control" ng-model="stockArt.sourceUrl">
+                    </div>
+                    <div class="row form-group ">
+                        <label for="font-url ">File number</label>
+                        <input id="font-url " type="text " class="form-control" ng-model="stockArt.fileNumber">
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="form-group col-md-8 ">
+                        <button ng-click="addStockArt() " type="button " class="btn btn-sm btn-info pull-left m-t-n-xs">
+                            <strong><i class="fa glyphicon-plus "></i> Add Stock Art</strong>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 col-lg-8 col-lg-offset-2">
+                    <progress-bar completed="uploadProgress" message="of 3 files uploaded" ng-show="uploading"></progress-bar>
+                    <p class="text-center" ng-show="preparing && !errorInUpload">Preparing...</p>
+                    <p class="text-center" ng-show="finishing && !errorInUpload">Finishing...</p>
+                    <div class="error text-center" ng-show="errorInUpload">{{error}}</div>
+                </div>
+                <div class="form-group col-md-1 col-md-offset-5 ">
+                    <button ng-click="submitSubmission(addForm) " type="submit " class="btn btn-sm btn-warning pull-left m-t-n-xs " ng-disabled="addForm.$invalid || processing" ng-hide="processing">
+                        <strong>SUBMIT</strong>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>

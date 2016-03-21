@@ -25,9 +25,28 @@
     "angular-footable": "~1.0.3",
     "appirio-tech-ng-auth": "3.x.x",
     "appirio-tech-ng-login-reg": "0.x.x",
-    "appirio-tech-ng-api-services": "0.x.x"
+    "appirio-tech-ng-api-services": "0.x.x",
+    "angular-clipboard": "~1.2.1",
+    "appirio-tech-ng-login-reg": "0.x.x",
+    "lodash": "~4.2.0",
+    "angular-moment": "~1.0.0-beta.3",
+    "moment": "~2.11.2",
+    "moment-timezone": "~0.5.0",
+    "ng-file-model": "*"
   },
   "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js",
+        "dist/fonts/glyphicons-halflings-regular.eot",
+        "dist/fonts/glyphicons-halflings-regular.svg",
+        "dist/fonts/glyphicons-halflings-regular.ttf",
+        "dist/fonts/glyphicons-halflings-regular.woff",
+        "dist/fonts/glyphicons-halflings-regular.woff2"
+      ]
+    },
     "footable": {
       "main": [
         "dist/footable.all.min.js",
@@ -45,6 +64,7 @@
   "resolutions": {
     "jquery": "~2.1.1",
     "angular": "1.4.x",
-    "angular-resource": "1.4.x"
+    "angular-resource": "1.4.x",
+    "moment": "^2.10.x"
   }
 }
