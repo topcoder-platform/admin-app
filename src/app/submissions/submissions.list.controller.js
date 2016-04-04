@@ -10,6 +10,7 @@ module.controller('SubmissionListCtrl', ['$scope', 'SubmissionService', '$timeou
       });
     });
     $scope.submissions = [];
+    $scope.progress = [];
     var getSubmissions = function(challengeId) {
       $scope.isLoading = true;
       $submissionService.findSubmissions(challengeId).then(
@@ -41,6 +42,27 @@ module.controller('SubmissionListCtrl', ['$scope', 'SubmissionService', '$timeou
         getSubmissions(newValue.id);   
       }
     })
+
+    $scope.reprocess = function(submission) {
+      $scope.progress[submission.id] = true;
+      $submissionService.processSubmission(submission).then(function(sub) {
+        console.log("Reprocessing Submission");
+        delete $scope.progress[submission.id];
+        $scope.$broadcast('alert.AlertIssued', {
+          type: "success",
+          message: "Submission submitted for reprocessing."
+        });
+        submission.status = sub.status;
+      }, function(error) {
+        console.log("process reprocessing failed");
+        console.log(error);
+        delete $scope.progress[submission.id];
+        $scope.$broadcast('alert.AlertIssued', {
+          type: 'danger',
+          message: error.error
+        });
+      });
+    }
 
   }
 ]);

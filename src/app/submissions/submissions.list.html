@@ -49,6 +49,11 @@
                                 <textarea readonly class="form-control submission-json" rows="10" cols="200">{{submission|prettyJSON}}</textarea>
                             </td>
                             <td>{{submission.status}}</td>
+                            <td>
+                                <button class="btn btn-danger" ng-click="reprocess(submission)" ng-disabled="progress[submission.id]" ng-show="submission.status === 'ERROR'"> Re-process 
+                                    <i class="fa fa-repeat" ng-class="{'fa-spin' : progress[submission.id]}"></i>
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
