@@ -50,7 +50,7 @@
                             </td>
                             <td>{{submission.status}}</td>
                             <td>
-                                <i class="fa fa-repeat" ng-class="{'fa-spin' : progress[submission.id]}" ng-click="reprocess(submission)"></i>
+                                <i class="fa fa-repeat" ng-class="{'fa-spin' : progress[submission.id]}" ng-click="reprocess(submission)" ng-show="submission.status === 'ERROR'"></i>
                             </td>
                         </tr>
                     </tbody>
