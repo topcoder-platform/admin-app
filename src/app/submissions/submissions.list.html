@@ -49,6 +49,9 @@
                                 <textarea readonly class="form-control submission-json" rows="10" cols="200">{{submission|prettyJSON}}</textarea>
                             </td>
                             <td>{{submission.status}}</td>
+                            <td>
+                                <i class="fa fa-repeat" ng-class="{'fa-spin' : progress[submission.id]}" ng-click="reprocess(submission)"></i>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
