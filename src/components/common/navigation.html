@@ -7,14 +7,16 @@
             <li ui-sref-active="active">
                 <a ui-sref="index.main"><i class="fa fa-laptop"></i> <span class="nav-label">Dashboard</span> </a>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="index.users"><i class="fa fa-male"></i> <span class="nav-label">Members</span> </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="index.sso"><i class="fa fa-male"></i> <span class="nav-label">Add SSO Members</span> </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="index.addmembers"><i class="fa fa-male"></i> <span class="nav-label">Add Members</span> </a>
+            <li ui-sref-active="active">                
+                <a href="#"><i class="fa fa-male"></i> <span class="nav-label">User Management</span>
+                <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li>
+                        <li><a ui-sref="index.users">User</a></li>
+                        <li><a ui-sref="index.addmembers">Import Users</a></li>
+                        <li><a ui-sref="index.sso">Import SSO Users</a></li>
+                    </li>
+                </ul>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="index.submissions.list"><i class="fa fa-cloud-upload"></i> <span class="nav-label">Submissions</span> </a>
