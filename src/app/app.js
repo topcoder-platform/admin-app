@@ -87,7 +87,19 @@ angular.module('supportAdminApp', [
             templateUrl: "app/submissions/submissions.new.html",
             controller: "NewSubmissionCtrl",
             data: { pageTitle: 'New Submission' }
-        });
+        })
+        .state('index.work', {
+            abstract: true,
+            url: "/work",
+            templateUrl: "app/work/work.html",
+            data: { pageTitle: 'Work Items Management' }
+        })
+        .state('index.work.list', {
+            url: "/list",
+            templateUrl: "app/work/work.list.html",
+            data: { pageTitle: 'work List' },
+            controller: "WorkListCtrl"
+        }) ;
 
     $urlRouterProvider.otherwise('/login');
 

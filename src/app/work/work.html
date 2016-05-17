@@ -1,0 +1,124 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Work Items</h2>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" ng-controller="workController" ng-show="authorized()">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                            <div class="form-group col-md-12">
+                                <label for="search-condition-handle">Work ID</label>
+                                <div class="row">
+                                    <div class="col-md-4 ">
+                                        <input id="search-condition-handle" type="text" class="form-control" ng-model="workSearch.workId" ng-disabled="workSearch.isLoading" ng-trim="true">
+                                    </div>
+                                    <div class="col-md-4 no-padding-left">
+                                        <button ng-click="findwork()" ng-disabled="workSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left">
+                                            <strong>Find Work Item(s)</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div ng-show='!workSearch.addwork && workSearch.workFound'>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- work Details -->
+                                            <dl class="dl-horizontal">
+                                                <hr>
+                                                <dt><u>Work Item Summary</u></dt>
+                                                <dd>
+                                                    <dt>Name </dt>
+                                                    <dd>{{workObj.name}}</dd>
+                                                    <dt>Project Type</dt>
+                                                    <dd>{{workObj.projectType}}</dd>
+                                                    <dt>Status</dt>
+                                                    <dd>{{workObj.status}}  ({{workObj.statusNotes}})</dd>
+                                                </dd>
+                                                <hr>
+                                                <dt><u>Pricing Details</u></dt>
+                                                <dd>
+                                                    <dt>Price</dt>
+                                                    <dd>{{workObj.price}} {{workObj.priceCurrency}}</dd>
+                                                    <dt>Estimate</dt>
+                                                    <dd>{{workObj.costEstimate.low}} - {{workObj.costEstimate.high}} {{workObj.priceCurrency}}</dd>
+                                                    <dt>Quoted Amount</dt>
+                                                    <dd>{{workObj.quotedAmount}}</dd>
+                                                </dd>
+                                                <hr>
+                                                <dt><u>Owner Details</u></dt>
+                                                <dd>
+                                                    <dt>Qwner</dt>
+                                                    <dd>{{workObj.ownerId}}</dd>
+                                                    <dt>Copilot Id</dt>
+                                                    <dd>{{workObj.copilotId}}</dd>
+                                                    <dt>Notes</dt>
+                                                    <dd>{{workObj.brief}}</dd>
+                                                </dd>
+                                                <hr>
+                                                <dt><u>Design Notes</u></dt>
+                                                <dd>
+                                                    <dt>Design Url(s)</dt>
+                                                    <dd>{{workObj.designUrls.length > 0 ? workObj.designUrls.join(', ') : '-'}}</dd>
+                                                    <dt>Design Notes</dt>
+                                                    <dd>{{workObj.designNotes}}</dd>
+                                                </dd>
+                                                <hr>
+                                                <dt><u>Misc</u></dt>
+                                                <dd>
+                                                    <dt>TCDirect Id</dt>
+                                                    <dd>{{workObj.tcDirectId}}</dd>
+                                                </dd>
+                                                <hr>
+                                                <dt><u>Project Features</u></dt>
+                                                <dd>
+
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <td><b>Id</b></td>
+                                                                <td>Category</td>
+                                                                <td>Title</td>
+                                                                <td>Custom ?</td>
+                                                                <td>File Id(s)</td>
+                                                                <td>Description</td>
+                                                                <td>Notes</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="p in workObj.features">
+                                                                <td>{{p.id}}</td>
+                                                                <td>{{p.category}}</td>
+                                                                <td>{{p.title}}</td>
+                                                                <td>{{p.custom}}</td>
+                                                                <td>{{p.fileIds.length > 0 ? p.fileIds.join(', ') : '-'}}</td>
+                                                                <td>{{p.description}}</td>
+                                                                <td>{{p.notes}}</td>
+                                                        </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="ibox-content" ng-show="workSearch.isLoading">
+                    <div class="text-center">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                </div>
+                <div ui-view=""></div>
+            </div>
+        </div>
+    </div>
+</div>
