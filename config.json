@@ -10,7 +10,7 @@
   },
   "dev": {
     "API_URL" : "https://api.topcoder-dev.com",
-    "WORK_API_URL" : "https://work-api.topcoder-dev.com",
+    "WORK_API_URL" : "https://api-work.topcoder-dev.com",
     "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
     "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
@@ -19,7 +19,7 @@
   },
   "qa": {
     "API_URL" : "https://api.topcoder-qa.com",
-    "WORK_API_URL" : "https://work-api.topcoder-qa.com",
+    "WORK_API_URL" : "https://api-work.topcoder-qa.com",
     "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "EVOgWZlCtIFlbehkq02treuRRoJk12UR",
     "AUTH0_DOMAIN" : "topcoder-qa.auth0.com",
@@ -28,7 +28,7 @@
   },
   "prod": {
     "API_URL" : "https://api.topcoder.com",
-    "WORK_API_URL" : "https://work-api.topcoder.com",
+    "WORK_API_URL" : "https://api-work.topcoder.com",
     "API_VERSION_PATH" : "v3",
     "AUTH0_CLIENT_ID" : "6ZwZEUo2ZK4c50aLPpgupeg5v2Ffxp9P",
     "AUTH0_DOMAIN" : "topcoder.auth0.com",
