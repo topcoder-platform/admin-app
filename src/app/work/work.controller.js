@@ -3,7 +3,7 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state', '$modal',
-    'AuthService', 'WorkService', 'UserService', 
+    'AuthService', 'WorkService', 'UserService',
     function ($scope, $rootScope, $timeout, $state, $modal, $authService, $workService, $userService) {
 
         /**
@@ -13,8 +13,8 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
             return $authService.isLoggedIn();
         };
 
-        /** 
-         * Object storing state of work search and 
+        /**
+         * Object storing state of work search and
          * adding new work operation
          */
         $scope.workSearch = {
@@ -33,9 +33,9 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
         $scope.isValidwork = false;
 
 
-        
+
         /**
-         * This method finds work-objects details by id 
+         * This method finds work-objects details by id
          * and the related work items
          */
         $scope.findwork = function () {
@@ -44,7 +44,7 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
             $scope.work = {};
             $scope.workSteps = {};
             /** Fetches work Details  */
-            $workService.findworkById($scope.workSearch.workId).then(
+            $workService.findWorkById($scope.workSearch.workId).then(
                 function (responsework) {
                      //Set of work steps
                     $workService.getWorkSteps($scope.workSearch.workId).then(
@@ -79,6 +79,6 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
                     });
                 }
                 );
-        };        
+        };
     }
 ]);

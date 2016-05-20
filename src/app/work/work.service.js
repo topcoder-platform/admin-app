@@ -1,14 +1,12 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('WorkService', ['$q', '$http', 'API_URL', '$log', 'API_VERSION_PATH',
-      function($q, $http, API_URL, $log, API_VERSION_PATH) {
+  .factory('WorkService', ['$q', '$http', 'WORK_API_URL', '$log', 'API_VERSION_PATH',
+      function($q, $http, WORK_API_URL, $log, API_VERSION_PATH) {
 
         var service = {
           getWorkSteps: getWorkSteps,
-          findworkById: findworkById,
-          findWorks: findWorks,
-          getUserByHandle: getUserByHandle
+          findWorkById: findWorkById
         }
 
         /**
@@ -50,7 +48,7 @@ angular.module('supportAdminApp')
           }
           var request = $http({
             method: 'GET',
-            url: API_URL +'/' + API_VERSION_PATH + '/work/' + workId + '/steps/',
+            url: WORK_API_URL +'/' + API_VERSION_PATH + '/work/' + workId + '/steps/',
             headers: {
               "Content-Type": "application/json"
             }
@@ -89,7 +87,7 @@ angular.module('supportAdminApp')
         /**
          * Find work identified by work Id
          */
-        function findworkById(workId) {
+        function findWorkById(workId) {
           if (!workId) {
             return $q.reject({
               error: 'work ID must be specified.'
@@ -97,7 +95,7 @@ angular.module('supportAdminApp')
           }
           var request = $http({
             method: 'GET',
-            url: API_URL +'/' + API_VERSION_PATH + '/work/' + workId,
+            url: WORK_API_URL +'/' + API_VERSION_PATH + '/work/' + workId,
             headers: {
               "Content-Type": "application/json"
             }
@@ -127,42 +125,6 @@ angular.module('supportAdminApp')
               return $q.reject(err);
             }
           );
-        };
-
-        /** 
-         * Find all Work associated with work identified
-         * by work Id
-         */
-        function findWorks(workId) {
-          if (!workId) {
-            return $q.reject({
-              error: 'work ID must be specified.'
-            });
-          }
-          var filterParams = encodeURIComponent('reference={"type":"work","id":"' + workId + '"}');
-
-          var request = $http({
-            method: 'GET',
-            url: API_URL + '/v3/Works/?filter=' + filterParams,
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
-          return _processRequest(request);
-        };
-        /** 
-         * Fetches the user details identified by a user Handle
-         * 
-         */
-        function getUserByHandle(userHandle) {
-          var request = $http({
-            method: 'GET',
-            url: API_URL + '/v3/members/' + userHandle,
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
-          return _processRequest(request);
         };
   }
 ]);
