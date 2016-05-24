@@ -103,7 +103,7 @@ angular.module('supportAdminApp')
           return request.then(
             function(response) {
               if (Array.isArray(response.data.result.content) && response.data.result.content.length > 0) {
-                return response.data.result.content[0];
+                return response.data.result;
               } else {
                 return $q.reject("work with '" + workId + "' not found.");
               }
