@@ -14,7 +14,6 @@ module.controller('NewTagCtrl', ['$rootScope','$scope', 'TagService', '$state', 
     $scope.submitTag = function() {
       $scope.$broadcast('alert.ClearAll', {});
       $scope.processing = true;
-      $scope.newTag.createdBy = $rootScope.currentUser.id;
       $scope.newTag.synonyms = $scope.addForm.synonyms ? $scope.addForm.synonyms.split(',') :[];
 
       $scope.newTag.categories = [];
