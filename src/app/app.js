@@ -18,6 +18,7 @@ angular.module('supportAdminApp', [
               'ui.footable',
               'angular-clipboard',
               'ng-file-model',
+              'ui.multiselect',
               'angularMoment'])
   // In the run phase of your Angular application
   .run(function($rootScope, $location, AuthService, $state, UserV3Service) {
@@ -87,6 +88,59 @@ angular.module('supportAdminApp', [
             templateUrl: "app/submissions/submissions.new.html",
             controller: "NewSubmissionCtrl",
             data: { pageTitle: 'New Submission' }
+        })
+        .state('index.tags', {
+          abstract: true,
+          url: "/tags",
+          templateUrl: "app/tags/tags.html",
+          data: { pageTitle: 'Tags' },
+          controller:function($scope, $state){
+            $scope.$state = $state;
+            $scope.tagDomains = [{
+              value: 'skills',
+              name: 'Skills'
+            }, {
+              value: 'events',
+              name: 'Events'
+            }];
+
+            $scope.tagCategories = [{
+              value: 'data_science',
+              name: 'Data Science'
+            }, {
+              value: 'develop',
+              name: 'Develop'
+            },
+              {
+                value: 'design',
+                name: 'Design'
+              }];
+
+            $scope.tagStatuses = [{
+              value: 'approved',
+              name: 'Approved'
+            }, {
+              value: 'pending',
+              name: 'Pending'
+            }];
+          }
+        })
+        .state('index.tags.list', {
+          url: "/list",
+          templateUrl: "app/tags/tags.list.html",
+          controller: "TagListCtrl"
+        })
+        .state('index.tags.new', {
+          url: "/new",
+          templateUrl: "app/tags/tags.new.html",
+          controller: "NewTagCtrl",
+          data: { pageTitle: 'New Tag' }
+        })
+        .state('index.tags.edit', {
+          url: "/edit/:tagId",
+          templateUrl: "app/tags/tags.edit.html",
+          controller: "EditTagCtrl",
+          data: { pageTitle: 'Edit Tag' }
         })
         .state('index.work', {
             abstract: true,
