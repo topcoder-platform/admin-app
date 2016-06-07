@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state', '$modal',
-    'AuthService', 'WorkService', 'UserService',
-    function ($scope, $rootScope, $timeout, $state, $modal, $authService, $workService, $userService) {
+    'AuthService', 'WorkService', 'UserService', '$stateParams',
+    function ($scope, $rootScope, $timeout, $state, $modal, $authService, $workService, $userService, $stateParams) {
 
         /**
          * Check if user is logged in
@@ -80,5 +80,12 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
                 }
                 );
         };
+
+        angular.element(document).ready(function () {
+            if ($stateParams.id) {
+                $scope.workSearch.workId = $stateParams.id;
+                $scope.findwork();
+            }
+        });
     }
 ]);

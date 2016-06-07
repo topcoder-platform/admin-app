@@ -21,80 +21,79 @@ angular.module('supportAdminApp', [
               'ui.multiselect',
               'angularMoment'])
   // In the run phase of your Angular application
-  .run(function($rootScope, $location, AuthService, $state, UserV3Service) {
+  .run(function ($rootScope, $location, AuthService, $state, UserV3Service) {
     // Listen to '$locationChangeSuccess', not '$stateChangeStart'
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-      if(toState.name === "login") {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      if (toState.name === 'login') {
         return;
       }
-      console.log('state changed. loggedIn: '+AuthService.isLoggedIn()); // debug
-      if(!AuthService.isLoggedIn()) {
+      console.log('state changed. loggedIn: ' + AuthService.isLoggedIn()); // debug
+      if (!AuthService.isLoggedIn()) {
         $state.go('login');
       } else {
-        UserV3Service.loadUser().then(function(currentUser) {
+        UserV3Service.loadUser().then(function (currentUser) {
           $rootScope.currentUser = currentUser;
-          $state.go(toState)
+          $state.go(toState, toParams);
         });
       }
-    })
+    });
   })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-    $stateProvider
+      $stateProvider
         .state('login', {
-           url: "/login",
-           templateUrl: "app/login/login.html",
+           url: '/login',
+           templateUrl: 'app/login/login.html',
            data: { pageTitle: 'Login' }
         })
         .state('index', {
             abstract: true,
-            url: "/index",
-            templateUrl: "components/common/content.html",
+            url: '/index',
+            templateUrl: 'components/common/content.html'
         })
         .state('index.main', {
-            url: "/main",
-            templateUrl: "app/main/main.html",
+            url: '/main',
+            templateUrl: 'app/main/main.html',
             data: { pageTitle: 'Dashboard' }
         })
         .state('index.users', {
-            url: "/users",
-            templateUrl: "app/users/users.html",
+            url: '/users',
+            templateUrl: 'app/users/users.html',
             data: { pageTitle: 'User Management' }
         })
         .state('index.sso', {
-            url: "/sso",
-            templateUrl: "app/sso/sso.html",
-            data: {pageTitle: 'SSO User Management' }
+            url: '/sso',
+            templateUrl: 'app/sso/sso.html',
+            data: { pageTitle: 'SSO User Management' }
         })
         .state('index.addmembers', {
-            url: "/add",
-            templateUrl: "app/addmembers/add.html",
-            data: {pageTitle: 'User Management' }
+            url: '/add',
+            templateUrl: 'app/addmembers/add.html',
+            data: { pageTitle: 'User Management' }
         })
         .state('index.submissions', {
             abstract: true,
-            url: "/submissions",
-            templateUrl: "app/submissions/submissions.html",
+            url: '/submissions',
+            templateUrl: 'app/submissions/submissions.html',
             data: { pageTitle: 'Submissions' }
         })
         .state('index.submissions.list', {
-            url: "/list",
-            templateUrl: "app/submissions/submissions.list.html",
+            url: '/list',
+            templateUrl: 'app/submissions/submissions.list.html',
             data: { pageTitle: 'Submissions List' },
-            controller: "SubmissionListCtrl"
+            controller: 'SubmissionListCtrl'
         })
         .state('index.submissions.new', {
-            url: "/new",
-            templateUrl: "app/submissions/submissions.new.html",
-            controller: "NewSubmissionCtrl",
+            url: '/new',
+            templateUrl: 'app/submissions/submissions.new.html',
+            controller: 'NewSubmissionCtrl',
             data: { pageTitle: 'New Submission' }
         })
         .state('index.tags', {
           abstract: true,
-          url: "/tags",
-          templateUrl: "app/tags/tags.html",
+          url: '/tags',
+          templateUrl: 'app/tags/tags.html',
           data: { pageTitle: 'Tags' },
-          controller:function($scope, $state){
+          controller: function ($scope, $state) {
             $scope.$state = $state;
             $scope.tagDomains = [{
               value: 'skills',
@@ -126,37 +125,45 @@ angular.module('supportAdminApp', [
           }
         })
         .state('index.tags.list', {
-          url: "/list",
-          templateUrl: "app/tags/tags.list.html",
-          controller: "TagListCtrl"
+          url: '/list',
+          templateUrl: 'app/tags/tags.list.html',
+          controller: 'TagListCtrl'
         })
         .state('index.tags.new', {
-          url: "/new",
-          templateUrl: "app/tags/tags.new.html",
-          controller: "NewTagCtrl",
+          url: '/new',
+          templateUrl: 'app/tags/tags.new.html',
+          controller: 'NewTagCtrl',
           data: { pageTitle: 'New Tag' }
         })
         .state('index.tags.edit', {
-          url: "/edit/:tagId",
-          templateUrl: "app/tags/tags.edit.html",
-          controller: "EditTagCtrl",
+          url: '/edit/:tagId',
+          templateUrl: 'app/tags/tags.edit.html',
+          controller: 'EditTagCtrl',
           data: { pageTitle: 'Edit Tag' }
         })
         .state('index.work', {
-            abstract: true,
-            url: "/work",
-            templateUrl: "app/work/work.html",
-            data: { pageTitle: 'Work Items Management' }
+          abstract: true,
+          url: '/work',
+          templateUrl: 'app/work/work.html',
+          data: { pageTitle: 'Work Items Management' }
         })
         .state('index.work.list', {
-            url: "/list",
-            templateUrl: "app/work/work.list.html",
-            data: { pageTitle: 'work List' },
-            controller: "WorkListCtrl"
-        }) ;
+          url: '/list/:id',
+          templateUrl: 'app/work/work.list.html',
+          data: { pageTitle: 'work List' },
+          controller: 'WorkListCtrl',
+          params: {
+            id: ''
+          }
+        })
+        .state('index.projects', {
+          url: '/projects',
+          templateUrl: 'app/work/projects.html',
+          data: { pageTitle: 'Projects List' },
+          controller: 'ProjectListCtrl',
+          controllerAs: 'vm'
+        });
 
     $urlRouterProvider.otherwise('/login');
-
-    //$locationProvider.html5Mode(true).hashPrefix('!');
-  })
-;
+    // $locationProvider.html5Mode(true).hashPrefix('!');
+  });

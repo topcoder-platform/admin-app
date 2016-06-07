@@ -1,0 +1,111 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Projects</h2>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row" ng-show="vm.authorized()">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <div class="row">
+            <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">                
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="search-condition">Search</label>
+                </div>
+                <div class="col-md-2">
+                  <label for="search-status">Status</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4"">
+                  <input id="search-condition" type="text" class="form-control"
+                      ng-model="vm.formSearch.search" ng-disabled="vm.formSearch.isLoading">
+                </div>
+                <div class="col-md-2">                    
+                  <select id="search-status" class="form-control m-b" ng-model="vm.formSearch.status" ng-disabled="vm.formSearch.isLoading">
+                    <option ng-repeat="s in statuses">{{ s | capitalize }}</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <button ng-click="vm.findProjects()" ng-disabled="vm.formSearch.isLoading" type="button" class="btn btn-sm btn-warning pull-left">
+                    <strong>Find Project(s)</strong>
+                  </button>
+                </div>             
+              </div>
+              <div class="row">
+                <div class="col-md-10 text-left">
+                  <p class="text-muted">
+                    Tips:<br>
+                    - Wildcard(*) is available for partial matching. (e.g. Proj*, Test*) <br/>
+                    - Maximum number of searched results is 500.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <div class="text-center" ng-show="vm.formSearch.isLoading">
+            <img src="assets/images/loading.gif"/>
+          </div>
+          <div ng-show="!vm.formSearch.isLoading && projects.length == 0">
+            <p> No Projects found. </p>
+          </div>
+          <div ng-show="!vm.formSearch.isLoading && projects.length != 0">
+            <table class="footable table table-stripped toggle-arrow-tiny"
+                   data-sort="true"
+                   data-page-size="50">
+              <thead>
+                <tr>
+                  <th data-sort-initial="true">Project ID</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Owner ID</th>
+                  <th>Copilot ID</th>
+                  <th data-type="date">Submit Date</th>
+                  <th>Current Status</th>
+                  <th>Current Work Step</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="proj in projects" data-expanded="true">
+                  <td>{{proj.id}}</td>
+                  <td>
+                    <a href="{{ '#/index/work/list/' + proj.id }}"
+                       ui-sref="index.work.list({id: proj.id})">
+                      {{proj.name}}
+                    </a>
+                  </td>
+                  <td>{{proj.projectType }}</td>
+                  <td>{{proj.ownerId}}</td>
+                  <td>{{proj.copilotId}}</td>
+                  <td>{{proj.submittedAt}}</td>
+                  <td>{{proj.status | capitalize }}</td>
+                  <td>{{proj.currentStep}}</td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <td colspan="8">
+                    <ul class="pagination pull-right"></ul>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -38,7 +38,8 @@
                                                     <dt>Project Type</dt>
                                                     <dd>{{workObj.projectType}}</dd>
                                                     <dt>Status</dt>
-                                                    <dd>{{workObj.status}}  ({{workObj.statusNotes}})</dd>
+                                                    <dd>{{workObj.status}}  {{workObj.statusNotes ? '(' + workObj.statusNotes + ')' : '' }}</dd>
+
                                                 </dd>
                                                 <hr>
                                                 <dt><u>Pricing Details</u></dt>

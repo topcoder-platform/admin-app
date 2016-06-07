@@ -1,4 +1,4 @@
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="NavController">
     <div class="sidebar-collapse">
         <ul side-navigation class="nav metismenu" id="side-menu">
             <li class="nav-header">
@@ -19,9 +19,16 @@
             <li ui-sref-active="active">
                 <a ui-sref="index.submissions.list"><i class="fa fa-cloud-upload"></i> <span class="nav-label">Submissions</span> </a>
             </li>
-            <li ui-sref-active="active">
-                <a ui-sref="index.work.list"><i class="fa fa-male"></i> <span class="nav-label">Work</span> </a>
+
+            <li ui-sref-active="active">                
+                <a href="#/index/projects" ng-click="forceStateProjects()"><i class="fa fa-male"></i> <span class="nav-label">Work</span>
+                <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a ui-sref="index.projects">Projects</a></li>
+                    <li><a href="#/index/work/list/" ui-sref="index.work.list">Work</a></li>
+                </ul>
             </li>
+            
             <li ui-sref-active="active">
                 <a ui-sref="index.tags.list"><i class="fa fa-tags"></i> <span class="nav-label">Tags</span> </a>
             </li>
