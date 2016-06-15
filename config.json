@@ -10,7 +10,7 @@
     "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
   },
   "dev": {
-    "ES_PROJECT_API_URL": "https://api.topcoder-dev.com",
+    "ES_PROJECT_API_URL": "https://internal-api.topcoder-dev.com",
     "API_URL" : "https://api.topcoder-dev.com",
     "WORK_API_URL" : "https://api-work.topcoder-dev.com",
     "API_VERSION_PATH" : "v3",

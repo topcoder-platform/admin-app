@@ -63,7 +63,9 @@ angular.module('supportAdminApp')
                 return step.status.toLowerCase() === 'in progress';
               });
 
-              proj.currentStep = currentStep.stepType; // attach current work step
+              if (currentStep) {
+                proj.currentStep = currentStep.stepType; // attach current work step
+              }
               deferred.resolve(); // continue promise chain.
             })
             .catch(function (err) {
