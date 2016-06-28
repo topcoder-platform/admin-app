@@ -19,6 +19,7 @@ angular.module('supportAdminApp', [
               'angular-clipboard',
               'ng-file-model',
               'ui.multiselect',
+              'ui.bootstrap.datetimepicker',
               'angularMoment'])
   // In the run phase of your Angular application
   .run(function ($rootScope, $location, AuthService, $state, UserV3Service) {
@@ -154,6 +155,16 @@ angular.module('supportAdminApp', [
           controller: 'WorkListCtrl',
           params: {
             id: ''
+          }
+        })
+        .state('index.workStepEdit', {
+          url: '/work/:id/:stepId',
+          templateUrl: 'app/work/workStepEdit.html',
+          data: { pageTitle: 'Edit Step' },
+          controller: 'WorkStepEditCtrl',
+          params: {
+            id: '',
+            stepId: ''
           }
         })
         .state('index.projects', {

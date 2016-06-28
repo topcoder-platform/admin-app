@@ -6,8 +6,59 @@ angular.module('supportAdminApp')
 
         var service = {
           getWorkSteps: getWorkSteps,
-          findWorkById: findWorkById
-        }
+          findWorkById: findWorkById,
+          putWorkStep: putWorkStep
+        };
+
+        /**
+         * putWorkStep update project step
+         * @param  {string} workId   project id
+         * @param  {string} stepId   project step id
+         * @param  {object} stepItem step item object
+         * @return {promise}         resolves to http put request
+         */
+        function putWorkStep(workId, stepId, stepItem) {
+          console.log(["workId: ", workId, "stepId: ", stepId, stepItem]);
+          if (!workId || !stepId) {
+            return $q.reject({
+              error: 'project ID and step ID must be specified.'
+            });
+          }
+          var request = $http({
+            method: 'PUT',
+            url: WORK_API_URL +'/' + API_VERSION_PATH + '/work/' + workId + '/steps/' + stepId,
+            headers: {
+              "Content-Type": "application/json"
+            },
+            data: angular.toJson(stepItem)
+          });
+          return request.then(
+            function(response) {
+              console.log(response);
+              if (_.isObject(response.data.result.content)) {
+                return response.data.result.content;
+              } else {
+                return $q.reject("failed to update project step");
+              }
+            },
+            function(error) {
+              var err;
+              if (error && error.data && error.data.result) {
+                err = {
+                  status: error.status,
+                  error: error.data.result.content
+                };
+              }
+              if (!err) {
+                err = {
+                  status: error.status,
+                  error: error.statusText
+                };
+              }
+              return $q.reject(err);
+            }
+          );
+        };
 
         /**
          * helper function to process http request
@@ -43,7 +94,7 @@ angular.module('supportAdminApp')
         function getWorkSteps(workId) {
           if (!workId) {
             return $q.reject({
-              error: 'work ID must be specified.'
+              error: 'project ID must be specified.'
             });
           }
           var request = $http({
@@ -63,7 +114,7 @@ angular.module('supportAdminApp')
                 return steps;
 
               } else {
-                return $q.reject("work steps not found");
+                return $q.reject("project steps not found");
               }
             },
             function(error) {
@@ -90,7 +141,7 @@ angular.module('supportAdminApp')
         function findWorkById(workId) {
           if (!workId) {
             return $q.reject({
-              error: 'work ID must be specified.'
+              error: 'project ID must be specified.'
             });
           }
           var request = $http({
@@ -105,7 +156,9 @@ angular.module('supportAdminApp')
               if (response.data && response.data.result && response.data.result.content) {
                 return response.data.result.content;
               } else {
-                return $q.reject("work with '" + workId + "' not found.");
+                return $q.reject({
+                  error: "project with '" + workId + "' not found."
+                });
               }
             },
             function(error) {

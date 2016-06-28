@@ -66,32 +66,47 @@
                    data-page-size="50">
               <thead>
                 <tr>
-                  <th data-sort-initial="true">Project ID</th>
                   <th>Name</th>
+                  <th data-sort-initial="true">Project ID</th>
                   <th>Type</th>
                   <th>Owner ID</th>
                   <th>Copilot ID</th>
                   <th data-type="date">Submit Date</th>
                   <th>Current Status</th>
                   <th>Current Work Step</th>
+                  <th>TC Direct ID</th>
                 </tr>
               </thead>
 
               <tbody>
                 <tr ng-repeat="proj in projects" data-expanded="true">
-                  <td>{{proj.id}}</td>
-                  <td>
-                    <a href="{{ '#/index/work/list/' + proj.id }}"
+                <td>
+                    <a ng-href="{{ '#/index/work/list/' + proj.id }}"
                        ui-sref="index.work.list({id: proj.id})">
                       {{proj.name}}
                     </a>
                   </td>
+                  <td>{{proj.id}}</td>                  
                   <td>{{proj.projectType }}</td>
-                  <td>{{proj.ownerId}}</td>
-                  <td>{{proj.copilotId}}</td>
-                  <td>{{proj.submittedAt}}</td>
+                  <td>
+                    <a ng-href="{{ proj.ownerId | tcProfileLink }}">
+                      {{proj.ownerId}}
+                    </a>
+                  </td>
+                  <td>
+                    <a data-ng-if="proj.copilotId && proj.copilotId !== 'unassigned'" ng-href="{{ proj.copilotId | tcProfileLink}}">
+                      {{proj.copilotId}}
+                    </a>
+                    {{proj.copilotId === 'unassigned' ? proj.copilotId : ''}}
+                  </td>
+                  <td>{{proj.submittedAt | fmtDate}}</td>
                   <td>{{proj.status | capitalize }}</td>
                   <td>{{proj.currentStep}}</td>
+                  <td>
+                    <a ng-href="{{proj.tcDirectId | tcDirectLink}}">
+                      {{proj.tcDirectId}}
+                    </a>
+                  </td>
                 </tr>
               </tbody>
 

@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Work Items</h2>
+        <h2>Project Items</h2>
     </div>
     <div class="col-lg-2">
     </div>
@@ -14,14 +14,14 @@
                         <div class="row">
                             <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
                             <div class="form-group col-md-12">
-                                <label for="search-condition-handle">Work ID</label>
+                                <label for="search-condition-handle">Project ID</label>
                                 <div class="row">
                                     <div class="col-md-4 ">
                                         <input id="search-condition-handle" type="text" class="form-control" ng-model="workSearch.workId" ng-disabled="workSearch.isLoading" ng-trim="true">
                                     </div>
                                     <div class="col-md-4 no-padding-left">
                                         <button ng-click="findwork()" ng-disabled="workSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left">
-                                            <strong>Find Work Item(s)</strong>
+                                            <strong>Find Project Item(s)</strong>
                                         </button>
                                     </div>
                                 </div>
@@ -31,10 +31,10 @@
                                             <!-- work Details -->
                                             <dl class="dl-horizontal">
                                                 <hr>
-                                                <dt><u>Work Item Summary</u></dt>
+                                                <dt><u>Project Item Summary</u></dt>
                                                 <dd>
                                                     <dt>Name </dt>
-                                                    <dd>{{workObj.name}}</dd>
+                                                    <dd><a ng-href="{{ workObj.id | tcConnectLink }}">{{workObj.name}}</a></dd>
                                                     <dt>Project Type</dt>
                                                     <dd>{{workObj.projectType}}</dd>
                                                     <dt>Status</dt>
@@ -55,9 +55,18 @@
                                                 <dt><u>Owner Details</u></dt>
                                                 <dd>
                                                     <dt>Qwner</dt>
-                                                    <dd>{{workObj.ownerId}}</dd>
+                                                    <dd>
+                                                        <a data-ng-if="workObj.ownerId" ng-href="{{ workObj.ownerId | tcProfileLink}}">
+                                                            {{workObj.ownerId }}
+                                                        </a>
+                                                    </dd>
                                                     <dt>Copilot Id</dt>
-                                                    <dd>{{workObj.copilotId}}</dd>
+                                                    <dd>
+                                                        <a data-ng-if="workObj.copilotId && workObj.copilotId !== 'unassigned'" ng-href="{{ workObj.copilotId | tcProfileLink}}">
+                                                            {{workObj.copilotId}}
+                                                        </a>
+                                                        {{ workObj.copilotId === 'unassigned' ? 'unassigned' : ''}}
+                                                    </dd>
                                                     <dt>Notes</dt>
                                                     <dd>{{workObj.brief}}</dd>
                                                 </dd>
@@ -73,7 +82,11 @@
                                                 <dt><u>Misc</u></dt>
                                                 <dd>
                                                     <dt>TCDirect Id</dt>
-                                                    <dd>{{workObj.tcDirectId}}</dd>
+                                                    <dd>
+                                                        <a href="{{workObj.tcDirectId | tcDirectLink}}">
+                                                            {{workObj.tcDirectId}}
+                                                        </a>
+                                                    </dd>
                                                 </dd>
                                                 <hr>
                                                 <dt><u>Project Features</u></dt>

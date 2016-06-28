@@ -2,7 +2,7 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('TagListCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$modal',
+module.controller('TagListCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$uibModal',
   'AuthService', 'TagService',
   function ($scope, $rootScope, $timeout, $state, $modal, $authService, $tagService) {
     /**

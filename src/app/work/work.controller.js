@@ -2,7 +2,7 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state', '$modal',
+module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state', '$uibModal',
     'AuthService', 'WorkService', 'UserService', '$stateParams',
     function ($scope, $rootScope, $timeout, $state, $modal, $authService, $workService, $userService, $stateParams) {
 

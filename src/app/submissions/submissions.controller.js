@@ -2,7 +2,7 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('submissions.SearchController', ['$scope', '$rootScope', '$timeout', '$state', '$modal',
+module.controller('submissions.SearchController', ['$scope', '$rootScope', '$timeout', '$state', '$uibModal',
     'AuthService', 'SubmissionService', 'UserService', 
     function ($scope, $rootScope, $timeout, $state, $modal, $authService, $submissionService, $userService) {
 

@@ -69,7 +69,7 @@ angular.module('supportAdminApp')
               deferred.resolve(); // continue promise chain.
             })
             .catch(function (err) {
-              if (err === 'work steps not found') { // not an error, just no work steps found
+              if (err === 'project steps not found') { // not an error, just no work steps found
                 proj.currentStep = 'N/A'; // placeholder value for projects with no work steps
                 deferred.resolve();      // continue promise chain.
               } else {

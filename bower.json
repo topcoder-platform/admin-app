@@ -32,7 +32,8 @@
     "moment": "~2.11.2",
     "moment-timezone": "~0.5.0",
     "ng-file-model": "*",
-    "angular-bootstrap-multiselect":"*"
+    "angular-bootstrap-multiselect": "*",    
+    "bootstrap-ui-datetime-picker": "^2.4.0"
   },
   "overrides": {
     "bootstrap": {
@@ -65,6 +66,7 @@
     "jquery": "~2.1.1",
     "angular": "1.4.x",
     "angular-resource": "1.4.x",
-    "moment": "^2.10.x"
+    "moment": "^2.10.x",
+    "angular-bootstrap": "^1.2.0"
   }
 }

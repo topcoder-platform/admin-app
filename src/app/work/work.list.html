@@ -3,7 +3,7 @@
         <div class="form-group col-md-12">
             <div class="row">
                 <div class="col-md-8">
-                    <h2>Steps for Work item # {{workObj.id}}</h2>
+                    <h2>Steps for Project item # {{workObj.id}}</h2>
                 </div>
                 <div class="col-md-4">
                     <button ng-click="reloadWork()" type="submit" class="btn btn-sm btn-info pull-rigth">
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div ng-show="!isLoading && workSteps.length === 0">
-                <p> No records found for this work item. </p>
+                <p> No records found for this project item. </p>
             </div>
             <div ng-hide="workSteps.length === 0">
                 <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="500">
@@ -30,7 +30,8 @@
                             <th data-toggle="true">Status</th>
                             <th data-toggle="true">Start time</th>
                             <th data-toggle="true">End time</th>
-                            <th data-toggle="true">Details</th>
+                            <th data-toggle="true">Details</th>                            
+                            <th data-sort-ignore="true"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,6 +44,13 @@
                             <td class="form-group">
                                 <!-- <div><b>Status JSON : </b></div> -->
                                 <textarea readonly ng-show="step.detail.rankedSubmissions" class="form-control submission-json" rows="10" cols="40">{{step.detail|prettyJSON}}</textarea>
+                            </td>
+                            <td>
+                                <a href="javascript:;;"                                           
+                                   class="btn btn-sm btn-success"
+                                   ui-sref="index.workStepEdit({ id: workObj.id, stepId: step.id })">
+                                    <strong>Edit Step</strong>
+                                </a>
                             </td>
                         </tr>
                     </tbody>
