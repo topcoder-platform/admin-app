@@ -33,7 +33,7 @@
     "moment-timezone": "~0.5.0",
     "ng-file-model": "*",
     "angular-bootstrap-multiselect": "*",    
-    "bootstrap-ui-datetime-picker": "^2.4.0"
+    "bootstrap-ui-datetime-picker": "https://github.com/Gillardo/bootstrap-ui-datetime-picker.git#~2.4.0"
   },
   "overrides": {
     "bootstrap": {
