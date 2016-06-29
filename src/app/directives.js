@@ -37,4 +37,17 @@ angular.module('supportAdminApp')
                 };
             }
         };
+    })
+    // disable keyboard input event on single element
+    .directive('disableKeyboard', function () {
+        return {
+            restrict: 'AE',
+            link: function (scope, element, attributes) {                
+                $(element).keypress(function (event) {                    
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return false;
+                });
+            }
+        };
     });

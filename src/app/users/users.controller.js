@@ -3,7 +3,7 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('users.UserSearchController', [
-  '$log', '$scope', '$rootScope', '$timeout', '$state', '$modal', 'AuthService', 'UserService', 'Alert', 'users.Constants',
+  '$log', '$scope', '$rootScope', '$timeout', '$state', '$uibModal', 'AuthService', 'UserService', 'Alert', 'users.Constants',
     function ($log, $scope, $rootScope, $timeout, $state, $modal, $authService, $userService, $alert, $const) {
 
       // footable
