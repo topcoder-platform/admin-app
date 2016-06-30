@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Project Items</h2>
+        <h2>Project Detail</h2>
     </div>
     <div class="col-lg-2">
     </div>
@@ -21,7 +21,7 @@
                                     </div>
                                     <div class="col-md-4 no-padding-left">
                                         <button ng-click="findwork()" ng-disabled="workSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left">
-                                            <strong>Find Project Item(s)</strong>
+                                            <strong>Lookup</strong>
                                         </button>
                                     </div>
                                 </div>
@@ -31,7 +31,7 @@
                                             <!-- work Details -->
                                             <dl class="dl-horizontal">
                                                 <hr>
-                                                <dt><u>Project Item Summary</u></dt>
+                                                <dt><u>Summary</u></dt>
                                                 <dd>
                                                     <dt>Name </dt>
                                                     <dd><a ng-href="{{ workObj.id | tcConnectLink }}">{{workObj.name}}</a></dd>
@@ -39,10 +39,28 @@
                                                     <dd>{{workObj.projectType}}</dd>
                                                     <dt>Status</dt>
                                                     <dd>{{workObj.status}}  {{workObj.statusNotes ? '(' + workObj.statusNotes + ')' : '' }}</dd>
-
+                                                    <dt>Notes</dt>
+                                                    <dd>{{workObj.brief}}</dd>
                                                 </dd>
                                                 <hr>
-                                                <dt><u>Pricing Details</u></dt>
+                                                <dt><u>Resources</u></dt>
+                                                <dd>
+                                                    <dt>Owner</dt>
+                                                    <dd>
+                                                        <a data-ng-if="workObj.ownerId" ng-href="{{ workObj.ownerId | tcProfileLink}}">
+                                                            {{workObj.ownerId }}
+                                                        </a>
+                                                    </dd>
+                                                    <dt>Copilot</dt>
+                                                    <dd>
+                                                        <a data-ng-if="workObj.copilotId && workObj.copilotId !== 'unassigned'" ng-href="{{ workObj.copilotId | tcProfileLink}}">
+                                                            {{workObj.copilotId}}
+                                                        </a>
+                                                        {{ workObj.copilotId === 'unassigned' ? 'unassigned' : ''}}
+                                                    </dd>
+                                                </dd>
+                                                <hr>
+                                                <dt><u>Estimate</u></dt>
                                                 <dd>
                                                     <dt>Price</dt>
                                                     <dd>{{workObj.price}} {{workObj.priceCurrency}}</dd>
@@ -52,26 +70,7 @@
                                                     <dd>{{workObj.quotedAmount}}</dd>
                                                 </dd>
                                                 <hr>
-                                                <dt><u>Owner Details</u></dt>
-                                                <dd>
-                                                    <dt>Qwner</dt>
-                                                    <dd>
-                                                        <a data-ng-if="workObj.ownerId" ng-href="{{ workObj.ownerId | tcProfileLink}}">
-                                                            {{workObj.ownerId }}
-                                                        </a>
-                                                    </dd>
-                                                    <dt>Copilot Id</dt>
-                                                    <dd>
-                                                        <a data-ng-if="workObj.copilotId && workObj.copilotId !== 'unassigned'" ng-href="{{ workObj.copilotId | tcProfileLink}}">
-                                                            {{workObj.copilotId}}
-                                                        </a>
-                                                        {{ workObj.copilotId === 'unassigned' ? 'unassigned' : ''}}
-                                                    </dd>
-                                                    <dt>Notes</dt>
-                                                    <dd>{{workObj.brief}}</dd>
-                                                </dd>
-                                                <hr>
-                                                <dt><u>Design Notes</u></dt>
+                                                <dt><u>Design Requirements</u></dt>
                                                 <dd>
                                                     <dt>Design Url(s)</dt>
                                                     <dd>{{workObj.designUrls.length > 0 ? workObj.designUrls.join(', ') : '-'}}</dd>
@@ -81,7 +80,7 @@
                                                 <hr>
                                                 <dt><u>Misc</u></dt>
                                                 <dd>
-                                                    <dt>TCDirect Id</dt>
+                                                    <dt>TCDirect Project</dt>
                                                     <dd>
                                                         <a href="{{workObj.tcDirectId | tcDirectLink}}">
                                                             {{workObj.tcDirectId}}
@@ -95,18 +94,16 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <td><b>Id</b></td>
                                                                 <td>Category</td>
                                                                 <td>Title</td>
-                                                                <td>Custom ?</td>
-                                                                <td>File Id(s)</td>
+                                                                <td>Custom</td>
+                                                                <td>Files</td>
                                                                 <td>Description</td>
                                                                 <td>Notes</td>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                         <tr ng-repeat="p in workObj.features">
-                                                                <td>{{p.id}}</td>
                                                                 <td>{{p.category}}</td>
                                                                 <td>{{p.title}}</td>
                                                                 <td>{{p.custom}}</td>
