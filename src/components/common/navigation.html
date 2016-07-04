@@ -24,7 +24,7 @@
                 <a href="#/index/projects" ng-click="forceStateProjects()"><i class="fa fa-male"></i> <span class="nav-label">Work</span>
                 <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a ui-sref="index.projects">Projects</a></li>
+                    <li ng-class="{active: $state.includes('index.projects')}"><a ui-sref="index.projects">Projects</a></li>
                     <li><a href="#/index/work/list/" ui-sref="index.work.list">Project</a></li>
                 </ul>
             </li>
