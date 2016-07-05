@@ -70,7 +70,7 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
                     $scope.work = null;
                     var errorMessage = error.error;
                     if (error.status == 404) {
-                        errorMessage = 'work with id ' + $scope.workSearch.workId +
+                        errorMessage = 'project with id ' + $scope.workSearch.workId +
                         ' not found';
                     }
                     $scope.$broadcast('alert.AlertIssued', {

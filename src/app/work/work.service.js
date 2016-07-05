@@ -4,10 +4,12 @@ angular.module('supportAdminApp')
   .factory('WorkService', ['$q', '$http', 'WORK_API_URL', '$log', 'API_VERSION_PATH',
       function($q, $http, WORK_API_URL, $log, API_VERSION_PATH) {
 
+        var workStepNotFound = 'Project steps not found';
         var service = {
           getWorkSteps: getWorkSteps,
           findWorkById: findWorkById,
-          putWorkStep: putWorkStep
+          putWorkStep: putWorkStep,
+          workStepNotFound: workStepNotFound          
         };
 
         /**
@@ -114,7 +116,7 @@ angular.module('supportAdminApp')
                 return steps;
 
               } else {
-                return $q.reject("project steps not found");
+                return $q.reject(workStepNotFound);
               }
             },
             function(error) {
@@ -156,6 +158,7 @@ angular.module('supportAdminApp')
               if (response.data && response.data.result && response.data.result.content) {
                 return response.data.result.content;
               } else {
+                console.log("project with '" + workId + "' not found.");
                 return $q.reject({
                   error: "project with '" + workId + "' not found."
                 });

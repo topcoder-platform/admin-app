@@ -105,11 +105,11 @@
                     <a href="#" ng-show="user.active"><i class="fa fa-check text-navy"></i></a>
                   </td>
                   <td>
-                    <div class="btn-group" dropdown >
-                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" dropdown-toggle>
+                    <div class="btn-group" uib-dropdown >
+                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" uib-dropdown-toggle>
                             Edit <i class="fa fa-caret-down"></i>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu">
                             <li><a href="" ng-click="openHandleEditDialog($index)">Handle</a></li>
                             <li><a href="" ng-click="openEmailEditDialog($index)">Primary Email</a></li>
                         </ul>

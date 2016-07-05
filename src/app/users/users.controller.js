@@ -180,7 +180,7 @@ module.controller('users.UserSearchController', [
 ]);
 
 module.controller('users.UserEditDialogController', [
-  '$scope', '$rootScope', '$modalInstance', 'UserService', 'Alert', 'user',
+  '$scope', '$rootScope', '$uibModalInstance', 'UserService', 'Alert', 'user',
     function ($scope, $rootScope, $modalInstance, $userService, $alert, user) {
 
       $scope.user = user;
@@ -269,7 +269,7 @@ module.controller('users.UserEditDialogController', [
 ]);
 
 module.controller('users.StatusUpdateDialogController', [
-  '$scope', '$rootScope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+  '$scope', '$rootScope', '$uibModalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
     function ($scope, $rootScope, $modalInstance, $userService, $const, $alert, user) {
 
       $scope.form = {
@@ -312,7 +312,7 @@ module.controller('users.StatusUpdateDialogController', [
 ]);
 
 module.controller('users.StatusHistoryDialogController', [
-  '$scope', '$rootScope', '$modalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
+  '$scope', '$rootScope', '$uibModalInstance', 'UserService', 'users.Constants', 'Alert', 'user',
     function ($scope, $rootScope, $modalInstance, $userService, $const, $alert, user) {
 
       $scope.init = function() {
