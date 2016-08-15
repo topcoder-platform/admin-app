@@ -15,44 +15,92 @@
           <div class="row">
             <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
           </div>
+          
+          <!-- Original search of projects. -->
           <div class="row">
             <div class="form-group col-md-12">                
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="search-condition">Search</label>
+              <form>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="search-condition">Search</label>
+                  </div>
+                  <div class="col-md-2">
+                    <label for="search-status">Status</label>
+                  </div>
                 </div>
-                <div class="col-md-2">
-                  <label for="search-status">Status</label>
+                <div class="row">
+                  <div class="col-md-4"">
+                    <input id="search-condition" type="text" class="form-control"
+                           ng-model="vm.formSearch.search" ng-disabled="vm.formSearch.isLoading">
+                  </div>
+                  <div class="col-md-2">                    
+                    <select class="form-control m-b"
+                            id="search-status"
+                            ng-disabled="vm.formSearch.isLoading"
+                            ng-model="vm.formSearch.status">
+                      <option ng-repeat="s in statuses">{{ s | capitalize }}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-sm btn-warning pull-left"
+                            ng-click="vm.findProjects()"
+                            ng-disabled="vm.formSearch.isLoading"
+                            type="submit">
+                      <strong>Find Project(s)</strong>
+                    </button>
+                  </div>             
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4"">
-                  <input id="search-condition" type="text" class="form-control"
-                      ng-model="vm.formSearch.search" ng-disabled="vm.formSearch.isLoading">
+                <div class="row">
+                  <div class="col-md-10 text-left">
+                    <p class="text-muted">
+                      Tips:<br>
+                      - Wildcard(*) is available for partial matching. (e.g. Proj*, Test*) <br/>
+                      - Maximum number of searched results is 500.
+                    </p>
+                  </div>
                 </div>
-                <div class="col-md-2">                    
-                  <select id="search-status" class="form-control m-b" ng-model="vm.formSearch.status" ng-disabled="vm.formSearch.isLoading">
-                    <option ng-repeat="s in statuses">{{ s | capitalize }}</option>
-                  </select>
-                </div>
-                <div class="col-md-2">
-                  <button ng-click="vm.findProjects()" ng-disabled="vm.formSearch.isLoading" type="button" class="btn btn-sm btn-warning pull-left">
-                    <strong>Find Project(s)</strong>
-                  </button>
-                </div>             
-              </div>
-              <div class="row">
-                <div class="col-md-10 text-left">
-                  <p class="text-muted">
-                    Tips:<br>
-                    - Wildcard(*) is available for partial matching. (e.g. Proj*, Test*) <br/>
-                    - Maximum number of searched results is 500.
-                  </p>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
+
+          <!--
+            Additional search by user handle or e-mail address.
+            At the moment it is implemented on the client side.
+          -->
+          <div class="row">
+            <div class="col-md-12">
+              <form>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="search-by-user-handle-or-email">
+                      Search by user handle or e-mail address
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <input class="form-control input-sm"
+                           id="search-by-user-handle-or-email"
+                           ng-disabled="vm.formSearch.isLoading"
+                           ng-model="vm.formSearch.handleOrEmail"
+                           placeholder="Example: UserName or user@mail.com"/>
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-sm btn-warning"
+                            ng-click="vm.findByHandleOrEmail()"
+                            ng-disabled="vm.formSearch.isLoading"
+                            type="submit">
+                      <strong>Find Project(s)</strong>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>          
+          </div>
+          <br/>
+
         </div>
+
         <div class="ibox-content">
           <div class="text-center" ng-show="vm.formSearch.isLoading">
             <img src="assets/images/loading.gif"/>
@@ -69,8 +117,8 @@
                   <th>Name</th>
                   <th data-sort-initial="true">Project ID</th>
                   <th>Type</th>
-                  <th>Owner ID</th>
-                  <th>Copilot ID</th>
+                  <th>Owner</th>
+                  <th>Copilot</th>
                   <th data-type="date">Submit Date</th>
                   <th>Current Status</th>
                   <th>Current Work Step</th>
@@ -90,12 +138,18 @@
                   <td>{{proj.projectType }}</td>
                   <td>
                     <a ng-href="{{ proj.ownerId | tcProfileLink }}">
-                      {{proj.ownerId}}
+                      <!-- In case the owner's member object has not been found,
+                           we show his ID as the fallback. -->
+                      {{proj.owner && proj.owner.handle ?
+                        proj.owner.handle : proj.ownerId}}
                     </a>
                   </td>
                   <td>
                     <a data-ng-if="proj.copilotId && proj.copilotId !== 'unassigned'" ng-href="{{ proj.copilotId | tcProfileLink}}">
-                      {{proj.copilotId}}
+                      <!-- In case the copilot's member object has not been
+                           found, we show his ID as the fallback. -->
+                      {{proj.copilot && proj.copilot.handle ?
+                        proj.copilot.handle : proj.copilotId}}
                     </a>
                     {{proj.copilotId === 'unassigned' ? proj.copilotId : ''}}
                   </td>
