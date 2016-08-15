@@ -150,11 +150,22 @@ angular.module('supportAdminApp', [
         })
         .state('index.work.list', {
           url: '/list/:id',
-          templateUrl: 'app/work/work.list.html',
-          data: { pageTitle: 'work List' },
-          controller: 'WorkListCtrl',
-          params: {
-            id: ''
+          views: {
+            'work-details': {
+              templateUrl: 'app/work/work.details.html'
+            },
+            'work-list': {
+              templateUrl: 'app/work/work.list.html',
+              data: { pageTitle: 'work List' },
+              controller: 'WorkListCtrl',
+              params: {
+                id: ''
+              }
+            },
+            'work-messages': {
+              templateUrl: 'app/work/work.messages.html',
+              controller: 'projectController'
+            }
           }
         })
         .state('index.workStepEdit', {
