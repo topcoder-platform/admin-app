@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state', '$uibModal',
-    'AuthService', 'WorkService', 'UserService', '$stateParams',
-    function ($scope, $rootScope, $timeout, $state, $modal, $authService, $workService, $userService, $stateParams) {
+    'AuthService', 'WorkService', 'UserService', '$stateParams', 'MembersService',
+    function ($scope, $rootScope, $timeout, $state, $modal, $authService, $workService, $userService, $stateParams, $membersService) {
 
         /**
          * Check if user is logged in
@@ -32,8 +32,6 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
         $scope.workObj = null;
         $scope.isValidwork = false;
 
-
-
         /**
          * This method finds work-objects details by id
          * and the related work items
@@ -58,6 +56,32 @@ module.controller('workController', ['$scope', '$rootScope', '$timeout', '$state
                             });
                         }
                     );
+                    var query = $membersService.generateSearchQuery([
+                        responsework.ownerId, responsework.copilotId
+                    ]);
+
+                    // Uses MembersService to find in ElasticSearch the member
+                    // objects for the owner and copilot of this work (search
+                    // by 'ownerId' and 'copilotId' of the work object), and
+                    // attaches the result objects to 'copilot' and 'owner'
+                    // fields of the work object.
+                    $membersService.search(query).then(
+                        function(members) {
+                            var map = members.reduce(function(map, member) {
+                                map[member.userId] = member;
+                                return map;
+                            }, {});
+                            responsework.copilot = map[responsework.copilotId];
+                            responsework.owner = map[responsework.ownerId];
+                        },
+                        function(error) {
+                            $scope.$broadcast('alert.AlertIssued', {
+                                type: 'danger',
+                                message: error
+                            });
+                        }
+                    );
+
                     $scope.workSearch.workFound = true;
                     $scope.workObj = responsework;
                     $scope.workSearch.isLoading = false;

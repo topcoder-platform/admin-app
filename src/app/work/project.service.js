@@ -1,9 +1,19 @@
+/**
+ * The Project Service provides functions to search projects in
+ * the database. 
+ *
+ * (C) TopCoder. All Rights Reserved.
+ */
+
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('ProjectService', ['$log', '$q', '$http', 'API_VERSION_PATH', 'ES_PROJECT_API_URL', 'WorkService', '$timeout',
-    function ($log, $q, $http, API_VERSION_PATH, ES_PROJECT_API_URL, workSvc, $timeout) {
-      var ProjectService = {};
+  .factory('ProjectService', ['$log', '$q', '$http', 'API_VERSION_PATH', 'ES_PROJECT_API_URL', 'WorkService', '$timeout', 'WORK_API_URL',
+    function ($log, $q, $http, API_VERSION_PATH, ES_PROJECT_API_URL, workSvc, $timeout, WORK_API_URL) {
+
+      var ProjectService = {
+        findProjectById: findProjectById
+      };
 
       /**
        * search search projects by querying lambda function
@@ -86,6 +96,49 @@ angular.module('supportAdminApp')
             return projects;
           });
       }
+
+      /**
+       * findProjectById finds the project identified by 'projectId'.
+       * @param {String} projectId the project's ID.
+       * @return {promise} promise that resolves to the found project.
+       */
+      function findProjectById(projectId) {
+        
+        if (!projectId) {
+          return $q.reject({
+            error: 'Project ID must be specified!'
+          });
+        }
+
+        var request = $http({
+          method: 'GET',
+          url: WORK_API_URL + '/' + API_VERSION_PATH + '/projects/' + projectId,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+       
+        return request.then(
+          function(response) {
+            if (response.data && response.data.result &&
+                response.data.result.content) {
+              return response.data.result.content;
+            } else {
+              var errStr = 'Project with ID ' + projectId + ' not found!';
+              console.log(errStr);
+              return $q.reject({ error: errStr });
+            }
+          },
+          function(error) {
+            var errStr = error && error.data && error.data.result ?
+                         error.data.result.content : error.statusText;
+            return $q.reject({
+              status: error.status,
+              error: errStr
+            });
+          }
+        );
+      };
 
       return ProjectService;
     }]);

@@ -2,14 +2,15 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('WorkStepEditCtrl', ['$scope', 'WorkService', '$timeout', '$state', '$rootScope', '$filter',
-  function($scope, $workService, $timeout, $state, $rootScope, $filter) {    
+module.controller('WorkStepEditCtrl', ['$scope', 'WorkService', '$timeout', '$state', '$rootScope', '$filter', 'MembersService',
+  function($scope, $workService, $timeout, $state, $rootScope, $filter, membersService) {    
     $scope.projectId = $state.params.id;
     $scope.stepId = $state.params.stepId;
     $scope.startsAtOpen = false;
     $scope.endsAtOpen = false;
     $scope.stepType = '';
     $scope.stepCreator = '';
+    $scope.stepCreatorHandle = null;
     $scope.stepCreatedAt = '';
     $scope.found = false;
 
@@ -60,6 +61,17 @@ module.controller('WorkStepEditCtrl', ['$scope', 'WorkService', '$timeout', '$st
               $scope.stepItem.startsAt = new Date(step.startsAt);
               $scope.stepItem.detail = step.detail;
               $scope.stepCreator = step.createdBy;
+              $scope.stepCreatorHandle = null;
+              
+              membersService.search({
+                search: 'userId:' + $scope.stepCreator
+              }).then(
+                function (users) {
+                  if (users.length)
+                    $scope.stepCreatorHandle = users[0].handle;                  
+                }, function (error) {}
+              );
+
               $scope.stepItem.stepType = $scope.stepType = step.stepType;
               $scope.stepCreatedAt = step.createdAt;
             }
