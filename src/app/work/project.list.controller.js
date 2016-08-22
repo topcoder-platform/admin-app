@@ -70,80 +70,116 @@ module.controller('ProjectListCtrl', [
         search: vm.formSearch.search,
         status: vm.formSearch.status === ALL ? '' : vm.formSearch.status
       }).then(
+
+          // For the loaded project objects this function does:
+          // 1. Queries user email and handles for ids of all projects' copilots
+          //    and owners. The queries are send in batches of size equal to
+          //    MAX_BATCH_SIZE ids per query.
+          // 2. If 'vm.formSearch.filterByHandleOrEmail' is true, it filters
+          //    loaded project object by handle and emails;
+          // 3. Redraws the table.
+
           function (projects) {
 
-            // Generates the query to search for members with 'usedId' specified
-            // in 'ownerId' and 'copilotId' field of each project we have found.
-            // The 'isNaN' check is necessary as 'copilotId' may be equal to
-            // "unassigned", or some other string values.
-            var query = projects.reduce(function(query, project) {
-              if (!isNaN(project.ownerId))
-                query += 'userId:' + project.ownerId + ' OR ';
-              if (!isNaN(project.copilotId))
-                query += 'userId:' + project.copilotId + ' OR ';
-              return query;
-            }, '').slice(0,-4);
+            var MAX_BATCH_SIZE = 100;
 
-            vm.allProjects = projects;
-            $scope.projects = vm.allProjects;
-
-            // Resolution of User IDs in the found project objects.
-            membersService.search({
-              search: query
-            }).then(
-              function (users) {
-
-                // Uses the found 'users' array to add 'copilotHandle' and
-                // 'ownerHandle' field to each project object.
-                var map = users.reduce(function(map, user) {
-                  map[user.userId] = user;
-                  return map;
-                }, {});
-                projects.forEach(function(project) {
-                  project.copilot = map[project.copilotId];
-                  project.owner   = map[project.ownerId];
-                });
-
-                // If asked, filters the projects by owner's handle and
-                // and email (remaining projects will contain
-                // 'vm.formSearch.handleOrEmail' as a substring
-                // of their owner's handle or email).
-                if (vm.filterByHandleOrEmail) {
-                  vm.filterByHandleOrEmail = false;
-                  var key = vm.formSearch.handleOrEmail;
-                  projects = projects.filter(function(project) {
-                    var res = false;
-                    res |= project.owner && project.owner.handle &&
-                           project.owner.handle.includes(key);
-                    res |= project.owner && project.owner.email &&
-                           project.owner.email.includes(key);
-                    res |= project.copilot && project.copilot.handle &&
-                           project.copilot.handle.includes(key);
-                    res |= project.copilot && project.copilot.email &&
-                           project.copilot.email.includes(key);
-                    return res;
-                  });
-                  vm.allProjects  = projects;
-                  $scope.projects = projects;
-                }
-                $timeout(function () {
-                  vm.formSearch.isLoading   = false;
-                  $('.table').trigger('footable_redraw');
-                }, 500);
-
-              }, 
-              function (error) {
-  
-                // Even in case of failure with the request to the Member
-                // Service we still should update the page as the project's
-                // data have been loaded (but not the user handles).
-
-                $timeout(function () {
-                  vm.formSearch.isLoading   = false;
-                  $('.table').trigger('footable_redraw');
-                }, 500);
+            // Collects copilot and owner's ids from the loaded project objects.
+            // The resulting 'queue' array will hold unique user ids to be
+            // be queried from the MembersService in several batches, and
+            // the 'users' dictionary will be prepared to collect queiried data.
+            var queue = [], collect = function (users, userId) {
+              if (!isNaN(userId) && !users[userId]) {
+                users[userId] = { email: '', handle: ''};
+                queue.push(userId);
               }
-            );            
+            };
+            var users = projects.reduce(function(users, project) {
+
+              // Ids should be trimmed, as in the production data some of them
+              // may include spaces before and after, which breaks matching of
+              // ids width handles.
+              if (project.copilotId) {
+                project.copilotId = project.copilotId.trim();
+              }
+              if (project.ownerId) {
+                project.ownerId = project.ownerId.trim();
+              }
+
+              collect(users, project.copilotId);
+              collect(users, project.ownerId);
+              return users;
+            }, {});
+  
+            // Now we send queries to MembersService in batches.
+            // The MAX_BATCH_SIZE constant sets the maximal batch size
+            // (i.e. the number of ids in a single query).
+            var pos = 0, queryNextBatch = function() {
+              var query = '';
+              var end = Math.min(pos + MAX_BATCH_SIZE, queue.length);
+              for (var i = pos; i < end; ++i) {
+                query += 'userId:' + queue[i] + ' OR ';
+              }
+              membersService.search({
+                search: query.slice(0, -4)
+              }).then(
+                function (userObjects) {
+                  pos += MAX_BATCH_SIZE;
+                  userObjects.forEach(function(user) {
+                    users[user.userId] = {
+                      email: user.email,
+                      handle: user.handle
+                    };
+                  });
+                  if (pos < queue.length) {
+                    queryNextBatch();
+                  } else {
+                    finalize();
+                  }
+                },
+                function (error) {
+                  finalize();
+                }
+              );
+            };
+
+            // Once all necessary data have been queried, this function
+            // will be used to attach the queried user data to the loaded
+            // project object, and to redraw the table.
+            var finalize = function() {
+              
+              projects.forEach(function(project) {
+                project.copilot = users[project.copilotId];
+                project.owner = users[project.ownerId];
+              });
+
+              // If asked, filters the projects by owner's handle and
+              // and email (remaining projects will contain
+              // 'vm.formSearch.handleOrEmail' as a substring
+              // of their owner's handle or email).
+              if (vm.formSearch.filterByHandleOrEmail) {
+                vm.formSearch.filterByHandleOrEmail = false;
+                var key = vm.formSearch.handleOrEmail;
+                projects = projects.filter(function(project) {
+                  var res = false;
+                  res |= project.owner && project.owner.handle &&
+                         project.owner.handle.includes(key);
+                  res |= project.owner && project.owner.email &&
+                         project.owner.email.includes(key);
+                  res |= project.copilot && project.copilot.handle &&
+                         project.copilot.handle.includes(key);
+                  res |= project.copilot && project.copilot.email &&
+                         project.copilot.email.includes(key);
+                  return res;
+                });
+              }
+
+              vm.allProjects  = projects;
+              $scope.projects = projects;
+              vm.formSearch.isLoading   = false;
+              $('.table').trigger('footable_redraw');
+            };
+            
+            queryNextBatch();
           },
           function (error) {
             // error handling
@@ -166,9 +202,9 @@ module.controller('ProjectListCtrl', [
      * with an additionally activated 'handle or e-mail' filter.
      */
     vm.findByHandleOrEmail = function() {
-      vm.filterByHandleOrEmail = true;
-      vm.search = '';
-      vm.status = ALL;
+      vm.formSearch.filterByHandleOrEmail = true;
+      vm.formSearch.search = '';
+      vm.formSearch.status = ALL;
       vm.findProjects();
     };
 
