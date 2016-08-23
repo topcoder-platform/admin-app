@@ -137,7 +137,7 @@
                   <td>{{proj.id}}</td>                  
                   <td>{{proj.projectType }}</td>
                   <td>
-                    <a ng-href="{{ proj.ownerId | tcProfileLink }}">
+                    <a ng-href="{{ proj.owner.handle | tcPrivateProfileLink }}">
                       <!-- In case the owner's member object has not been found,
                            we show his ID as the fallback. -->
                       {{proj.owner && proj.owner.handle ?
@@ -145,7 +145,7 @@
                     </a>
                   </td>
                   <td>
-                    <a data-ng-if="proj.copilotId && proj.copilotId !== 'unassigned'" ng-href="{{ proj.copilotId | tcProfileLink}}">
+                    <a data-ng-if="proj.copilotId && proj.copilotId !== 'unassigned'" ng-href="{{ proj.copilot.handle | tcPrivateProfileLink}}">
                       <!-- In case the copilot's member object has not been
                            found, we show his ID as the fallback. -->
                       {{proj.copilot && proj.copilot.handle ?
