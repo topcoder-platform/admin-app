@@ -81,7 +81,7 @@ module.controller('ProjectListCtrl', [
 
           function (projects) {
 
-            var MAX_BATCH_SIZE = 100;
+            var MAX_BATCH_SIZE = 50;
 
             // Collects copilot and owner's ids from the loaded project objects.
             // The resulting 'queue' array will hold unique user ids to be
