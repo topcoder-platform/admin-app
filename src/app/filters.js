@@ -42,7 +42,11 @@ angular.module('supportAdminApp')
     };
   })
   .filter('fmtDate', function () {
-    return function (date) {
+    return function (date, blankOnNull) {      
+      if (blankOnNull && !date) {
+        return '';
+      }
+
       date = date ? new Date(date) : new Date();
       var yyyy = date.getFullYear();
       var mm = _.padStart(date.getMonth() + 1, 2, '0');

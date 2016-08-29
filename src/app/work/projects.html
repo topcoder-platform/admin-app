@@ -153,7 +153,12 @@
                     </a>
                     {{proj.copilotId === 'unassigned' ? proj.copilotId : ''}}
                   </td>
-                  <td>{{proj.submittedAt | fmtDate}}</td>
+                  <td>
+                    <!-- display submitted date column
+                         don't supply `true` to fmtDate as second argument, if you want previous behavior
+                         i.e) { proj.submittedAt | fmtDate } -->
+                    {{proj.submittedAt | fmtDate: true }}
+                  </td>
                   <td>{{proj.status | capitalize }}</td>
                   <td>{{proj.currentStep}}</td>
                   <td>
