@@ -16,7 +16,8 @@
     <dd>
       <dt>Owner</dt>
       <dd>
-        <a data-ng-if="workObj.ownerId" ng-href="{{ workObj.ownerId | tcProfileLink}}">
+         <!-- link to private profiles -->
+        <a data-ng-if="workObj.ownerId" ng-href="{{ workObj.owner.handle | tcPrivateProfileLink}}">
           <!-- In case the owner's member object has not been found,
                we show his ID as the fallback. -->
           {{workObj.owner ? workObj.owner.handle : workObj.ownerId }}
@@ -28,7 +29,8 @@
       </dd>
       <dt>Copilot</dt>
       <dd>
-        <a data-ng-if="workObj.copilotId && workObj.copilotId !== 'unassigned'" ng-href="{{ workObj.copilotId | tcProfileLink}}">
+         <!-- link to private profiles -->
+        <a data-ng-if="workObj.copilotId && workObj.copilotId !== 'unassigned'" ng-href="{{ workObj.copilot.handle | tcPrivateProfileLink}}">
           <!-- In case the owner's member object has not been found,
                we show his ID as the fallback. -->
           {{workObj.copilot ? workObj.copilot.handle : workObj.copilotId}}
