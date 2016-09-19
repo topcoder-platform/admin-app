@@ -119,6 +119,7 @@
                   <th>Type</th>
                   <th>Owner</th>
                   <th>Copilot</th>
+                  <th data-type="date">Created Date</th>
                   <th data-type="date">Submit Date</th>
                   <th>Current Status</th>
                   <th>Current Work Step</th>
@@ -137,6 +138,7 @@
                   <td>{{proj.id}}</td>                  
                   <td>{{proj.projectType }}</td>
                   <td>
+                    <!-- link to private profiles -->
                     <a ng-href="{{ proj.owner.handle | tcPrivateProfileLink }}">
                       <!-- In case the owner's member object has not been found,
                            we show his ID as the fallback. -->
@@ -145,6 +147,7 @@
                     </a>
                   </td>
                   <td>
+                    <!-- link to private profiles -->
                     <a data-ng-if="proj.copilotId && proj.copilotId !== 'unassigned'" ng-href="{{ proj.copilot.handle | tcPrivateProfileLink}}">
                       <!-- In case the copilot's member object has not been
                            found, we show his ID as the fallback. -->
@@ -152,6 +155,10 @@
                         proj.copilot.handle : proj.copilotId}}
                     </a>
                     {{proj.copilotId === 'unassigned' ? proj.copilotId : ''}}
+                  </td>
+                  <td>
+                    <!-- add 'created date' column --> 
+                    {{ proj.createdAt | fmtDate: true }}
                   </td>
                   <td>
                     <!-- display submitted date column
