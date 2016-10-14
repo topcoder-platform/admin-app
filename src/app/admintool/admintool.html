@@ -1,0 +1,142 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Admins / Copilots / Reviewers</h2>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" ng-controller="admintool.AdminToolController" ng-show="authorized()">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="search-condition-handle">Handle</label>
+                                    </div>
+                                    <div class="col-md-4" ng-if="formSearch.isReviewer()">
+                                        <label for="search-condition-category">Challenge Category</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="search-condition-role">Role</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input id="search-condition-handle" type="text" class="form-control"
+                                               ng-model="formSearch.handle" ng-disabled="!v2Token || formSearch.isLoading" ng-trim="true">
+                                    </div>
+                                    <div class="col-md-4" ng-if="formSearch.isReviewer()">
+                                        <select id="search-condition-category" class="form-control m-b"
+                                                ng-model="formSearch.categoryId"
+                                                ng-options="projectCategory.challengeCategoryId as projectCategory.name for projectCategory in reviewBoardProjectCategories"
+                                                ng-disabled="!v2Token || formSearch.isLoading"
+                                                ng-change="changeRole()">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select id="search-condition-role" class="form-control m-b"
+                                                ng-model="formSearch.role"
+                                                ng-disabled="!v2Token || formSearch.isLoading"
+                                                ng-options="k as v  for (k,v) in constRoles"
+                                                ng-change="changeRole()">
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-sm btn-warning pull-left"
+                                                ng-click="search()"
+                                                ng-disabled="!v2Token || !formSearch.role || formSearch.isLoading ||
+                                                (formSearch.isReviewer() && !formSearch.categoryId)"
+                                                type="submit">
+                                            <strong>Find User(s)</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10 text-left">
+                                        <p class="text-muted" ng-if="!formSearch.role ||(formSearch.isReviewer() && !formSearch.categoryId)">
+                                            Tips:<br>
+                                        </p>
+                                        <p class="text-muted" ng-if="!formSearch.role">- Please choose role to find users first.</p>
+                                        <p class="text-muted" ng-if="formSearch.isReviewer() && !formSearch.categoryId">- Please choose challenge category. </p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button ng-click="openNewUserRoleDialog()" type="submit" class="btn btn-sm btn-info pull-right"
+                                                ng-disabled="!v2Token || formSearch.isLoading">
+                                            <strong><i class="fa fa-plus"></i> Add</strong>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="formSearch.isLoading">
+                        <img src="assets/images/loading.gif"/>
+                    </div>
+                    <div ng-show="!formSearch.isLoading && formSearch.role && formSearch.usersFound && !users.length">
+                        <p> No users found. </p>
+                    </div>
+                    <div ng-show="!formSearch.isLoading && formSearch.role && formSearch.usersFound && users.length">
+                        <table class="footable table table-stripped toggle-arrow-tiny"
+                               data-sort="true"
+                               data-page-size="50">
+                            <thead>
+                            <tr>
+                                <th data-type="numeric">User ID</th>
+                                <th>Handle</th>
+                                <th ng-show="formSearch.isAdmin()">Is In Admin Group?</th>
+                                <th ng-show="formSearch.isAdmin()">Has Admin Role?</th>
+                                <th ng-show="formSearch.isAdmin()">Is Manager (Online Review)?</th>
+                                <th ng-show="formSearch.isCopilot()">Is Software Copilot?</th>
+                                <th ng-show="formSearch.isCopilot()">Is Studio Copilot?</th>
+                                <th ng-show="formSearch.isReviewer()">Is Immune?</th>
+                                <th data-sort-ignore="true">Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="user in users" data-expanded="true">
+                                <td>{{user.id}}</td>
+                                <td>{{user.name}}</td>
+                                <td ng-show="formSearch.isAdmin()">{{user.adminGroup}}</td>
+                                <td ng-show="formSearch.isAdmin()">{{user.adminRole}}</td>
+                                <td ng-show="formSearch.isAdmin()">{{user.managerResource}}</td>
+                                <td ng-show="formSearch.isCopilot()">{{user.softwareCopilot}}</td>
+                                <td ng-show="formSearch.isCopilot()">{{user.studioCopilot}}</td>
+                                <td ng-show="formSearch.isReviewer()">{{user.immune}}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary" ng-click="openEditUserRoleDialog($index)" ng-hide="formSearch.isAdmin()">
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-sm btn-danger" ng-click="openRemoveUserRoleDialog($index)">
+                                        Remove
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                            <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
