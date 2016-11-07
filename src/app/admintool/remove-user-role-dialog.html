@@ -1,0 +1,26 @@
+<div class="inmodal">
+  <div class="modal-header" style="padding:14px"></div>
+  <div class="modal-body">
+    <div class="row">
+      <form role="form" name="removeRoleForm">
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+        <div class="form-group">
+          <label>Remove Role</label>
+          <p>Are you sure to remove {{form.role}} role from {{form.user.name}}?</p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="cancel()" ng-disabed="form.isLoading">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-danger" ng-click="remove()" ng-disabled="form.isLoading">
+      OK
+    </button>
+  </div>
+  <div style="text-align:center;position:absolute;top:65px;left:0;width:100%;height:100%;zIndex:1;"
+      ng-show="form.isLoading">
+    <img src="assets/images/loading.gif"/>
+  </div>
+</div>

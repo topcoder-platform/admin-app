@@ -61,6 +61,11 @@ angular.module('supportAdminApp', [
             templateUrl: 'app/users/users.html',
             data: { pageTitle: 'User Management' }
         })
+        .state('index.admintool', {
+            url: '/admintool',
+            templateUrl: 'app/admintool/admintool.html',
+            data: { pageTitle: 'Admins / Copilots / Reviewers  Management' }
+        })
         .state('index.sso', {
             url: '/sso',
             templateUrl: 'app/sso/sso.html',
