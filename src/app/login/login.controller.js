@@ -55,6 +55,7 @@ angular.module('supportAdminApp')
         };
 
         var options = {
+          connection: "TC-User-Database",
           username: $scope.formLogin.username,
           password: $scope.formLogin.password,
           success: loginSuccess,
