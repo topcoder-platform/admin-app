@@ -189,6 +189,30 @@ angular.module('supportAdminApp', [
           data: { pageTitle: 'Projects List' },
           controller: 'ProjectListCtrl',
           controllerAs: 'vm'
+        })
+        .state('index.clients', {
+          abstract: true,
+          url: '/clients',
+          templateUrl: 'app/clients/clients.html',
+          data: { pageTitle: 'Clients' },
+          controller: 'billingaccount.ClientsController'
+        })
+        .state('index.clients.list', {
+          url: '/list',
+          templateUrl: 'app/clients/clients.list.html',
+          controller: 'billingaccount.ClientsListController'
+        })
+        .state('index.clients.new', {
+          url: '/new',
+          templateUrl: 'app/clients/clients.new.html',
+          controller: 'billingaccount.NewClientController',
+          data: { pageTitle: 'New Client' }
+        })
+        .state('index.clients.edit', {
+          url: '/edit/:clientId',
+          templateUrl: 'app/clients/clients.edit.html',
+          controller: 'billingaccount.EditClientController',
+          data: { pageTitle: 'Edit Client' }
         });
 
     $urlRouterProvider.otherwise('/login');
