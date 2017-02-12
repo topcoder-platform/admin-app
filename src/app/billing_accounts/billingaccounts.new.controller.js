@@ -2,12 +2,12 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('billingaccount.NewClientController', ['$scope', '$rootScope', '$log',
-  'ClientService', 'Alert', '$state',
-    function ($scope, $rootScope, $log, ClientService, $alert, $state) {
+module.controller('billingaccount.NewBillingAccountController', ['$scope', '$rootScope', '$log',
+  'BillingAccountService', 'Alert', '$state',
+    function ($scope, $rootScope, $log, BillingAccountService, $alert, $state) {
       $scope.processing = false;
 
-      $scope.newClient = { status: 'active' };
+      $scope.newAccount = { status: 'active' };
 
       // date picker options
       $scope.endDateOptions = {
@@ -17,13 +17,13 @@ module.controller('billingaccount.NewClientController', ['$scope', '$rootScope',
       $scope.startDateOptions = { };
 
       /**
-       * Submit the client to the API
+       * Submit the billing account to the API
        */
-      $scope.submitClient = function () {
+      $scope.submitAccount = function () {
         $scope.processing = true;
-        ClientService.createClient($scope.newClient).then(function () {
+        BillingAccountService.createBillingAccount($scope.newAccount).then(function () {
           $scope.processing = false;
-          $state.go('index.clients.list');
+          $state.go('index.billingaccounts.list');
         }).catch(function (error) {
           $alert.error(error.error.message, $rootScope);
           $scope.processing = false;
@@ -53,14 +53,14 @@ module.controller('billingaccount.NewClientController', ['$scope', '$rootScope',
        * Callback executed when start date is updated
        */
       $scope.onStartDateCallback = function () {
-        $scope.endDate = $scope.endDateOptions.minDate = new Date($scope.newClient.startDate);
+        $scope.endDate = $scope.endDateOptions.minDate = new Date($scope.newAccount.startDate);
       };
 
       /**
        * Callback executed when end date is updated
        */
       $scope.onEndDateCallback = function () {
-        $scope.startDate = $scope.startDateOptions.maxDate = new Date($scope.newClient.endDate);
+        $scope.startDate = $scope.startDateOptions.maxDate = new Date($scope.newAccount.endDate);
       }
     }
 ]);

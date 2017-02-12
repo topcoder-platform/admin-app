@@ -1,0 +1,87 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form role="form" name="addAccountForm" data-toggle="validator" novalidate>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.name.$touched && addAccountForm.name.$invalid}">
+                                <label for="account-name">Name</label>
+                                <input id="account-name" type="text" class="form-control" ng-model="newAccount.name" name="name" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.customerNumber.$touched && addAccountForm.customerNumber.$invalid}">
+                                <label for="account-customer-number">Customer Number</label>
+                                <input id="account-customer-number" type="text" class="form-control" ng-model="newAccount.customerNumber" name="customerNumber" required="required">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.startDate.$touched && addAccountForm.startDate.$invalid}">
+                                <label for="account-start-date">Start Date</label>
+                                <input id="account-start-date" data-disable-keyboard type="text" class="form-control"
+                                    datetime-picker="yyyy-MM-dd" is-open="startDateOpen" close-on-date-selection="true"
+                                    ng-focus="openCalendar(null, 'startDate')"
+                                    datepicker-options="startDateOptions"
+                                    close-on-time-now="true" enable-time="false" save-as="ISO" when-closed="onStartDateCallback()"
+                                    ng-model="newAccount.startDate" name="startDate" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.endDate.$touched && addAccountForm.endDate.$invalid}">
+                                <label for="account-end-date">End Date</label>
+                                <input id="account-end-date" data-disable-keyboard type="text" class="form-control"
+                                    datetime-picker="yyyy-MM-dd" is-open="endDateOpen" close-on-date-selection="true"
+                                    ng-focus="openCalendar(null, 'endDate')"
+                                    datepicker-options="endDateOptions" when-closed="onEndDateCallback()"
+                                    close-on-time-now="true" enable-time="false" save-as="ISO"
+                                    ng-model="newAccount.endDate" name="endDate" required="required">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.status.$touched && addAccountForm.status.$invalid}">
+                                <label for="account-status">Status</label>
+                                <select id="account-status" class="form-control" ng-model="newAccount.status">
+                                    <option value="inactive">In Active</option>
+                                    <option value="active">Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="disabled">Disabled</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.amount.$touched && addAccountForm.amount.$invalid}">
+                                <label for="account-amount">Amount</label>
+                                <input id="account-amount" type="number" class="form-control" ng-model="newAccount.amount" name="amount" min="1" required="required">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.poNumber.$touched && addAccountForm.poNumber.$invalid}">
+                                <label for="account-po">PO Number</label>
+                                <input id="account-po" type="number" class="form-control" ng-model="newAccount.poNumber" name="poNumber" min="1" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.subscriptionNumber.$touched && addAccountForm.subscriptionNumber.$invalid}">
+                                <label for="account-subscription-number">Subscription Number</label>
+                                <input id="account-subscription-number" type="number" class="form-control" ng-model="newAccount.subscriptionNumber" name="subscriptionNumber" min="1" required="required">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.description.$touched && addAccountForm.description.$invalid}">
+                                <label for="account-description">Description</label>
+                                <input id="account-description" type="textarea" class="form-control" ng-model="newAccount.description" name="description" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': addAccountForm.paymentTerms.$touched && addAccountForm.paymentTerms.$invalid}">
+                                <label for="account-terms">Payment Terms</label>
+                                <input id="account-terms" type="textarea" class="form-control" ng-model="newAccount.paymentTerms" name="paymentTerms" required="required">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-12">
+                                <button ui-sref="index.billingaccounts.list" type="button" class="btn btn-sm btn-warning m-l pull-right">
+                                    <strong>Cancel</strong>
+                                </button>
+                                <button ng-click="submitAccount()" type="submit" class="btn btn-sm btn-success pull-right" ng-disabled="addAccountForm.$invalid || processing">
+                                    <strong>Save Changes</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,8 +32,9 @@
     "moment": "~2.11.2",
     "moment-timezone": "~0.5.0",
     "ng-file-model": "https://github.com/mistralworks/ng-file-model.git#fd1889b28e279944012919574bbcaaf45c1540d6",
-    "angular-bootstrap-multiselect": "*",    
-    "bootstrap-ui-datetime-picker": "^2.4.0"
+    "angular-bootstrap-multiselect": "*",
+    "bootstrap-ui-datetime-picker": "^2.4.0",
+    "ng-table": "1.0.0"
   },
   "overrides": {
     "bootstrap": {

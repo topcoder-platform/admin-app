@@ -38,10 +38,9 @@
                             <div class="form-group col-md-6" ng-class="{'has-error': addClientForm.status.$touched && addClientForm.status.$invalid}">
                                 <label for="client-status">Status</label>
                                 <select id="client-status" class="form-control" ng-model="newClient.status">
-                                    <option value="statusa">Status A</option>
-                                    <option value="statusb">Status B</option>
-                                    <option value="statusc">Status C</option>
-                                    <option value="statusd">Status D</option>
+                                    <option value="active">Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="disabled">Disabled</option>
                                 </select>
                             </div>
                         </div>

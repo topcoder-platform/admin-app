@@ -1,0 +1,52 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <!-- add client button row -->
+    <div class="row">
+        <div class="col col-md-12 col-lg-12">
+            <a class="btn btn-info pull-right m-b" ui-sref="index.billingaccountresources.new({accountId: billingAccountId})">
+                <strong><i class="fa fa-plus"></i> Add Resource</strong>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="formSearch.isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!formSearch.isLoading">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th colspan="2">Role</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="user in resources">
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.status}}</td>
+                                    <td>{{user.role}}</td>
+                                    <td>
+                                        <a href="javascript:;" ng-click="deleteResource(user.id)">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
