@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('billingaccount.BillingAccountResourcesListController', ['$scope', '$rootScope', '$log',
-  'billingaccountresources.Constants', 'BillingAccountResourceService', 'Alert', '$timeout', '$stateParams',
-    function ($scope, $rootScope, $log, constants, BillingAccountResourceService, $alert, $timeout, $stateParams) {
+  'billingaccountresources.Constants', 'BillingAccountResourceService', 'Alert', '$timeout', '$stateParams', '$state',
+    function ($scope, $rootScope, $log, constants, BillingAccountResourceService, $alert, $timeout, $stateParams, $state) {
 
       $scope.billingAccountId = $stateParams.accountId;
 
@@ -56,7 +56,7 @@ module.controller('billingaccount.BillingAccountResourcesListController', ['$sco
       $scope.deleteResource = function (userId) {
         BillingAccountResourceService.removeBillingAccountResource($scope.billingAccountId, userId).then(function () {
           $state.reload();
-        }).catch(function () {
+        }).catch(function (error) {
           $alert.error(error.error.message, $rootScope);
         });
       };
