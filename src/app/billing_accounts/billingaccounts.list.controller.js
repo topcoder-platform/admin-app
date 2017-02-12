@@ -2,9 +2,9 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('billingaccount.BillingAccountsListController', ['$scope', '$rootScope', '$log', 'billingaccounts.Constants',
+module.controller('billingaccount.BillingAccountsListController', ['$scope', '$rootScope', '$log',
   'BillingAccountService', 'Alert', '$timeout', 'NgTableParams',
-    function ($scope, $rootScope, $log, constants, BillingAccountService, $alert, $timeout, NgTableParams) {
+    function ($scope, $rootScope, $log, BillingAccountService, $alert, $timeout, NgTableParams) {
 
       $scope.tableParams = new NgTableParams({
         page: 1,
