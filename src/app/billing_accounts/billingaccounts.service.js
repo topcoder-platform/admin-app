@@ -37,9 +37,15 @@ angular.module('supportAdminApp')
        */
       BillingAccountService.search = function(criteria) {
         var deferred = $q.defer();
+        var params = { };
+        Object.keys(criteria).forEach(function (key) {
+          if (criteria[key] && criteria[key] !== '') {
+            params[key] = criteria[key];
+          }
+        });
         $http({
           url: BillingAccountService.getBasePath() + '/billingaccounts',
-          params: criteria
+          params: params
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {

@@ -17,15 +17,16 @@
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label for="customer">Customer</label>
-                                        <input id="customer" type="text" class="form-control" ng-model="tableParams.filter().customer" name="customer">
+                                        <input id="customer" type="text" class="form-control" ng-model="formSearch.criteria.customer" name="customer">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="user">User</label>
-                                        <input id="user" type="text" class="form-control" ng-model="tableParams.filter().user" name="user">
+                                        <input id="user" type="text" class="form-control" ng-model="formSearch.criteria.user" name="user">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="status">Status</label>
-                                        <select id="status" class="form-control" ng-model="tableParams.filter().status">
+                                        <select id="status" class="form-control" ng-model="formSearch.criteria.status">
+                                            <option value="" selected="selected"></option>
                                             <option value="active">Active</option>
                                             <option value="inactive">In Active</option>
                                             <option value="pending">Pending</option>
@@ -40,7 +41,7 @@
                                             datetime-picker="yyyy-MM-dd" is-open="startDateOpen" close-on-date-selection="true"
                                             ng-focus="openCalendar(null, 'startDate')"
                                             close-on-time-now="true" enable-time="false" save-as="ISO"
-                                            ng-model="tableParams.filter().startDate" name="startDate">
+                                            ng-model="formSearch.criteria.startDate" name="startDate">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="end-date">End Date</label>
@@ -48,12 +49,12 @@
                                             datetime-picker="yyyy-MM-dd" is-open="endDateOpen" close-on-date-selection="true"
                                             ng-focus="openCalendar(null, 'endDate')"
                                             close-on-time-now="true" enable-time="false" save-as="ISO"
-                                            ng-model="tableParams.filter().endDate" name="endDate">
+                                            ng-model="formSearch.criteria.endDate" name="endDate">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col col-md-12 col-lg-12">
-                                        <button class="btn btn-primary btn-sm pull-right" ng-click="clearFilters()">Clear</button>
+                                        <button class="btn btn-primary btn-sm pull-right" ng-click="search()">Filter</button>
                                     </div>
                                 </div>
                             </form>
@@ -67,24 +68,34 @@
                     </div>
                     <div ng-show="!formSearch.isLoading">
                         <table class="table table-stripped toggle-arrow-tiny" ng-table="tableParams" show-filter="false">
+                            <thead>
+                                <tr>
+                                    <th>Account ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr class="animate-repeat" ng-repeat="row in $data">
-                                    <td title="'Account ID'" sortable="'id'">
+                                <tr class="animate-repeat" ng-repeat="row in accounts">
+                                    <td>
                                         <a ui-sref="index.billingaccounts.view({accountId: row.id})">{{row.id}}</a>
                                     </td>
-                                    <td title="'Name'" sortable="'name'">
+                                    <td>
                                         {{row.name}}
                                     </td>
-                                    <td title="'Status'" sortable="'status'">
+                                    <td>
                                         {{row.status}}
                                     </td>
-                                    <td title="'Start Date'" sortable="'startDate'">
+                                    <td>
                                         {{row.startDate | date:'MMM dd, yyyy'}}
                                     </td>
-                                    <td title="'End Date'" sortable="'endDate'">
+                                    <td>
                                         {{row.endDate | date:'MMM dd, yyyy'}}
                                     </td>
-                                    <td title="''">
+                                    <td>
                                         <a ui-sref="index.billingaccounts.edit({accountId: row.id})">Edit Account</a> |
                                         <a ui-sref="index.billingaccountresources.list({accountId: row.id})">View Resources</a>
                                     </td>
