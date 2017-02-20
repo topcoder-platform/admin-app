@@ -20,8 +20,7 @@ angular.module('supportAdminApp', [
               'ng-file-model',
               'ui.multiselect',
               'ui.bootstrap.datetimepicker',
-              'angularMoment',
-              'ngTable'])
+              'angularMoment'])
   // In the run phase of your Angular application
   .run(function ($rootScope, $location, AuthService, $state, UserV3Service) {
     // Listen to '$locationChangeSuccess', not '$stateChangeStart'

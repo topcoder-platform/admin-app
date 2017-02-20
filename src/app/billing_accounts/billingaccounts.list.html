@@ -67,15 +67,14 @@
                         <img src="assets/images/loading.gif" />
                     </div>
                     <div ng-show="!formSearch.isLoading">
-                        <table class="table table-stripped toggle-arrow-tiny" ng-table="tableParams" show-filter="false">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
                             <thead>
                                 <tr>
                                     <th>Account ID</th>
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th></th>
+                                    <th colspan="2">End Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,6 +100,14 @@
                                     </td>
                                 </tr>
                             </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
