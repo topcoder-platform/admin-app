@@ -5,27 +5,23 @@
                 <div class="ibox-content">
                     <form role="form" name="addResourceForm" data-toggle="validator" novalidate>
                         <div class="row">
-                            <div class="form-group col-md-12" ng-class="{'has-error': addResourceForm.name.$touched && addResourceForm.name.$invalid}">
-                                <label for="resource-name">Name</label>
-                                <input id="resource-name" type="text" class="form-control" ng-model="newResource.name" name="name" required="required">
+                            <div class="form-group col-md-6" ng-class="{'has-error': addResourceForm.name.$touched && addResourceForm.name.$invalid}">
+                                <label for="resource-name">TC Handle</label>
+                                <input id="resource-name" type="text" class="form-control" ng-model="newResource.name" name="name" required="required" placeholder="Handle">
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="form-group col-md-6" ng-class="{'has-error': addResourceForm.status.$touched && addResourceForm.status.$invalid}">
                                 <label for="resource-status">Status</label>
                                 <select id="resource-status" class="form-control" ng-model="newResource.status">
                                     <option value="active">Active</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="disabled">Disabled</option>
+                                    <option value="inactive">In Active</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6" ng-class="{'has-error': addResourceForm.role.$touched && addResourceForm.role.$invalid}">
-                                <label for="resource-role">Role</label>
-                                <select id="resource-role" class="form-control" ng-model="newResource.role">
-                                    <option value="admin">Admin</option>
-                                    <option value="user">User</option>
-                                </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12" ng-class="{'has-error': addResourceForm.userId.$touched && addResourceForm.userId.$invalid}">
+                                <label for="resource-user-id">User ID</label>
+                                <input id="resource-user-id" type="text" class="form-control" ng-model="newResource.userId" name="userId" required="required" placeholder="User ID">
                             </div>
                         </div>
                         <div class="row ">

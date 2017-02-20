@@ -20,8 +20,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Status</th>
-                                    <th colspan="2">Role</th>
+                                    <th colspan="2">Status</th>
                                 </tr>
                             </thead>
 
@@ -29,7 +28,6 @@
                                 <tr class="animate-repeat" ng-repeat="user in resources">
                                     <td>{{user.name}}</td>
                                     <td>{{user.status}}</td>
-                                    <td>{{user.role}}</td>
                                     <td>
                                         <a href="javascript:;" ng-click="deleteResource(user.id)">Delete</a>
                                     </td>

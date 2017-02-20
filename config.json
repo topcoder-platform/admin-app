@@ -21,7 +21,7 @@
     "AUTH0_TOKEN_NAME" : "userJWTToken",
     "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken",
     "BILLING_ACCOUNT_API_VERSION_PATH" : "v1",
-    "BILLING_ACCOUNT_API_URL" : "http://127.0.0.1:3500"
+    "BILLING_ACCOUNT_API_URL" : "http://127.0.0.1:4000"
   },
   "qa": {
     "ES_PROJECT_API_URL": "https://internal-api.topcoder-qa.com",

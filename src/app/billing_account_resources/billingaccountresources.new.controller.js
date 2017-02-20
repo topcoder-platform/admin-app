@@ -7,7 +7,7 @@ module.controller('billingaccount.NewBillingAccountResourceController', ['$scope
     function ($scope, $rootScope, $log, BillingAccountResourceService, $alert, $state, $stateParams) {
       $scope.processing = false;
       $scope.billingAccountId = $stateParams.accountId;
-      $scope.newResource = { status: 'active', role: 'user' };
+      $scope.newResource = { status: 'active' };
 
       /**
        * Submit the resource to the API
