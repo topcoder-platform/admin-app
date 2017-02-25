@@ -37,7 +37,7 @@ module.controller('billingaccount.ClientsListController', ['$scope', '$rootScope
         $alert.clear();
         $scope.formSearch.setLoading(true);
         ClientService.findAll().then(function (data) {
-          $scope.clients = data.clients;
+          $scope.clients = data;
           $scope.formSearch.setLoading(false);
           $scope.$broadcast('clients.TableDataUpdated');
         }).catch(function (error) {

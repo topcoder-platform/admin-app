@@ -19,9 +19,7 @@
     "AUTH0_CLIENT_ID" : "JFDo7HMkf0q2CkVFHojy3zHWafziprhT",
     "AUTH0_DOMAIN" : "topcoder-dev.auth0.com",
     "AUTH0_TOKEN_NAME" : "userJWTToken",
-    "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken",
-    "BILLING_ACCOUNT_API_VERSION_PATH" : "v1",
-    "BILLING_ACCOUNT_API_URL" : "http://127.0.0.1:4000"
+    "AUTH0_REFRESH_TOKEN_NAME" : "userRefreshJWTToken"
   },
   "qa": {
     "ES_PROJECT_API_URL": "https://internal-api.topcoder-qa.com",
