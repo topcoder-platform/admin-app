@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('BillingAccountResourceService', ['$log', '$q','$http', 'BILLING_ACCOUNT_API_URL', 'BILLING_ACCOUNT_API_VERSION_PATH',
-    function ($log, $q, $http, BILLING_ACCOUNT_API_URL, BILLING_ACCOUNT_API_VERSION_PATH) {
+  .factory('BillingAccountResourceService', ['$log', '$q','$http', 'API_URL', 'API_VERSION_PATH',
+    function ($log, $q, $http, API_URL, API_VERSION_PATH) {
       var BillingAccountResourceService = { };
 
       /**
@@ -29,7 +29,7 @@ angular.module('supportAdminApp')
       }
 
       BillingAccountResourceService.getBasePath = function () {
-        return BILLING_ACCOUNT_API_URL + '/api/' + BILLING_ACCOUNT_API_VERSION_PATH;
+        return API_URL + '/api/' + API_VERSION_PATH;
       }
 
       /**
@@ -38,7 +38,7 @@ angular.module('supportAdminApp')
       BillingAccountResourceService.findAll = function(accountId) {
         var deferred = $q.defer();
         $http({
-          url: BillingAccountResourceService.getBasePath() + '/billingaccounts/' + accountId + '/users',
+          url: BillingAccountResourceService.getBasePath() + '/billing-accounts/' + accountId + '/users',
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {
@@ -55,7 +55,7 @@ angular.module('supportAdminApp')
           headers: {
             'Content-Type': 'application/json'
           },
-          url: BillingAccountResourceService.getBasePath() + '/billingaccounts/' + accountId + '/users',
+          url: BillingAccountResourceService.getBasePath() + '/billing-accounts/' + accountId + '/users',
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {
@@ -68,7 +68,7 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         $http({
           method: 'DELETE',
-          url: BillingAccountResourceService.getBasePath() + '/billingaccounts/' + accountId + '/users/' + resourceId,
+          url: BillingAccountResourceService.getBasePath() + '/billing-accounts/' + accountId + '/users/' + resourceId,
         }).then(function (response) {
           deferred.resolve(response);
         }).catch(function (error) {
@@ -80,7 +80,7 @@ angular.module('supportAdminApp')
       BillingAccountResourceService.findBillingAccountById = function(accountId, resourceId) {
         var deferred = $q.defer();
         $http({
-          url: BillingAccountResourceService.getBasePath() + '/billingaccounts/' + accountId + '/users/' + resourceId,
+          url: BillingAccountResourceService.getBasePath() + '/billing-accounts/' + accountId + '/users/' + resourceId,
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {

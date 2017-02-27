@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('ClientService', ['$log', '$q','$http', 'BILLING_ACCOUNT_API_URL', 'BILLING_ACCOUNT_API_VERSION_PATH',
-    function ($log, $q, $http, BILLING_ACCOUNT_API_URL, BILLING_ACCOUNT_API_VERSION_PATH) {
+  .factory('ClientService', ['$log', '$q','$http', 'API_URL', 'API_VERSION_PATH',
+    function ($log, $q, $http, API_URL, API_VERSION_PATH) {
       var ClientService = { };
 
       /**
@@ -29,7 +29,7 @@ angular.module('supportAdminApp')
       }
 
       ClientService.getBasePath = function () {
-        return BILLING_ACCOUNT_API_URL + '/api/' + BILLING_ACCOUNT_API_VERSION_PATH;
+        return API_URL + '/api/' + API_VERSION_PATH;
       }
 
       /**

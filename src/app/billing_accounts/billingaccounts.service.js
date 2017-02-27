@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('BillingAccountService', ['$log', '$q','$http', 'BILLING_ACCOUNT_API_URL', 'BILLING_ACCOUNT_API_VERSION_PATH',
-    function ($log, $q, $http, BILLING_ACCOUNT_API_URL, BILLING_ACCOUNT_API_VERSION_PATH) {
+  .factory('BillingAccountService', ['$log', '$q','$http', 'API_URL', 'API_VERSION_PATH',
+    function ($log, $q, $http, API_URL, API_VERSION_PATH) {
       var BillingAccountService = { };
 
       /**
@@ -29,7 +29,7 @@ angular.module('supportAdminApp')
       }
 
       BillingAccountService.getBasePath = function () {
-        return BILLING_ACCOUNT_API_URL + '/api/' + BILLING_ACCOUNT_API_VERSION_PATH;
+        return API_URL + '/api/' + API_VERSION_PATH;
       }
 
       /**
@@ -44,7 +44,7 @@ angular.module('supportAdminApp')
           }
         });
         $http({
-          url: BillingAccountService.getBasePath() + '/billingaccounts',
+          url: BillingAccountService.getBasePath() + '/billing-accounts',
           params: params
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
@@ -64,7 +64,7 @@ angular.module('supportAdminApp')
           headers: {
             'Content-Type': 'application/json'
           },
-          url: BillingAccountService.getBasePath() + '/billingaccounts',
+          url: BillingAccountService.getBasePath() + '/billing-accounts',
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {
@@ -83,7 +83,7 @@ angular.module('supportAdminApp')
           headers: {
             'Content-Type': 'application/json'
           },
-          url: BillingAccountService.getBasePath() + '/billingaccounts/' + id,
+          url: BillingAccountService.getBasePath() + '/billing-accounts/' + id,
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {
@@ -95,7 +95,7 @@ angular.module('supportAdminApp')
       BillingAccountService.findBillingAccountById = function(id) {
         var deferred = $q.defer();
         $http({
-          url: BillingAccountService.getBasePath() + '/billingaccounts/' + id,
+          url: BillingAccountService.getBasePath() + '/billing-accounts/' + id,
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {
