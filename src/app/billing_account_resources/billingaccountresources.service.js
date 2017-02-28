@@ -29,7 +29,7 @@ angular.module('supportAdminApp')
       }
 
       BillingAccountResourceService.getBasePath = function () {
-        return API_URL + '/api/' + API_VERSION_PATH;
+        return API_URL + '/' + API_VERSION_PATH;
       }
 
       /**
