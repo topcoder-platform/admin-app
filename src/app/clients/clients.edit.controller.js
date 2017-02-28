@@ -15,9 +15,9 @@ module.controller('billingaccount.EditClientController', ['$scope', '$rootScope'
       // fetch initial data
       if ($stateParams.clientId) {
         ClientService.findClientById($stateParams.clientId).then(function (data) {
-          $scope.client = data.client;
-          $scope.endDateOptions.minDate = new Date(data.client.startDate);
-          $scope.startDateOptions.maxDate = new Date(data.client.endDate);
+          $scope.client = data;
+          $scope.endDateOptions.minDate = new Date(data.startDate);
+          $scope.startDateOptions.maxDate = new Date(data.endDate);
         });
       }
 
