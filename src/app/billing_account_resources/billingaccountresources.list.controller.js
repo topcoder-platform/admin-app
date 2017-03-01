@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('billingaccount.BillingAccountResourcesListController', ['$scope', '$rootScope', '$log',
-  'billingaccountresources.Constants', 'BillingAccountResourceService', 'Alert', '$timeout', '$stateParams', '$state',
-    function ($scope, $rootScope, $log, constants, BillingAccountResourceService, $alert, $timeout, $stateParams, $state) {
+  'billingaccountresources.Constants', 'BillingAccountResourceService', 'Alert', '$timeout', '$stateParams', '$state', 'UserService',
+    function ($scope, $rootScope, $log, constants, BillingAccountResourceService, $alert, $timeout, $stateParams, $state, UserService) {
 
       $scope.billingAccountId = $stateParams.accountId;
 
@@ -44,7 +44,7 @@ module.controller('billingaccount.BillingAccountResourcesListController', ['$sco
           $scope.formSearch.setLoading(false);
           $scope.$broadcast('billingaccountresources.TableDataUpdated');
         }).catch(function (error) {
-          $alert.error(error.error.message, $rootScope);
+          $alert.error(error.error, $rootScope);
           $scope.formSearch.setLoading(false);
         });
       };
@@ -53,12 +53,19 @@ module.controller('billingaccount.BillingAccountResourcesListController', ['$sco
        * Delete the resource
        * @param  {String}       userId          the id of resource
        */
-      $scope.deleteResource = function (userId) {
-        BillingAccountResourceService.removeBillingAccountResource($scope.billingAccountId, userId).then(function () {
-          $state.reload();
-        }).catch(function (error) {
-          $alert.error(error.error.message, $rootScope);
+      $scope.deleteResource = function (user) {
+        UserService.find({
+          filter: 'handle=' + user.name
+        }).then(function (data) {
+          if (data && data.length) {
+            BillingAccountResourceService.removeBillingAccountResource($scope.billingAccountId, data[0].id).then(function () {
+              $state.reload();
+            }).catch(function (error) {
+              $alert.error(error.error, $rootScope);
+            });
+          }
         });
+        
       };
 
       if ($stateParams.accountId) {

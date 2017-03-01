@@ -36,7 +36,7 @@ module.controller('billingaccount.EditClientController', ['$scope', '$rootScope'
           $scope.processing = false;
           $state.go('index.clients.list');
         }).catch(function (error) {
-          $alert.error(error.error.message, $rootScope);
+          $alert.error(error.message, $rootScope);
           $scope.processing = false;
         });
       };

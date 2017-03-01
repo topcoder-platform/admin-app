@@ -18,11 +18,16 @@ angular.module('supportAdminApp')
             status: error.status,
             error : error.data.result.content
           };
+        } else if (error && error.data) {
+          err = {
+            status: error.status,
+            error : error.data.message
+          };
         }
         if(!err) {
           err = {
             status: error.status,
-            error : error.statusText
+            error : error.message
           };
         }
         deferred.reject(err);
@@ -51,7 +56,9 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         $http({
           method: 'POST',
-          data: entity,
+          data: {
+            userId: entity.userId
+          },
           headers: {
             'Content-Type': 'application/json'
           },
