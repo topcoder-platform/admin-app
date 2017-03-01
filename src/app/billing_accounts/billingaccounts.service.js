@@ -5,6 +5,14 @@ angular.module('supportAdminApp')
     function ($log, $q, $http, API_URL, API_VERSION_PATH) {
       var BillingAccountService = { };
 
+      function serialize(obj) {
+        var result = [];
+        for (var property in obj) {
+          result.push(encodeURIComponent(property) + "=" + obj[property]);
+        }
+        return result.join("&");
+      }
+
       /**
        * Handle API response error
        * @param  {Error}      error           the error as received in catch callback
@@ -18,11 +26,16 @@ angular.module('supportAdminApp')
             status: error.status,
             error : error.data.result.content
           };
+        } else if (error && error.data) {
+          err = {
+            status: error.status,
+            error : error.data.message
+          };
         }
         if(!err) {
           err = {
             status: error.status,
-            error : error.statusText
+            error : error.message
           };
         }
         deferred.reject(err);
@@ -36,16 +49,25 @@ angular.module('supportAdminApp')
        * Search billing accounts
        */
       BillingAccountService.search = function(criteria) {
+        if (criteria.startDate && criteria.startDate.length) {
+          criteria.startDate = criteria.startDate.substring(0,16) + 'Z';
+        }
+        if (criteria.endDate && criteria.endDate.length) {
+          criteria.endDate = criteria.endDate.substring(0,16) + 'Z';
+        }
         var deferred = $q.defer();
         var params = { };
         Object.keys(criteria).forEach(function (key) {
-          if (criteria[key] && criteria[key] !== '') {
+          if (criteria[key] && criteria[key] !== '' && key !== 'limit') {
             params[key] = criteria[key];
           }
         });
         $http({
           url: BillingAccountService.getBasePath() + '/billing-accounts',
-          params: params
+          params: {
+            limit: criteria.limit,
+            filter: serialize(params)
+          }
         }).then(function (response) {
           deferred.resolve(response.data.result.content);
         }).catch(function (error) {
@@ -55,12 +77,19 @@ angular.module('supportAdminApp')
       }
 
       BillingAccountService.createBillingAccount = function (entity) {
+        var request = angular.copy(entity);
+        request.startDate = request.startDate.substring(0,16) + 'Z';
+        request.endDate = request.endDate.substring(0,16) + 'Z';
+        if (request.paymentTerms) {
+          request.paymentTerms = {
+            id: parseInt(request.paymentTerms)
+          };
+        }
+        delete request.customerNumber;
         var deferred = $q.defer();
         $http({
           method: 'POST',
-          data: {
-            param: entity
-          },
+          data: request,
           headers: {
             'Content-Type': 'application/json'
           },
@@ -74,12 +103,13 @@ angular.module('supportAdminApp')
       }
 
       BillingAccountService.editBillingAccount = function (id, entity) {
+        entity.paymentTerms = {
+          id: 1
+        };
         var deferred = $q.defer();
         $http({
           method: 'PATCH',
-          data: {
-            param: entity
-          },
+          data: entity,
           headers: {
             'Content-Type': 'application/json'
           },

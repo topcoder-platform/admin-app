@@ -18,7 +18,7 @@ module.controller('billingaccount.NewBillingAccountResourceController', ['$scope
           $scope.processing = false;
           $state.go('index.billingaccountresources.list', { accountId: $scope.billingAccountId });
         }).catch(function (error) {
-          $alert.error(error.error.message, $rootScope);
+          $alert.error(error.error, $rootScope);
           $scope.processing = false;
         });
       };

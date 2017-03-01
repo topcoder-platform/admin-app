@@ -7,7 +7,7 @@ module.controller('billingaccount.NewClientController', ['$scope', '$rootScope',
     function ($scope, $rootScope, $log, ClientService, $alert, $state) {
       $scope.processing = false;
 
-      $scope.newClient = { status: 'active' };
+      $scope.newClient = { status: 'Active' };
 
       // date picker options
       $scope.endDateOptions = {
@@ -25,7 +25,7 @@ module.controller('billingaccount.NewClientController', ['$scope', '$rootScope',
           $scope.processing = false;
           $state.go('index.clients.list');
         }).catch(function (error) {
-          $alert.error(error.error.message, $rootScope);
+          $alert.error(error.error, $rootScope);
           $scope.processing = false;
         });
       };

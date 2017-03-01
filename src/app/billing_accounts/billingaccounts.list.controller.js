@@ -45,7 +45,7 @@ module.controller('billingaccount.BillingAccountsListController', ['$scope', '$r
           $scope.$broadcast('billingaccounts.TableDataUpdated');
         }).catch(function (error) {
           $scope.formSearch.setLoading(false);
-          $alert.error(error.error.message, $rootScope);
+          $alert.error(error.error, $rootScope);
         });
       };
 

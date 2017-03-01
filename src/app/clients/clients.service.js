@@ -13,7 +13,7 @@ angular.module('supportAdminApp')
       ClientService.handleError = function(error, deferred) {
         $log.error(error);
         var err;
-        if(error && error.data && error.data.result) {
+        if(error && error.data) {
           err = {
             status: error.status,
             error : error.data.result.content
@@ -22,7 +22,7 @@ angular.module('supportAdminApp')
         if(!err) {
           err = {
             status: error.status,
-            error : error.statusText
+            error : error.message
           };
         }
         deferred.reject(err);
@@ -48,10 +48,14 @@ angular.module('supportAdminApp')
       }
 
       ClientService.createClient = function (entity) {
+        entity.startDate = entity.startDate.substring(0,16) + 'Z';
+        entity.endDate = entity.endDate.substring(0,16) + 'Z';
         var deferred = $q.defer();
         $http({
           method: 'POST',
-          data: entity,
+          data: {
+            param: entity
+          },
           headers: {
             'Content-Type': 'application/json'
           },
@@ -68,7 +72,9 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         $http({
           method: 'PATCH',
-          data: entity,
+          data: {
+            param : entity
+          },
           headers: {
             'Content-Type': 'application/json'
           },
