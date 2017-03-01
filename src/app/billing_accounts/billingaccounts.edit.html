@@ -1,0 +1,85 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form role="form" name="editAccountForm" data-toggle="validator" novalidate>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.name.$touched && editAccountForm.name.$invalid}">
+                                <label for="account-name">Name</label>
+                                <input id="account-name" type="text" class="form-control" ng-model="account.name" name="name" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.customerNumber.$touched && editAccountForm.customerNumber.$invalid}">
+                                <label for="account-customer-number">Customer Number</label>
+                                <input id="account-customer-number" type="text" class="form-control" ng-model="account.companyId" name="customerNumber">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.startDate.$touched && editAccountForm.startDate.$invalid}">
+                                <label for="account-start-date">Start Date</label>
+                                <input id="account-start-date" data-disable-keyboard type="text" class="form-control"
+                                    datetime-picker="yyyy-MM-dd" is-open="startDateOpen" close-on-date-selection="true"
+                                    ng-focus="openCalendar(null, 'startDate')"
+                                    datepicker-options="startDateOptions"
+                                    close-on-time-now="true" enable-time="false" save-as="ISO" when-closed="onStartDateCallback()"
+                                    ng-model="account.startDate" name="startDate" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.endDate.$touched && editAccountForm.endDate.$invalid}">
+                                <label for="account-end-date">End Date</label>
+                                <input id="account-end-date" data-disable-keyboard type="text" class="form-control"
+                                    datetime-picker="yyyy-MM-dd" is-open="endDateOpen" close-on-date-selection="true"
+                                    ng-focus="openCalendar(null, 'endDate')"
+                                    datepicker-options="endDateOptions" when-closed="onEndDateCallback()"
+                                    close-on-time-now="true" enable-time="false" save-as="ISO"
+                                    ng-model="account.endDate" name="endDate" required="required">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.status.$touched && editAccountForm.status.$invalid}">
+                                <label for="account-status">Status</label>
+                                <select id="account-status" class="form-control" ng-model="account.status">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">In Active</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.amount.$touched && editAccountForm.amount.$invalid}">
+                                <label for="account-amount">Amount</label>
+                                <input id="account-amount" type="number" class="form-control" ng-model="account.budgetAmount" name="amount" min="1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.poNumber.$touched && editAccountForm.poNumber.$invalid}">
+                                <label for="account-po">PO Number</label>
+                                <input id="account-po" type="text" class="form-control" ng-model="account.poNumber" name="poNumber" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.subscriptionNumber.$touched && editAccountForm.subscriptionNumber.$invalid}">
+                                <label for="account-subscription-number">Subscription Number</label>
+                                <input id="account-subscription-number" type="text" class="form-control" ng-model="account.subscriptionNumber" name="subscriptionNumber" min="1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.description.$touched && editAccountForm.description.$invalid}">
+                                <label for="account-description">Description</label>
+                                <input id="account-description" type="textarea" class="form-control" ng-model="account.description" name="description" required="required">
+                            </div>
+                            <div class="form-group col-md-6" ng-class="{'has-error': editAccountForm.paymentTerms.$touched && editAccountForm.paymentTerms.$invalid}">
+                                <label for="account-terms">Payment Terms</label>
+                                <input id="account-terms" type="textarea" class="form-control" ng-model="account.paymentTerms" name="paymentTerms">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <button ui-sref="index.billingaccounts.list" type="button" class="btn btn-sm btn-warning m-l pull-right">
+                                    <strong>Cancel</strong>
+                                </button>
+                                <button ng-click="submitAccount()" type="submit" class="btn btn-sm btn-success pull-right" ng-disabled="editAccountForm.$invalid || processing">
+                                    <strong>Save Changes</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

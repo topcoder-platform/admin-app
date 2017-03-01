@@ -1,0 +1,59 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <dl class="dl-horizontal">
+                        <div class="m-b">
+                            <dt>Name</dt>
+                            <dd>{{account.name}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Customer Number</dt>
+                            <dd>{{account.companyId}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Start Date</dt>
+                            <dd>{{account.startDate | date:'MMM dd, yyyy'}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>End Date</dt>
+                            <dd>{{account.endDate | date:'MMM dd, yyyy'}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Status</dt>
+                            <dd>{{account.status}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Amount</dt>
+                            <dd>{{account.budgetAmount}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>PO Number</dt>
+                            <dd>{{account.poNumber}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Subscription Number</dt>
+                            <dd>{{account.subscriptionNumber}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Description</dt>
+                            <dd>{{account.description}}</dd>
+                        </div>
+                        <div class="m-b">
+                            <dt>Payment Terms</dt>
+                            <dd>{{account.paymentTerms}}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <button ui-sref="index.billingaccounts.list" type="button" class="btn btn-sm btn-warning m-l pull-right">
+                <strong>Cancel</strong>
+            </button>
+        </div>
+    </div>
+</div>
