@@ -32,6 +32,7 @@ module.controller('billingaccount.BillingAccountsListController', ['$scope', '$r
       $scope.accounts = [];
 
       $scope.search = function () {
+        $scope.formSearch.setLoading(true);
         BillingAccountService.search({
           customer: $scope.formSearch.criteria.customer,
           user: $scope.formSearch.criteria.user,
