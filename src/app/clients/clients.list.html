@@ -1,0 +1,57 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <!-- add client button row -->
+    <div class="row">
+        <div class="col col-md-12 col-lg-12">
+            <a class="btn btn-info pull-right m-b" ui-sref="index.clients.new">
+                <strong><i class="fa fa-plus"></i> Add Client</strong>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="formSearch.isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!formSearch.isLoading">
+                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th data-toggle="true" data-type="numeric">Client ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Code name</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="client in clients">
+                                    <td>
+                                        <a ui-sref="index.clients.edit({clientId: client.id})">{{client.id}}</a>
+                                    </td>
+                                    <td>{{client.name}}</td>
+                                    <td>{{client.status}}</td>
+                                    <td>{{client.startDate | date:'MMM dd, yyyy'}}</td>
+                                    <td>{{client.endDate | date:'MMM dd, yyyy'}}</td>
+                                    <td>{{client.codeName}}</td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

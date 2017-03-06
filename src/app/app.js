@@ -189,6 +189,78 @@ angular.module('supportAdminApp', [
           data: { pageTitle: 'Projects List' },
           controller: 'ProjectListCtrl',
           controllerAs: 'vm'
+        })
+        .state('index.clients', {
+          abstract: true,
+          url: '/clients',
+          templateUrl: 'app/clients/clients.html',
+          data: { pageTitle: 'Clients' },
+          controller: 'billingaccount.ClientsController'
+        })
+        .state('index.clients.list', {
+          url: '/list',
+          templateUrl: 'app/clients/clients.list.html',
+          controller: 'billingaccount.ClientsListController'
+        })
+        .state('index.clients.new', {
+          url: '/new',
+          templateUrl: 'app/clients/clients.new.html',
+          controller: 'billingaccount.NewClientController',
+          data: { pageTitle: 'New Client' }
+        })
+        .state('index.clients.edit', {
+          url: '/edit/:clientId',
+          templateUrl: 'app/clients/clients.edit.html',
+          controller: 'billingaccount.EditClientController',
+          data: { pageTitle: 'Edit Client' }
+        })
+        .state('index.billingaccounts', {
+          abstract: true,
+          url: '/billingaccounts',
+          templateUrl: 'app/billing_accounts/billingaccounts.html',
+          data: { pageTitle: 'Billing Accounts' },
+          controller: 'billingaccount.BillingAccountsController'
+        })
+        .state('index.billingaccounts.list', {
+          url: '/list',
+          templateUrl: 'app/billing_accounts/billingaccounts.list.html',
+          controller: 'billingaccount.BillingAccountsListController'
+        })
+        .state('index.billingaccounts.new', {
+          url: '/new',
+          templateUrl: 'app/billing_accounts/billingaccounts.new.html',
+          controller: 'billingaccount.NewBillingAccountController',
+          data: { pageTitle: 'New Billing Account' }
+        })
+        .state('index.billingaccounts.edit', {
+          url: '/edit/:accountId',
+          templateUrl: 'app/billing_accounts/billingaccounts.edit.html',
+          controller: 'billingaccount.EditBillingAccountController',
+          data: { pageTitle: 'Edit Billing Account' }
+        })
+        .state('index.billingaccounts.view', {
+          url: '/view/:accountId',
+          templateUrl: 'app/billing_accounts/billingaccounts.view.html',
+          controller: 'billingaccount.ViewBillingAccountController',
+          data: { pageTitle: 'Details - Billing Account' }
+        })
+        .state('index.billingaccountresources', {
+          abstract: true,
+          url: '/billingaccountresources',
+          templateUrl: 'app/billing_account_resources/billingaccountresources.html',
+          data: { pageTitle: 'Billing Account Resources' },
+          controller: 'billingaccount.BillingAccountResourcesController'
+        })
+        .state('index.billingaccountresources.list', {
+          url: '/list/:accountId',
+          templateUrl: 'app/billing_account_resources/billingaccountresources.list.html',
+          controller: 'billingaccount.BillingAccountResourcesListController'
+        })
+        .state('index.billingaccountresources.new', {
+          url: '/:accountId/new',
+          templateUrl: 'app/billing_account_resources/billingaccountresources.new.html',
+          controller: 'billingaccount.NewBillingAccountResourceController',
+          data: { pageTitle: 'New Billing Account Resource' }
         });
 
     $urlRouterProvider.otherwise('/login');

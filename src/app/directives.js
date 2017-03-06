@@ -38,6 +38,29 @@ angular.module('supportAdminApp')
             }
         };
     })
+    .directive('findUser', function (UserService, Alert, $rootScope) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attributes) {
+                element.on('blur', function () {
+                    var handle = $(this).val();
+                    if (handle && handle.length) {
+                        UserService.find({
+                            filter: 'handle=' + handle
+                        }).then(function (data) {
+                            var id = '';
+                            if (data.length) {
+                                id = data[0].id;
+                            } else {
+                                Alert.error('Can not find ID with handle : ' + handle, $rootScope);
+                            }
+                            scope.newResource.userId = id;
+                        })
+                    }
+                });
+            }
+        };
+    })
     // disable keyboard input event on single element
     .directive('disableKeyboard', function () {
         return {
