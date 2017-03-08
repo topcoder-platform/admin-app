@@ -21,7 +21,7 @@ module.controller('NewTagCtrl', ['$rootScope','$scope', 'TagService', '$state', 
         $scope.newTag.categories.push(c.value);
       });
 
-      $tagService.createTag($scope.newTag).then(function(){
+      $tagService.createTagSync($scope.newTag).then(function(){
           $state.go('index.tags.list');
         },
         function(error) {
