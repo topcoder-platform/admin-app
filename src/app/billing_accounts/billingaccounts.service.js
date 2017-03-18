@@ -19,6 +19,7 @@ angular.module('supportAdminApp')
        * @param  {Object}     deferred        the deferred object
        */
       BillingAccountService.handleError = function(error, deferred) {
+        console.log(error);
         $log.error(error);
         var err;
         if(error && error.data && error.data.result) {
@@ -30,6 +31,11 @@ angular.module('supportAdminApp')
           err = {
             status: error.status,
             error : error.data.message
+          };
+        } else if (error && error.result) {
+          err = {
+            status: error.status,
+            error : error.result.content
           };
         }
         if(!err) {
@@ -48,7 +54,7 @@ angular.module('supportAdminApp')
       /**
        * Search billing accounts
        */
-      BillingAccountService.search = function(criteria) {
+      BillingAccountService.search = function(criteria, pageAndSort) {
         if (criteria.startDate && criteria.startDate.length) {
           criteria.startDate = criteria.startDate.substring(0,16) + 'Z';
         }
@@ -58,18 +64,21 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         var params = { };
         Object.keys(criteria).forEach(function (key) {
-          if (criteria[key] && criteria[key] !== '' && key !== 'limit') {
+          if (criteria[key] && criteria[key] !== '') {
             params[key] = criteria[key];
           }
         });
+
         $http({
           url: BillingAccountService.getBasePath() + '/billing-accounts',
           params: {
-            limit: criteria.limit,
-            filter: serialize(params)
+            limit: pageAndSort.limit,
+            offset: (pageAndSort.page - 1) * 25,
+            filter: serialize(params),
+            sort: pageAndSort.sort
           }
         }).then(function (response) {
-          deferred.resolve(response.data.result.content);
+          deferred.resolve(response.data.result);
         }).catch(function (error) {
           BillingAccountService.handleError(error, deferred);
         });
@@ -80,6 +89,9 @@ angular.module('supportAdminApp')
         var request = angular.copy(entity);
         request.startDate = request.startDate.substring(0,16) + 'Z';
         request.endDate = request.endDate.substring(0,16) + 'Z';
+        request.clientId = request.client.id;
+        delete request.client;
+        request.salesTax = 0;
         if (request.paymentTerms) {
           request.paymentTerms = {
             id: parseInt(request.paymentTerms)
@@ -106,6 +118,8 @@ angular.module('supportAdminApp')
         entity.paymentTerms = {
           id: 1
         };
+        entity.clientId = entity.client.id;
+        delete entity.client;
         var deferred = $q.defer();
         $http({
           method: 'PATCH',

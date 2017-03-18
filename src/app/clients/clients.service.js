@@ -5,6 +5,14 @@ angular.module('supportAdminApp')
     function ($log, $q, $http, API_URL, API_VERSION_PATH) {
       var ClientService = { };
 
+      function serialize(obj) {
+        var result = [];
+        for (var property in obj) {
+          result.push(encodeURIComponent(property) + "=" + obj[property]);
+        }
+        return result.join("&");
+      }
+
       /**
        * Handle API response error
        * @param  {Error}      error           the error as received in catch callback
@@ -35,17 +43,35 @@ angular.module('supportAdminApp')
       /**
        * Get a list of all the clients
        */
-      ClientService.findAll = function() {
+      ClientService.search = function(criteria, pageAndSort) {
+        if (criteria.startDate && criteria.startDate.length) {
+          criteria.startDate = criteria.startDate.substring(0,16) + 'Z';
+        }
+        if (criteria.endDate && criteria.endDate.length) {
+          criteria.endDate = criteria.endDate.substring(0,16) + 'Z';
+        }
+        var params = { };
+        Object.keys(criteria).forEach(function (key) {
+          if (criteria[key] && criteria[key] !== '') {
+            params[key] = criteria[key];
+          }
+        });
         var deferred = $q.defer();
         $http({
           url: ClientService.getBasePath() + '/clients',
+          params: {
+            limit: pageAndSort.limit,
+            offset: (pageAndSort.page - 1) * 25,
+            filter: serialize(params),
+            sort: pageAndSort.sort
+          }
         }).then(function (response) {
-          deferred.resolve(response.data.result.content);
+          deferred.resolve(response.data.result);
         }).catch(function (error) {
           ClientService.handleError(error, deferred);
         });
         return deferred.promise;
-      }
+      };
 
       ClientService.createClient = function (entity) {
         entity.startDate = entity.startDate.substring(0,16) + 'Z';
