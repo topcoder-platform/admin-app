@@ -15,7 +15,6 @@ angular.module('supportAdminApp', [
               'app.constants',
               'appirio-tech-ng-api-services',
               'appirio-tech-ng-auth',
-              'ui.footable',
               'angular-clipboard',
               'ng-file-model',
               'ui.multiselect',
