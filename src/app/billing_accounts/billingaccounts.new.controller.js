@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('billingaccount.NewBillingAccountController', ['$scope', '$rootScope', '$log',
-  'BillingAccountService', 'Alert', '$state',
-    function ($scope, $rootScope, $log, BillingAccountService, $alert, $state) {
+  'BillingAccountService', 'Alert', '$state', 'ClientService',
+    function ($scope, $rootScope, $log, BillingAccountService, $alert, $state, ClientService) {
       $scope.processing = false;
 
       $scope.newAccount = { status: 'Active' };
@@ -15,6 +15,21 @@ module.controller('billingaccount.NewBillingAccountController', ['$scope', '$roo
       };
 
       $scope.startDateOptions = { };
+
+      // search clients
+      $scope.getClients = function(name) {
+        $scope.loadingClients = true;
+        return ClientService.search({
+          name: name
+        }, {
+          page: 1,
+          limit: 10,
+          sort: 'name asc'
+        }).then(function (data) {
+          $scope.loadingClients = false;
+          return data.content;
+        })
+      };
 
       /**
        * Submit the billing account to the API
