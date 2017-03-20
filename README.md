@@ -1,4 +1,4 @@
 # support-admin-app
-Customer support application <br>
+Support application <br>
 
-angular.js app using INSPINIA template
+Internal application used to administer specific support tasks related to the Topcoder platform.
