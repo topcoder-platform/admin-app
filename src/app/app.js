@@ -15,7 +15,6 @@ angular.module('supportAdminApp', [
               'app.constants',
               'appirio-tech-ng-api-services',
               'appirio-tech-ng-auth',
-              'ui.footable',
               'angular-clipboard',
               'ng-file-model',
               'ui.multiselect',
@@ -99,7 +98,7 @@ angular.module('supportAdminApp', [
           url: '/tags',
           templateUrl: 'app/tags/tags.html',
           data: { pageTitle: 'Tags' },
-          controller: function ($scope, $state) {
+          controller: function ($scope, $state, TagService) {
             $scope.$state = $state;
             $scope.tagDomains = [{
               value: 'skills',
@@ -107,6 +106,12 @@ angular.module('supportAdminApp', [
             }, {
               value: 'events',
               name: 'Events'
+            }, {
+              value: 'technology',
+              name: 'Technology'
+            }, {
+              value: 'platform',
+              name: 'Platform'
             }];
 
             $scope.tagCategories = [{
@@ -128,6 +133,21 @@ angular.module('supportAdminApp', [
               value: 'pending',
               name: 'Pending'
             }];
+
+            TagService.getTechnologyStatuses().then(function(techStatuses) {
+              _.forEach(techStatuses, function(status) {
+                status.value = _.lowerCase(status.description);
+                status.name = status.description;
+              });
+              $scope.techStatuses = techStatuses;
+            });
+            $scope.getTagStatuses = function(domainType) {
+              if (domainType === 'technology') {
+                return $scope.techStatuses;
+              } else {
+                return $scope.tagStatuses;
+              }
+            }
           }
         })
         .state('index.tags.list', {

@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="form-group col-md-2" ng-class="{'has-error': editForm.selectedTagStatus.$touched && editForm.selectedTagStatus.$invalid}">
                     <label for="tag-status">Status</label>
-                    <select id="tag-status" class="form-control m-b" ng-options="tagStatus.value as tagStatus.name for tagStatus in tagStatuses" ng-model="editTag.status" name="selectedTagStatus">
+                    <select id="tag-status" class="form-control m-b" ng-options="tagStatus.value as tagStatus.name for tagStatus in getTagStatuses(editTag.domain)" ng-model="editTag.status" name="selectedTagStatus" required>
                     </select>
                     <div class="help-block" ng-messages="editForm.selectedTagStatus.$error" ng-show="editForm.selectedTagStatus.$touched">
                         <div ng-messages-include="errorMessages.html"></div>

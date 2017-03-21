@@ -10,20 +10,72 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col col-md-12 col-lg-12">
+                            <form role="form" name="searchFrom" novalidate="novalidate">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Name</label>
+                                        <input id="name" type="text" class="form-control" ng-model="formSearch.criteria.name" name="name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="status">Status</label>
+                                        <select id="status" class="form-control" ng-model="formSearch.criteria.status">
+                                            <option value="" selected="selected">Select status</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">In Active</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="start-date">Start Date</label>
+                                        <input id="start-date" data-disable-keyboard type="text" class="form-control"
+                                               datetime-picker="yyyy-MM-dd" is-open="startDateOpen" close-on-date-selection="true"
+                                               ng-focus="openCalendar(null, 'startDate')"
+                                               close-on-time-now="true" enable-time="false" save-as="ISO"
+                                               ng-model="formSearch.criteria.startDate" name="startDate">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="end-date">End Date</label>
+                                        <input id="end-date" data-disable-keyboard type="text" class="form-control"
+                                               datetime-picker="yyyy-MM-dd" is-open="endDateOpen" close-on-date-selection="true"
+                                               ng-focus="openCalendar(null, 'endDate')"
+                                               close-on-time-now="true" enable-time="false" save-as="ISO"
+                                               ng-model="formSearch.criteria.endDate" name="endDate">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-12 col-lg-12">
+                                        <button class="btn btn-primary btn-sm pull-right" ng-click="search(true)">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="ibox-content">
                     <div class="text-center" ng-show="formSearch.isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
                     <div ng-show="!formSearch.isLoading">
-                        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50">
+                        <table class="footable table table-stripped toggle-arrow-tiny">
                             <thead>
                                 <tr>
-                                    <th data-toggle="true" data-type="numeric">Client ID</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>Client ID</th>
+                                    <th class="footable-sortable" ng-click="sort('name')" ng-class="{'footable-sorted': sortCriteria === 'name' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'name' && sortOrder === 'desc'}">Name
+                                        <span class="footable-sort-indicator"></span>
+                                    </th>
+                                    <th class="footable-sortable" ng-click="sort('status')" ng-class="{'footable-sorted': sortCriteria === 'status' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'status' && sortOrder === 'desc'}">Status
+                                        <span class="footable-sort-indicator"></span>
+                                    </th>
+                                    <th class="footable-sortable" ng-click="sort('startDate')" ng-class="{'footable-sorted': sortCriteria === 'startDate' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'startDate' && sortOrder === 'desc'}">Start Date
+                                        <span class="footable-sort-indicator"></span>
+                                    </th>
+                                    <th class="footable-sortable" ng-click="sort('endDate')" ng-class="{'footable-sorted': sortCriteria === 'endDate' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'endDate' && sortOrder === 'desc'}">End Date
+                                        <span class="footable-sort-indicator"></span>
+                                    </th>
                                     <th>Code name</th>
                                 </tr>
                             </thead>
@@ -44,7 +96,21 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="6">
-                                        <ul class="pagination pull-right"></ul>
+                                        <ul class="pagination pull-right">
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}"><a
+                                                ng-click="changePage(1)">«</a></li>
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}">
+                                                <a ng-click="changePage(pageNumber - 1)">‹</a>
+                                            </li>
+                                            <li class="footable-page" ng-class="{'active' : item === pageNumber}" ng-repeat="item in getPageArray()">
+                                                <a ng-click="changePage(item)">{{item}}</a></li>
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                                                <a  ng-click="changePage(pageNumber + 1)">›</a>
+                                            </li>
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                                                <a ng-click="changePage(getLastPage())">»</a>
+                                            </li>
+                                        </ul>
                                     </td>
                                 </tr>
                             </tfoot>

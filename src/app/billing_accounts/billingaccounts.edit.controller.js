@@ -6,8 +6,8 @@ var module = angular.module('supportAdminApp');
  * Controller for edit billing account view
  */
 module.controller('billingaccount.EditBillingAccountController', ['$scope', '$rootScope', '$log',
-  'BillingAccountService', 'Alert', '$state', '$stateParams',
-    function ($scope, $rootScope, $log, BillingAccountService, $alert, $state, $stateParams) {
+  'BillingAccountService', 'Alert', '$state', '$stateParams', 'ClientService',
+    function ($scope, $rootScope, $log, BillingAccountService, $alert, $state, $stateParams, ClientService) {
       $scope.processing = false;
 
       $scope.account = { };
@@ -18,8 +18,30 @@ module.controller('billingaccount.EditBillingAccountController', ['$scope', '$ro
           $scope.account = data;
           $scope.endDateOptions.minDate = new Date(data.startDate);
           $scope.startDateOptions.maxDate = new Date(data.endDate);
+          if (data.clientId) {
+            ClientService.findClientById(data.clientId).then(function (data) {
+              $scope.account.client = data;
+            }).catch(function (error) {
+              $alert.error(error.error.message, $rootScope);
+            });
+          }
         });
       }
+
+      // search clients
+      $scope.getClients = function(name) {
+        $scope.loadingClients = true;
+        return ClientService.search({
+          name: name
+        }, {
+          page: 1,
+          limit: 10,
+          sort: 'name asc'
+        }).then(function (data) {
+          $scope.loadingClients = false;
+          return data.content;
+        })
+      };
 
       // start date and end date options
       $scope.endDateOptions = {
@@ -40,7 +62,7 @@ module.controller('billingaccount.EditBillingAccountController', ['$scope', '$ro
           $scope.processing = false;
           $state.go('index.billingaccounts.list');
         }).catch(function (error) {
-          $alert.error(error.error.message, $rootScope);
+          $alert.error(error.error, $rootScope);
           $scope.processing = false;
         });
       };

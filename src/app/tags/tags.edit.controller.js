@@ -14,8 +14,10 @@ module.controller('EditTagCtrl', ['$rootScope','$scope', 'TagService', '$state',
         $scope.loading = false;
         $timeout(function(){
            $scope.editTag = data;
+           $scope.editTag.previousDomain = data.domain;
            $scope.editForm.synonyms = Array.isArray($scope.editTag.synonyms)?  $scope.editTag.synonyms.join(','):'';
           angular.forEach($scope.tagCategories, function(c){
+            $scope.editTag.categories = $scope.editTag.categories || [];
             if($scope.editTag.categories.indexOf(c.value) !== -1 ){
               $scope.editCategories.options.push(c);
             }
@@ -43,7 +45,7 @@ module.controller('EditTagCtrl', ['$rootScope','$scope', 'TagService', '$state',
       angular.forEach($scope.editCategories.options, function(c){
         $scope.editTag.categories.push(c.value);
       });
-      $tagService.updateTag($scope.editTag).then(function(){
+      $tagService.updateTagSync($scope.editTag).then(function(){
           $state.go('index.tags.list');
         },
         function(error) {
