@@ -1,0 +1,18 @@
+##Set Node Js Version
+machine:
+  node:
+    version: 6.8.1
+    
+## Customize dependencies
+dependencies:
+
+  override:
+    - npm install
+    
+  # Add some environment variables
+  environment:
+    CIRCLE_ENV: dev
+
+test:
+  override:
+    - npm run test
