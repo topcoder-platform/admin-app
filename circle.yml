@@ -1,18 +1,24 @@
-##Set Node Js Version
+##Set Node Js Version (Could be set to needed version)
 machine:
   node:
     version: 6.8.1
     
+# Add some environment variables
+  environment:
+    CIRCLE_ENV: dev
+    
 ## Customize dependencies
 dependencies:
+  pre:
+    - curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
 
   override:
     - npm install
-    
-  # Add some environment variables
-  environment:
-    CIRCLE_ENV: dev
 
+compile:
+  override:
+    - npm run build
+    
 test:
   override:
     - npm run test
