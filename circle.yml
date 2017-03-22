@@ -9,6 +9,8 @@ machine:
     
 ## Customize dependencies
 dependencies:
+  pre:
+    - curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
 
   override:
     - npm install
