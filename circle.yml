@@ -3,15 +3,15 @@ machine:
   node:
     version: 6.8.1
     
+# Add some environment variables
+  environment:
+    CIRCLE_ENV: dev
+    
 ## Customize dependencies
 dependencies:
 
   override:
     - npm install
-    
-  # Add some environment variables
-  environment:
-    CIRCLE_ENV: dev
 
 test:
   override:
