@@ -6,7 +6,7 @@
 
 Ensure that following tools are present in your development environment
 
-1. node.js v5+
+1. node.js v6+
 2. npm v3+
 3. Google Chrome browser version >= 55.0.2883.0
 
