@@ -49,7 +49,7 @@ gulp.task('serve:dist', ['build'], function () {
   browserSyncInit(paths.dist);
 });
 
-gulp.task('serve:e2e', ['inject'], function () {
+gulp.task('serve:e2e', ['inject', 'ng-config'], function () {
   browserSyncInit([paths.tmp + '/serve', paths.src], null, []);
 });
 
