@@ -7,6 +7,7 @@ Internal application used to administer specific support tasks related to the To
 
 - node.js v6+
 - npm v3+
+- Google Chrome browser version >= 55.0.2883.0
 
 ## Installation
 
@@ -39,37 +40,42 @@ The following configuration parameters are available:
 ## Start the Application
 
 Simply execute the following command to start the app in development mode (with browsersync)
-
-> npm start
+```
+npm install
+npm start
+```
+Application will be hosted and running at http://locahost:3000
 
 To build the application to be hosted on a real webserver run:
-
-> npm run build
+```
+npm run build
+```
 
 ## Execute E2E Tests
 
-> npm test
+```npm test```
 
 ## Fallback instruction in case the npm scripts fail
 
 ### Install global dependencies
 
-> npm install -g gulp@3.8.10 bower
+```npm install -g gulp@3.8.10 bower```
 
 ### Install project dependencies
 
-> npm install
-
-> bower install
+```
+npm install
+bower install
+```
 
 ### Start the Application
 
-> gulp serve
+```gulp serve```
 
 ### Build the Application
 
-> gulp build
+```gulp build```
 
 ### Execute E2E Tests
 
-> gulp protractor
+```gulp protractor```
