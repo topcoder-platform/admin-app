@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/GSTVAC/admin-app.svg?style=svg)](https://circleci.com/gh/GSTVAC/admin-app)
+
 # support-admin-app
 Support application
 
@@ -36,6 +38,15 @@ The following configuration parameters are available:
 | AUTH0_DOMAIN             | Domain for Auth0 authentication |
 | AUTH0_TOKEN_NAME         | Auth0 token name                |
 | AUTH0_REFRESH_TOKEN_NAME | Auth0 refresh token name        |
+
+Environment variables:
+
+| Name | Description |
+| --- | --- |
+| BUILD_ENV | Build environment. Default is `dev`  |
+| TEST_USER | App user to use on tests |
+| TEST_PASSWORD | App password to use on tests |
+| TEST_PORT | Local port used to run the tests. Default is 3000 |
 
 ## Start the Application
 
