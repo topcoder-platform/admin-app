@@ -14,7 +14,7 @@ exports.config = {
   onPrepare: function() {
     // check if env variables for testing are set
     if (typeof process.env.TEST_USER === "undefined" || typeof process.env.TEST_PASSWORD === "undefined") {
-        console.warn("The environment variables TEST_USER and TEST_PASSWORD should be set in order for the tests to work");
+        throw "The environment variables TEST_USER and TEST_PASSWORD should be set in order for the tests to work";
     }
   },
 
