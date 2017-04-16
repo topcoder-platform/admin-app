@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/topcoder-platform/admin-app.svg?style=svg)](https://circleci.com/gh/topcoder-platform/admin-app)
 # support-admin-app
 Support application
 
@@ -52,6 +53,15 @@ npm run build
 ```
 
 ## Execute E2E Tests
+
+Before executing the end-to-end (e2e) protractor tests, these environment variables should be set:
+
+| Name | Description | Default Value |
+| --- | --- | --- |
+| BUILD_ENV | Deployment configuration to be tested by e2e tests. | See [Configuration](#configuration) for possible values. Defaults to `dev`. |
+| TEST_USER | Account username to use for e2e tests. | No default. Must be set. |
+| TEST_PASSWORD | Account password to use for e2e tests. | No default. Must be set. |
+| TEST_PORT | Port from which to serve the app for e2e tests. | Defaults to `3000`. |
 
 ```npm test```
 

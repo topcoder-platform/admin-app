@@ -3,11 +3,19 @@
 describe('The login view', function () {
   var page;
   var mainPage;
+  var testUser = process.env.TEST_USER;
+  var testPassword = process.env.TEST_PASSWORD;
+  var testPort = process.env.TEST_PORT || 3000;
 
   beforeEach(function () {
-    browser.get('http://localhost:3000/');
+    browser.get('http://localhost:' + testPort + '/');
     page = require('./login.po');
     mainPage = require('./main.po');
+  });
+
+  it('should have environment variables defined', function(){
+    expect(testUser).toBeDefined();
+    expect(testPassword).toBeDefined();
   });
 
   it('should display the correct form heading', function() {
@@ -27,20 +35,20 @@ describe('The login view', function () {
 
   it('login should succeed for correct credentials', function () {
     //expect(page.thumbnailEls.count()).toBeGreaterThan(5);
-    page.usernameInput.sendKeys('amy_admin');
-    page.passwordInput.sendKeys('topcoder1');
+    page.usernameInput.sendKeys(testUser);
+    page.passwordInput.sendKeys(testPassword);
     page.loginButton.click();
     expect(mainPage.isUserLoggedIn.isDisplayed()).toBeTruthy();
-    expect(mainPage.loggedInUser.getText()).toBe('amy_admin');
+    expect(mainPage.loggedInUser.getText()).toBe(testUser);
   });
 
   it('logout should work after login', function () {
     //expect(page.thumbnailEls.count()).toBeGreaterThan(5);
-    page.usernameInput.sendKeys('amy_admin');
-    page.passwordInput.sendKeys('topcoder1');
+    page.usernameInput.sendKeys(testUser);
+    page.passwordInput.sendKeys(testPassword);
     page.loginButton.click();
     expect(mainPage.isUserLoggedIn.isDisplayed()).toBeTruthy();
-    expect(mainPage.loggedInUser.getText()).toBe('amy_admin');
+    expect(mainPage.loggedInUser.getText()).toBe(testUser);
     mainPage.logout.click();
     expect(page.loginHeader.getText()).toBe('ADMIN APP LOGIN');
   });

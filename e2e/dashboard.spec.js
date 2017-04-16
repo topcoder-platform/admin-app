@@ -3,17 +3,25 @@
 describe('The dashboard view', function () {
   var page;
   var mainPage;
+  var testUser = process.env.TEST_USER;
+  var testPassword = process.env.TEST_PASSWORD;
+  var testPort = process.env.TEST_PORT || 3000;
 
   beforeEach(function () {
-    browser.get('http://localhost:3000/');
+    browser.get('http://localhost:' + testPort + '/');
     page = require('./login.po');
     mainPage = require('./main.po');
-    page.usernameInput.sendKeys('amy_admin');
-    page.passwordInput.sendKeys('topcoder1');
-    page.loginButton.click();
+  });
+
+  it('should have environment variables defined', function(){
+    expect(testUser).toBeDefined();
+    expect(testPassword).toBeDefined();
   });
 
   it('should find members', function() {
+    page.usernameInput.sendKeys(testUser);
+    page.passwordInput.sendKeys(testPassword);
+    page.loginButton.click();
     mainPage.searchHandleInput.sendKeys('sah2ed');
     mainPage.searchButton.click();
     expect(mainPage.users.count()).toBe(1);
