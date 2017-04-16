@@ -1,5 +1,4 @@
-[![CircleCI](https://circleci.com/gh/GSTVAC/admin-app.svg?style=svg)](https://circleci.com/gh/GSTVAC/admin-app)
-
+[![CircleCI](https://circleci.com/gh/topcoder-platform/admin-app.svg?style=svg)](https://circleci.com/gh/topcoder-platform/admin-app)
 # support-admin-app
 Support application
 
@@ -39,15 +38,6 @@ The following configuration parameters are available:
 | AUTH0_TOKEN_NAME         | Auth0 token name                |
 | AUTH0_REFRESH_TOKEN_NAME | Auth0 refresh token name        |
 
-Environment variables:
-
-| Name | Description |
-| --- | --- |
-| BUILD_ENV | Build environment. Default is `dev`  |
-| TEST_USER | App user to use on tests |
-| TEST_PASSWORD | App password to use on tests |
-| TEST_PORT | Local port used to run the tests. Default is 3000 |
-
 ## Start the Application
 
 Simply execute the following command to start the app in development mode (with browsersync)
@@ -63,6 +53,15 @@ npm run build
 ```
 
 ## Execute E2E Tests
+
+Before executing the end-to-end (e2e) protractor tests, these environment variables should be set:
+
+| Name | Description | Default Value |
+| --- | --- | --- |
+| BUILD_ENV | Deployment configuration to be tested by e2e tests. | See [Configuration](#configuration) for possible values. Defaults to `dev`. |
+| TEST_USER | Account username to use for e2e tests. | No default. Must be set. |
+| TEST_PASSWORD | Account password to use for e2e tests. | No default. Must be set. |
+| TEST_PORT | Port from which to serve the app for e2e tests. | Defaults to `3000`. |
 
 ```npm test```
 
