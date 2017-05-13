@@ -40,7 +40,7 @@ angular.module('supportAdminApp')
      *  assigned.
      */
     Service.getRoleAssignments = function(roleId) {
-      return $http.get(API_URL + '/v3/roles/' + roleId + '/subjects')
+      return $http.get(API_URL + '/v3/roles/' + roleId + '?fields=subjects')
       .then(function(res) {
         return res.data.result.content;
       });
