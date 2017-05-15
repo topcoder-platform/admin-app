@@ -101,9 +101,7 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         $http({
           method: 'POST',
-          data: {
-            param: request
-          },
+          data: request,
           headers: {
             'Content-Type': 'application/json'
           },
@@ -125,9 +123,7 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         $http({
           method: 'PATCH',
-          data:{
-            param: entity
-          },
+          data: entity,
           headers: {
             'Content-Type': 'application/json'
           },
