@@ -48,7 +48,6 @@ angular.module('supportAdminApp')
         loadUser(res.createdBy);
         loadUser(res.modifiedBy);
         vm.assignment[res.id] = {};
-        vm.roleAssignments[res.id] = [];
         vm.roles = vm.roles.sort(function(a, b) {
           return a.roleName.localeCompare(b.roleName);
         });
@@ -63,51 +62,7 @@ angular.module('supportAdminApp')
 
     /* Role assignments. */
 
-    vm.roleAssignments = {};
     vm.assignment = {};
-
-    /**
-     * Loads assignments of the role specified by handle into
-     * $vm.roleAssignemnts. To avoid overflooding API with requests,
-     * this function handles the calls sequentially. This function does nothing
-     * if role assignments for the specified role are already loaded.
-     * @param {String} id Role ID.
-     */
-    var loadingRoleAssignments = false;
-    var roleAssignmentsQueue = [];
-    function loadRoleAssignements(id) {
-      if (id && !vm.roleAssignments[id]) {
-        if (loadingRoleAssignments) roleAssignmentsQueue.push(id);
-        else {
-          loadingRoleAssignments = true;
-          PMService.getRoleAssignments(id).then(function(res) {
-            vm.roleAssignments[id] = res.subjects;
-            res.subjects.forEach(function(id) {
-              loadUser(id);
-            });
-            loadingRoleAssignments = false;
-            while (roleAssignmentsQueue.length) {
-              var next = roleAssignmentsQueue[0];
-              roleAssignmentsQueue = roleAssignmentsQueue.slice(1);
-              if (!vm.roleAssignments[next]) return loadRoleAssignements(next);
-            }
-          });
-        }
-      }
-    }
-
-    /**
-     * Sorts users with the given role assigned by user handle.
-     * @param {String} roleId
-     */
-    vm.sortAssignments = function(roleId) {
-      var sorted = vm.roleAssignments[roleId].sort(function(a, b) {
-        if (!vm.users[a] || !vm.users[b]) return a - b;
-        return vm.users[a].localeCompare(vm.users[b]);
-      });
-      vm.roleAssignments[roleId] = sorted;
-      return sorted;
-    }
 
     /**
      * Assigns role to the user.
@@ -117,6 +72,7 @@ angular.module('supportAdminApp')
     vm.assignRole = function(roleId, userHandle) {
       vm.assignment[roleId].inProgress = true;
       vm.assignment[roleId].error = '';
+      vm.assignment[roleId].info = '';
       var userId;
       UserService.find({
         filter: 'handle=' + userHandle,
@@ -124,15 +80,12 @@ angular.module('supportAdminApp')
         if (!res.length) throw new Error('No user found!');
         userId = res[0].id;
         vm.users[userId] = userHandle;
-        if (vm.roleAssignments[roleId].find(function(item) {
-          return item === userId;
-        })) {
-          throw new Error('User already has this role!');
-        }
         return PMService.assignRole(roleId, userId);
       }).then(function() {
-        vm.roleAssignments[roleId].push(userId);
-        $scope.$broadcast('permissionManagement.DataUpdated');
+        var role = vm.roles.find(function (r) { return r.id === roleId; });
+        vm.assignment[roleId].info =
+          'Success: Role ' + role.roleName
+          + ' assigned to the user ' + userHandle;
       }, function(error) {
         vm.assignment[roleId].error =
           'Error: ' + (error.message || 'Failed to assign role!');
@@ -146,24 +99,32 @@ angular.module('supportAdminApp')
      * @param {String} roleId
      * @param {String} userId
      */
-    vm.unassignRole = function(roleId, userId) {
+    vm.unassignRole = function(roleId, userHandle) {
       vm.assignment[roleId].error = '';
       var role = vm.roles.find(function(r) {
         return r.id === roleId;
       });
-      if (confirm('Unassign role ' + role.roleName + ' from user ' + vm.users[userId] + '?')) {
-        PMService.unassignRole(roleId, userId).then(function() {
-          vm.roleAssignments[roleId] =
-          vm.roleAssignments[roleId].filter(function(item) {
-            return item !== userId;
+      vm.assignment[roleId].error = '';
+      vm.assignment[roleId].info = '';
+      var userId;
+      UserService.find({
+        filter: 'handle=' + userHandle,
+      }).then(function (res) {
+        if (!res.length) throw new Error('No user found!');
+        userId = res[0].id;
+        vm.users[userId] = userHandle;
+        if (confirm('Unassign role ' + role.roleName + ' from user ' + vm.users[userId] + '?')) {
+          return PMService.unassignRole(roleId, userId).then(function() {
+            var role = vm.roles.find(function (r) { return r.id === roleId; });
+            vm.assignment[roleId].info =
+              'Success: Role ' + role.roleName
+              + ' unassigned from the user ' + userHandle;
           });
-          vm.assignment[roleId].error = '';
-          $scope.$broadcast('permissionManagement.DataUpdated');
-        }, function(error) {
-          vm.assignment[roleId].error =
-            'Error: ' + (error.message || 'Failed to unassign role!');
-        });
-      }
+        }
+      }).catch(function(error) {
+        vm.assignment[roleId].error =
+          'Error: ' + (error.message || 'Failed to unassign role!');
+      });
     };
 
     /* Loading roles. */
@@ -174,7 +135,6 @@ angular.module('supportAdminApp')
       vm.roles = roles;
       roles.forEach(function(role) {
         vm.assignment[role.id] = {};
-        loadRoleAssignements(role.id);
         loadUser(role.createdBy);
         loadUser(role.modifiedBy);
       });

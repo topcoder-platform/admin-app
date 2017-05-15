@@ -87,8 +87,7 @@
                 <th>Created at</th>
                 <th>Modified by</th>
                 <th>Modified at</th>
-                <th data-hide="all">Assigned users</th>
-                <th data-hide="all">Assign user</th>
+                <th data-hide="all">User handle</th>
               </tr>
             </thead>
 
@@ -117,32 +116,6 @@
                 </td>
                 <td>{{role.modifiedAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} EDT</td>
                 <td>
-                  <div ng-if="ctrl.roleAssignments[role.id]">
-                    <div
-                      class="text-info"
-                      ng-if="!ctrl.roleAssignments[role.id].length"
-                    >none</div>
-                    <div
-                      class="user-in-role"
-                      ng-repeat="user in ctrl.sortAssignments(role.id)"
-                    >
-                      <div ng-if="ctrl.users[user]">
-                        {{ctrl.users[user]}}
-                        <a ng-click="ctrl.unassignRole(role.id, user)">
-                          <i class="fa fa-times-circle text-danger" />
-                        </a>
-                      </div>
-                      <div class="text-info" ng-if="!ctrl.users[user]">
-                        loading...
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="text-info"
-                    ng-if="!ctrl.roleAssignments[role.id]"
-                  >loading...</div>
-                </td>
-                <td>
                   <div class="row">
                     <div class="col-md-6">
                       <input
@@ -151,7 +124,7 @@
                         ng-submit="console.log('yo!')"
                       >
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-2">
                       <button
                         class="btn btn-sm btn-warning"
                         ng-click="ctrl.assignRole(
@@ -169,12 +142,36 @@
                         </strong>
                       </button>
                     </div>
+                    <div class="col-md-2">
+                      <button
+                        class="btn btn-sm btn-warning"
+                        ng-click="ctrl.unassignRole(
+                          role.id, ctrl.assignment[role.id].user)"
+                        ng-disabled="!ctrl.assignment[role.id].user ||
+                          ctrl.assignment[role.id].inProgress"
+                      >
+                        <strong>
+                          <img
+                            ng-if="ctrl.assignment[role.id].inProgress"
+                            src="assets/images/loading.gif"
+                            width="14"
+                          />
+                          Unassign
+                        </strong>
+                      </button>
+                    </div>
                   </div>
                   <div class="row">
                     <div
                       class="col-md-6 text-danger"
                       ng-if="ctrl.assignment[role.id].error"
                     >{{ctrl.assignment[role.id].error}}</div>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="col-md-6 text-info"
+                      ng-if="ctrl.assignment[role.id].info"
+                    >{{ctrl.assignment[role.id].info}}</div>
                   </div>
                 </td>
               </tr>

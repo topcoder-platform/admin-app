@@ -34,19 +34,6 @@ angular.module('supportAdminApp')
     };
 
     /**
-     * Gets role assignments.
-     * @param {String} id
-     * @return {Promise} Resolves to the array of user IDs to whom the role is
-     *  assigned.
-     */
-    Service.getRoleAssignments = function(roleId) {
-      return $http.get(API_URL + '/v3/roles/' + roleId + '?fields=subjects')
-      .then(function(res) {
-        return res.data.result.content;
-      });
-    };
-
-    /**
      * Gets roles.
      * @return {Promise} Resolves to the array of role objects, sorted
      *  by names.
