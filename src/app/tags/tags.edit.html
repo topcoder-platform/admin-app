@@ -46,16 +46,16 @@
                     </div>
                 </div>
                 <div class="form-group col-md-2" ng-class="{'has-error': editForm.selectedTagDomain.$touched && editForm.selectedTagDomain.$invalid}">
-                    <label for="tag-domain">Domain</label>
-                    <select id="tag-domain" class="form-control m-b" ng-options="tagDomain.value as tagDomain.name for tagDomain in tagDomains" ng-model="editTag.domain" name="selectedTagDomain" required>
-                    </select>
+                    <label>Domain</label>
+                    <multiselect options="domain.name for domain in tagDomains" ng-model="editDomains.options" data-multiple="true">
+                    </multiselect>
                     <div class="help-block" ng-messages="editForm.selectedTagDomain.$error" ng-show="editForm.selectedTagDomain.$touched">
                         <div ng-messages-include="errorMessages.html"></div>
                     </div>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Category</label>
-                    <multiselect options="c.name for c in tagCategories" ng-model="editCategories.options" data-multiple="true">
+                    <multiselect options="tag.name for tag in tagCategories" ng-model="editCategories.options" data-multiple="true">
                     </multiselect>
                 </div>
             </div>
@@ -69,9 +69,9 @@
             <div class="row edit-tag-info">
                 <dl class="dl-horizontal">
                     <dt>Created:</dt>
-                    <dd>{{(editTag.createdAt  |amFromUnix| amTimezone:'GMT'| amDateFormat:'Y-MM-DDTHH:mm:ss.SSS')+'Z'}} By <strong>{{editTag.createdBy}}</strong></dd>
+                    <dd>{{editTag.createdAt}} By <strong>{{editTag.createdBy}}</strong></dd>
                     <dt>Last updated:</dt>
-                    <dd>{{(editTag.updatedAt  |amFromUnix| amTimezone:'GMT'| amDateFormat:'Y-MM-DDTHH:mm:ss.SSS')+'Z'}} By <strong>{{editTag.updatedBy}}</strong></dd>
+                    <dd>{{editTag.updatedAt}} By <strong>{{editTag.updatedBy}}</strong></dd>
                 </dl>
             </div>
             <hr/>
