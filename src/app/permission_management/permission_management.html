@@ -1,0 +1,191 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Roles</h2>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div
+    class="row"
+    ng-show="authorized()"
+  >
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <div
+            class="text-center"
+            ng-if="ctrl.loadingRoles"
+          ><img src="assets/images/loading.gif"/></div>
+          <div
+            class="text-center text-danger"
+            ng-if="ctrl.loadingRolesError"
+          >{{ctrl.loadingRolesError}}</div>
+          <form ng-if="!ctrl.loadingRoles && !ctrl.loadingRolesError" role="form">
+            <div class="row">
+              <div class="col-sm-9 col-md-6 col-lg-4">
+                <label for="search-create-role">
+                  Search/create role
+                </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-9 col-md-6 col-lg-4">
+                <input
+                  class="form-control col-md-3"
+                  id="search-create-role"
+                  ng-change="ctrl.searchRole()"
+                  ng-model="ctrl.searchCreateRoleText"
+                  type="text"
+                >
+              </div>
+              <div class="col-sm-3 col-md-6 col-lg-8">
+                <button
+                  class="btn btn-sm btn-warning"
+                  ng-click="ctrl.createNewRole()"
+                  ng-disabled="!ctrl.searchCreateRoleText
+                    || ctrl.creatingNewRole"
+                >
+                  <strong>
+                    <img
+                      ng-if="ctrl.creatingNewRole"
+                      src="assets/images/loading.gif"
+                      width="14" 
+                    />
+                    Create Role
+                  </strong>
+                </button>
+                <button
+                  class="btn btn-sm btn-danger"
+                  ng-click="ctrl.clearRoleSearch()"
+                  ng-disabled="!ctrl.searchCreateRoleText"
+                >
+                  <strong>Clear</strong>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                class="col-xs-12 text-danger"
+                ng-if="ctrl.createNewRoleError"
+              >{{ctrl.createNewRoleError}}</div>
+            </div>
+          </form>
+        </div>
+        <div class="ibox-content" ng-show="ctrl.roles">
+          <p>Press on a role row to assign/unassign users.</p>
+          <table
+            class="footable table table-stripped toggle-arrow-tiny"
+            data-page-size="50"
+          >
+            <thead>
+              <tr>
+                <th data-toggle="true" data-type="numeric">Role ID</th>
+                <th>Role Name</th>
+                <th>Created by</th>
+                <th>Created at</th>
+                <th>Modified by</th>
+                <th>Modified at</th>
+                <th data-hide="all">User handle</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr class="animate-repeat" ng-repeat="role in ctrl.roles">
+                <td>{{role.id}}</td>
+                <td>{{role.roleName}}</td>
+                <td>
+                  <span ng-if="ctrl.users[role.createdBy]">
+                    {{ctrl.users[role.createdBy]}}
+                  </span>
+                  <span
+                    class="text-info"
+                    ng-if="role.createdBy && !ctrl.users[role.createdBy]"
+                  >loading...</span>
+                </td>
+                <td>{{role.createdAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} EDT</td>
+                <td>
+                  <span ng-if="ctrl.users[role.modifiedBy]">
+                    {{ctrl.users[role.modifiedBy]}}
+                  </span>
+                  <span
+                    class="text-info"
+                    ng-if="role.modifiedBy && !ctrl.users[role.modifiedBy]"
+                  >loading...</span>
+                </td>
+                <td>{{role.modifiedAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} EDT</td>
+                <td>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input
+                        class="form-control"
+                        ng-model="ctrl.assignment[role.id].user"
+                        ng-submit="console.log('yo!')"
+                      >
+                    </div>
+                    <div class="col-md-2">
+                      <button
+                        class="btn btn-sm btn-warning"
+                        ng-click="ctrl.assignRole(
+                          role.id, ctrl.assignment[role.id].user)"
+                        ng-disabled="!ctrl.assignment[role.id].user ||
+                          ctrl.assignment[role.id].inProgress"
+                      >
+                        <strong>
+                          <img
+                            ng-if="ctrl.assignment[role.id].inProgress"
+                            src="assets/images/loading.gif"
+                            width="14" 
+                          />
+                          Assign
+                        </strong>
+                      </button>
+                    </div>
+                    <div class="col-md-2">
+                      <button
+                        class="btn btn-sm btn-warning"
+                        ng-click="ctrl.unassignRole(
+                          role.id, ctrl.assignment[role.id].user)"
+                        ng-disabled="!ctrl.assignment[role.id].user ||
+                          ctrl.assignment[role.id].inProgress"
+                      >
+                        <strong>
+                          <img
+                            ng-if="ctrl.assignment[role.id].inProgress"
+                            src="assets/images/loading.gif"
+                            width="14"
+                          />
+                          Unassign
+                        </strong>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="col-md-6 text-danger"
+                      ng-if="ctrl.assignment[role.id].error"
+                    >{{ctrl.assignment[role.id].error}}</div>
+                  </div>
+                  <div class="row">
+                    <div
+                      class="col-md-6 text-info"
+                      ng-if="ctrl.assignment[role.id].info"
+                    >{{ctrl.assignment[role.id].info}}</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <ul class="pagination pull-right"></ul>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -75,6 +75,13 @@ angular.module('supportAdminApp', [
             templateUrl: 'app/addmembers/add.html',
             data: { pageTitle: 'User Management' }
         })
+        .state('index.permission_management', {
+            url: '/permission_management',
+            templateUrl: 'app/permission_management/permission_management.html',
+            data: { pageTitle: 'Permission Management' },
+            controller: 'PermissionManagementCtrl',
+            controllerAs: 'ctrl',
+        })
         .state('index.submissions', {
             abstract: true,
             url: '/submissions',
