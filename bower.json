@@ -10,7 +10,6 @@
     "angular-resource": "~1.4.4",
     "angular-ui-router": "~0.2.13",
     "bootstrap": "~3.3.5",
-    "angular-bootstrap": "0.12.x",
     "angular": "~1.4.4",
     "PACE": "https://github.com/HubSpot/pace.git#~1.0.2",
     "metisMenu": "~2.0.2",
@@ -33,7 +32,8 @@
     "moment-timezone": "~0.5.0",
     "ng-file-model": "https://github.com/mistralworks/ng-file-model.git#fd1889b28e279944012919574bbcaaf45c1540d6",
     "angular-bootstrap-multiselect": "*",
-    "bootstrap-ui-datetime-picker": "^2.4.0"
+    "bootstrap-ui-datetime-picker": "^2.4.0",
+    "angular-bootstrap": "^2.5.0"
   },
   "overrides": {
     "bootstrap": {
