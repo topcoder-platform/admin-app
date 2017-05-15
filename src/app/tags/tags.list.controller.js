@@ -3,20 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('TagListCtrl', ['$scope', '$rootScope', '$timeout', '$interval', '$state', '$uibModal',
-  'AuthService', 'TagService', '$q',
-  function ($scope, $rootScope, $timeout, $interval, $state, $modal, $authService, $tagService, $q) {
-
-    /**
-     * The error handler.
-     */
-    var errorHandler = function (error) {
-      $scope.isLoading = false;
-      $scope.$broadcast('alert.AlertIssued', {
-        type: 'danger',
-        message: error.error
-      });
-    };
-
+  'AuthService', 'TagService',
+  function ($scope, $rootScope, $timeout, $interval, $state, $modal, $authService, $tagService) {
     /**
      * Check if user is logged in
      */
@@ -69,7 +57,14 @@ module.controller('TagListCtrl', ['$scope', '$rootScope', '$timeout', '$interval
             $scope.isLoading = false;
             $('.footable').trigger('footable_redraw');
           }, 300);
-        }, errorHandler);
+        },
+        function (error) {
+          $scope.isLoading = false;
+          $scope.$broadcast('alert.AlertIssued', {
+            type: 'danger',
+            message: error.error
+          });
+        });
     };
     // go to edit tag page with given id
     $scope.editTag = function (id) {
@@ -83,50 +78,46 @@ module.controller('TagListCtrl', ['$scope', '$rootScope', '$timeout', '$interval
       $tagService.deleteTagSync(tag).then(
         function () {
           $scope.findTag();
-        }, errorHandler);
+        },
+        function (error) {
+          $scope.$broadcast('alert.AlertIssued', {
+            type: 'danger',
+            message: error.error
+          });
+        });
     };
 
-    /**
-     * Sync technologies from informix.
-     */
-    $scope.syncFromInformix = function() {
+    var SYNC_INTERVAL = 2 * 60 * 1000;
+    $scope.isSyncing = false;
+    $scope.syncTags = function () {
+      if ($scope.isSyncing) {
+        return;
+      }
       $scope.isLoading = true;
-      $tagService.getTechnologiesFromInformix().then(function (data) {
-        var requests = [];
-        data.forEach(function (technology) {
-          var found = false;
-          for (var i = 0; i < $scope.tags.length; i++) {
-            var tag = $scope.tags[i];
-            if (tag.name.toLowerCase() === technology.name.toLowerCase()) {
-              found = true;
-              if (!tag.domain) {
-                tag.domain = ['technologies'];
-              } else if (tag.domain.indexOf('technologies') === -1) {
-                tag.domain.push('technologies');
-              } else {
-                break;
-              }
-              requests.push($tagService.updateTag(tag));
-              break;
-            }
+      $scope.isSyncing = true;
+      $tagService.syncTags($scope).then(
+        function (tags) {
+          $scope.isSyncing = false;
+          if (!$scope.tagName) {
+            $scope.tags = tags;
+            $timeout(function () {
+              $scope.isLoading = false;
+              $('.footable').trigger('footable_redraw');
+            }, 300);
+          } else {
+            $scope.findTag();
           }
-          if (!found) {
-            var newTag = {
-              name: technology.name,
-              domain: ['technologies'],
-              categories: ['develop'],
-              status: technology.status.id === 1 ? 'approved' : 'pending',
-              priority: 1
-            };
-            requests.push($tagService.createTag(newTag));
-          }
+        },
+        function (error) {
+          $scope.isLoading = false;
+          $scope.isSyncing = false;
+          $scope.$broadcast('alert.AlertIssued', {
+            type: 'danger',
+            message: error.error
+          });
         });
-        $q.all(requests).then(function () {
-          $scope.findTag();
-        });
-      });
     };
-    $scope.findTag();
-    $tagService.getTechnologiesFromInformix();
+    $scope.syncTags();
+    $interval($scope.syncTags, SYNC_INTERVAL);
   }
 ]);
