@@ -28,8 +28,6 @@ deployment:
     commands:
       - ./deploy.sh PROD admin.topcoder.com
   dev:
-    # branch: dev
-    # temporarily testing on feature branch
-    branch: feature/ci-deploy
+    branch: dev
     commands:
       - ./deploy.sh DEV admin.topcoder-dev.com
