@@ -46,6 +46,7 @@
   },
   "scripts": {
     "postinstall": "bower install --config.interactive=false",
+    "clean": "gulp clean",
     "build": "gulp build",
     "start": "gulp serve",
     "test": "gulp protractor"
