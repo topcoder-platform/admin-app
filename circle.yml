@@ -21,3 +21,14 @@ compile:
 test:
   override:
     - npm run test
+    
+deployment:
+  dev:
+    branch: dev
+    commands:
+      - aws s3 sync . s3://admin.topcoder-dev.com --delete
+
+  prod:
+    branch: master
+    commands:
+      - aws s3 sync . s3://admin.topcoder-prod.com --delete
