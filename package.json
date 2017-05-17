@@ -48,7 +48,7 @@
     "postinstall": "bower install --config.interactive=false",
     "clean": "gulp clean",
     "build": "gulp build",
-    "start": "gulp serve",
+    "start": "gulp publish",
     "test": "gulp protractor"
   }
 }
