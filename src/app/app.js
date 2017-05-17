@@ -114,11 +114,8 @@ angular.module('supportAdminApp', [
               value: 'events',
               name: 'Events'
             }, {
-              value: 'technology',
+              value: 'technologies',
               name: 'Technology'
-            }, {
-              value: 'platform',
-              name: 'Platform'
             }];
 
             $scope.tagCategories = [{

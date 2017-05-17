@@ -35,6 +35,9 @@
                                     <button ui-sref="index.tags.new" type="submit" class="btn btn-sm btn-info pull-right">
                                         <strong><i class="fa fa-plus"></i> New Tag</strong>
                                     </button>
+                                    <button class="btn btn-sm btn-warning pull-right" style="margin-right: 20px;" ng-click="syncFromInformix()">
+                                        <strong>Sync Informix</strong>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -67,12 +70,12 @@
                                     <tr ng-repeat="tag in tags"  data-expanded="true">
                                         <td>{{tag.id}}</td>
                                          <td>{{tag.name}} </td>
-                                         <td>{{showLabel(tag.domain,tagDomains)}}</td>
+                                         <td>{{tag.domain? tag.domain.join(","):''}}</td>
                                         <td>{{tag.priority}}</td>
                                        <td>{{tag.synonyms? tag.synonyms.join(","):''}}</td>
                                         <td>{{showCategories(tag.categories)}}</td>
-                                        <td>{{(tag.createdAt |amFromUnix| amTimezone:'GMT'| amDateFormat:'Y-MM-DDTHH:mm:ss.SSS')+'Z'}}</td>
-                                        <td>{{(tag.updatedAt |amFromUnix| amTimezone:'GMT'| amDateFormat:'Y-MM-DDTHH:mm:ss.SSS')+'Z'}}</td>
+                                        <td>{{tag.createdAt}}</td>
+                                        <td>{{tag.updatedAt}}</td>
                                         <td>{{tag.createdBy}}</td>
                                         <td>{{tag.updatedBy}}</td>
                                         <td>

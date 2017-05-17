@@ -37,9 +37,11 @@
                     </div>
                 </div>
                 <div class="form-group col-md-2" ng-class="{'has-error': addForm.selectedTagDomain.$touched && addForm.selectedTagDomain.$invalid}">
-                    <label for="tag-domain">Domain</label>
-                    <select id="tag-domain" class="form-control m-b" ng-options="tagDomain.value as tagDomain.name for tagDomain in tagDomains" ng-model="newTag.domain" name="selectedTagDomain" required>
-                    </select>
+                    <label>Domain</label>
+                    <!--<select id="tag-domain" class="form-control m-b" ng-options="tagDomain.value as tagDomain.name for tagDomain in tagDomains" ng-model="newTag.domain" name="selectedTagDomain" required>
+                    </select>-->
+                    <multiselect options="tagDomain.value as tagDomain.name for tagDomain in tagDomains" ng-model="addForm.domains" data-multiple="true">
+                    </multiselect>
                     <div class="help-block" ng-messages="addForm.selectedTagDomain.$error" ng-show="addForm.selectedTagDomain.$touched">
                         <div ng-messages-include="errorMessages.html"></div>
                     </div>
