@@ -13,7 +13,8 @@ dependencies:
 
   override:
 ##    - npm install
-
+    - npm install -g gulp@3.8.10 bower
+    - npm install
 
 compile:
   override:
