@@ -13,7 +13,8 @@ dependencies:
 
   override:
     - npm install
-    
+    - bower --force update
+
   post:
     - ./node_modules/gulp/bin/gulp.js clean
     - ./node_modules/gulp/bin/gulp.js build
