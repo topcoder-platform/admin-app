@@ -6,11 +6,7 @@ angular.module('supportAdminApp')
 
     $scope.logout = function() {
       $authService.logout();
-      $state.go('login');
-    };
-
-    $scope.login = function() {
-      $state.go('login');
+      $state.go('auth')
     };
 
     // auth

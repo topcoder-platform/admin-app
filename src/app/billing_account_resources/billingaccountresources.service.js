@@ -56,9 +56,11 @@ angular.module('supportAdminApp')
         var deferred = $q.defer();
         $http({
           method: 'POST',
-          data: {
-            userId: entity.userId
-          },
+          data: angular.toJson({
+            param: {
+              userId: entity.userId
+            }
+          }),
           headers: {
             'Content-Type': 'application/json'
           },

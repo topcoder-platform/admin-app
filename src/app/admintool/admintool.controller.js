@@ -7,7 +7,6 @@ module.controller('admintool.AdminToolController', [
   function ($scope, $timeout, $modal, $authService, $adminToolService, $alert, $const) {
     $scope.users = [];
     $scope.reviewBoardProjectCategories = [];
-    $scope.v2Token = null;
     $scope.constRoles = $const.Roles;
     // search
     $scope.formSearch = {
@@ -60,8 +59,8 @@ module.controller('admintool.AdminToolController', [
 
       $scope.formSearch.setLoading(true);
       var searchMethod = $scope.formSearch.isReviewer() ?
-        $adminToolService.findReviewers($scope.v2Token, $scope.formSearch.categoryId)
-        : $adminToolService['find' + role + 's']($scope.v2Token);
+        $adminToolService.findReviewers($scope.formSearch.categoryId)
+        : $adminToolService['find' + role + 's']();
       searchMethod.then(
         function (users) {
           if (handle) {
@@ -82,24 +81,16 @@ module.controller('admintool.AdminToolController', [
       );
     };
 
-    // exchange v3 token with v2 token
     $scope.formSearch.setLoading(true);
-    $adminToolService.getV2Token().then(function (token) {
-        $scope.v2Token = token;
-        $adminToolService.findReviewBoardProjectCategories($scope.v2Token).then(function (projectCategories) {
-            projectCategories = projectCategories.filter(function (projectCategory) {
-              return $const.ExcludeCategories.indexOf(angular.lowercase(projectCategory.name)) === -1;
-            });
-            projectCategories = projectCategories.sort(function (p1, p2) {
-              return p1.name.localeCompare(p2.name);
-            });
-            $scope.reviewBoardProjectCategories = projectCategories;
-            $scope.formSearch.setLoading(false);
-          },
-          function (error) {
-            $alert.error(error.error, $scope);
-            $scope.formSearch.setLoading(false);
-          })
+    $adminToolService.findReviewBoardProjectCategories().then(function (projectCategories) {
+        projectCategories = projectCategories.filter(function (projectCategory) {
+          return $const.ExcludeCategories.indexOf(angular.lowercase(projectCategory.name)) === -1;
+        });
+        projectCategories = projectCategories.sort(function (p1, p2) {
+          return p1.name.localeCompare(p2.name);
+        });
+        $scope.reviewBoardProjectCategories = projectCategories;
+        $scope.formSearch.setLoading(false);
       },
       function (error) {
         $alert.error(error.error, $scope);
@@ -113,9 +104,6 @@ module.controller('admintool.AdminToolController', [
         templateUrl: 'app/admintool/remove-user-role-dialog.html',
         controller: 'admintool.RemoveUserRoleDialogController',
         resolve: {
-          v2Token: function () {
-            return $scope.v2Token;
-          },
           user: function () {
             return $scope.users[index];
           },
@@ -136,9 +124,6 @@ module.controller('admintool.AdminToolController', [
         templateUrl: 'app/admintool/user-role-dialog.html',
         controller: 'admintool.NewUserRoleDialogController',
         resolve: {
-          v2Token: function () {
-            return $scope.v2Token;
-          },
           role: function () {
             return $scope.formSearch.role;
           },
@@ -166,9 +151,6 @@ module.controller('admintool.AdminToolController', [
         templateUrl: 'app/admintool/user-role-dialog.html',
         controller: 'admintool.EditUserRoleDialogController',
         resolve: {
-          v2Token: function () {
-            return $scope.v2Token;
-          },
           user: function () {
             return $scope.users[index];
           },
@@ -194,8 +176,8 @@ module.controller('admintool.AdminToolController', [
   }
 ]);
 module.controller('admintool.RemoveUserRoleDialogController', [
-  '$scope', '$uibModalInstance', 'AdminToolService', 'Alert', 'v2Token', 'user', 'role', 'admintool.Constants',
-  function ($scope, $modalInstance, $adminToolService, $alert, v2Token, user, role, $const) {
+  '$scope', '$uibModalInstance', 'AdminToolService', 'Alert', 'user', 'role', 'admintool.Constants',
+  function ($scope, $modalInstance, $adminToolService, $alert, user, role, $const) {
     $scope.form = {
       user: user,
       role: role,
@@ -218,7 +200,7 @@ module.controller('admintool.RemoveUserRoleDialogController', [
       if (role === $const.Roles.Reviewer) {
         data.categoryId = user.projectCategoryId;
       }
-      $adminToolService['delete' + role](v2Token, data).then(
+      $adminToolService['delete' + role](data).then(
         function (result) {
           $scope.form.setLoading(false);
           $modalInstance.close(result);
@@ -233,9 +215,9 @@ module.controller('admintool.RemoveUserRoleDialogController', [
 ]);
 
 module.controller('admintool.NewUserRoleDialogController', [
-  '$scope', '$uibModalInstance', 'AdminToolService', 'Alert', 'v2Token', 'role', 'categoryId', 'reviewBoardProjectCategories',
+  '$scope', '$uibModalInstance', 'AdminToolService', 'Alert', 'role', 'categoryId', 'reviewBoardProjectCategories',
   'admintool.Constants',
-  function ($scope, $modalInstance, $adminToolService, $alert, v2Token, role, categoryId, reviewBoardProjectCategories, $const) {
+  function ($scope, $modalInstance, $adminToolService, $alert, role, categoryId, reviewBoardProjectCategories, $const) {
     $scope.reviewBoardProjectCategories = reviewBoardProjectCategories;
     $scope.constRoles = $const.Roles;
     $scope.form = {
@@ -284,7 +266,7 @@ module.controller('admintool.NewUserRoleDialogController', [
         }
       }
 
-      $adminToolService['create' + $scope.form.role](v2Token, newUser).then(
+      $adminToolService['create' + $scope.form.role](newUser).then(
         function (result) {
           $scope.form.setLoading(false);
           result.role = $scope.form.role;
@@ -303,8 +285,8 @@ module.controller('admintool.NewUserRoleDialogController', [
 ]);
 
 module.controller('admintool.EditUserRoleDialogController', [
-  '$scope', '$uibModalInstance', 'AdminToolService', 'Alert', 'v2Token', 'user', 'role', 'categoryId', 'reviewBoardProjectCategories', 'admintool.Constants',
-  function ($scope, $modalInstance, $adminToolService, $alert, v2Token, user, role, categoryId, reviewBoardProjectCategories, $const) {
+  '$scope', '$uibModalInstance', 'AdminToolService', 'Alert', 'user', 'role', 'categoryId', 'reviewBoardProjectCategories', 'admintool.Constants',
+  function ($scope, $modalInstance, $adminToolService, $alert, user, role, categoryId, reviewBoardProjectCategories, $const) {
     $scope.reviewBoardProjectCategories = reviewBoardProjectCategories;
     $scope.constRoles = $const.Roles;
     $scope.form = {
@@ -353,7 +335,7 @@ module.controller('admintool.EditUserRoleDialogController', [
           $modalInstance.close(user);
           return;
         }
-        updateMethod = $adminToolService.updateCopilot(v2Token, updatedUser);
+        updateMethod = $adminToolService.updateCopilot(updatedUser);
       }
       if ($scope.form.isReviewer()) {
         if ($scope.form.editImmune) {
@@ -369,7 +351,7 @@ module.controller('admintool.EditUserRoleDialogController', [
           $modalInstance.close(user);
           return;
         }
-        updateMethod = $adminToolService.updateReviewer(v2Token, {
+        updateMethod = $adminToolService.updateReviewer({
           username: user.name,
           categoryId: categoryId
         }, updatedUser);
