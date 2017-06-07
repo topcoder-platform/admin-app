@@ -2,8 +2,8 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('EditTagCtrl', ['$rootScope','$scope', 'TagService', '$state','$stateParams', '$log', '$timeout',
-  function($rootScope, $scope, $tagService, $state, $stateParams, $log, $timeout) {
+module.controller('EditTagCtrl', ['AuthService','$scope', 'TagService', '$state','$stateParams', '$log', '$timeout',
+  function($authService, $scope, $tagService, $state, $stateParams, $log, $timeout) {
     $scope.loading = true;
     $scope.processing = false;
     $scope.editTag = {};
@@ -39,7 +39,7 @@ module.controller('EditTagCtrl', ['$rootScope','$scope', 'TagService', '$state',
     $scope.submitTag = function() {
       $scope.$broadcast('alert.ClearAll', {});
       $scope.processing = true;
-      $scope.editTag.updatedBy = $rootScope.currentUser.id;
+      $scope.editTag.updatedBy = $authService.getCurrentUser().id;
       $scope.editTag.synonyms =  $scope.editForm.synonyms? $scope.editForm.synonyms.split(','):[];
       $scope.editTag.categories = [];
       angular.forEach($scope.editCategories.options, function(c){

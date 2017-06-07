@@ -4,7 +4,6 @@ angular.module('supportAdminApp')
   .factory('AdminToolService', ['$log', '$q', '$http', 'ADMIN_TOOL_URL', 'API_URL', 'API_VERSION_PATH',
     function ($log, $q, $http, ADMIN_TOOL_URL, API_URL, API_VERSION_PATH) {
       var service = {
-        getV2Token: getV2Token,
         findAdmins: findAdmins,
         createAdmin: createAdmin,
         deleteAdmin: deleteAdmin,
@@ -18,45 +17,6 @@ angular.module('supportAdminApp')
         updateReviewer: updateReviewer,
         findReviewBoardProjectCategories: findReviewBoardProjectCategories
       };
-
-      /**
-       * Get v2 token with v3 token
-       */
-      function getV2Token() {
-        return $http({
-          method: 'GET',
-          url: API_URL + '/' + API_VERSION_PATH + '/authorizations/1'
-        }).then(
-          function (response) {
-            $log.debug(response);
-            if (response.data && response.data.result && response.data.result.content
-              && response.data.result.content.externalToken) {
-              return response.data.result.content.externalToken;
-            } else {
-              return $q.reject({
-                error: 'Cannot find v2 token in response.'
-              });
-            }
-          },
-          function (error) {
-            $log.error(error);
-            var err;
-            if (error && error.data && error.data.result) {
-              err = {
-                status: error.status,
-                error: error.data.result.content
-              };
-            }
-            if (!err) {
-              err = {
-                status: error.status,
-                error: error.statusText
-              };
-            }
-            return $q.reject(err);
-          }
-        );
-      }
 
       /**
        * helper function to process http request
@@ -105,13 +65,12 @@ angular.module('supportAdminApp')
       /**
        * Find admins
        */
-      function findAdmins(token) {
+      function findAdmins() {
         var request = $http({
           method: 'GET',
           url: ADMIN_TOOL_URL + '/admin/admins',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           }
         });
         return _processRequest(request, 'allAdmins');
@@ -120,13 +79,12 @@ angular.module('supportAdminApp')
       /**
        * creates admin user
        */
-      function createAdmin(token, data) {
+      function createAdmin(data) {
         var request = $http({
           method: 'POST',
           url: ADMIN_TOOL_URL + '/admin/admins',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           },
           data: angular.toJson(data)
         });
@@ -136,13 +94,12 @@ angular.module('supportAdminApp')
       /**
        * Delete an existing admin user
        */
-      function deleteAdmin(token, data) {
+      function deleteAdmin(data) {
         var request = $http({
           method: "DELETE",
           url: ADMIN_TOOL_URL + "/admin/admins",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           },
           data: angular.toJson(data)
         });
@@ -153,13 +110,12 @@ angular.module('supportAdminApp')
       /**
        * Find copilots
        */
-      function findCopilots(token) {
+      function findCopilots() {
         var request = $http({
           method: 'GET',
           url: ADMIN_TOOL_URL + '/admin/copilots',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           }
         });
         return _processRequest(request, 'allCopilots');
@@ -168,13 +124,12 @@ angular.module('supportAdminApp')
       /**
        * creates copilot
        */
-      function createCopilot(token, data) {
+      function createCopilot(data) {
         var request = $http({
           method: 'POST',
           url: ADMIN_TOOL_URL + '/admin/copilots',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           },
           data: angular.toJson(data)
         });
@@ -184,13 +139,12 @@ angular.module('supportAdminApp')
       /**
        * Delete copilot
        */
-      function deleteCopilot(token, data) {
+      function deleteCopilot(data) {
         var request = $http({
           method: "DELETE",
           url: ADMIN_TOOL_URL + "/admin/copilots",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           },
           data: angular.toJson(data)
         });
@@ -200,9 +154,9 @@ angular.module('supportAdminApp')
       /**
        * Update copilot
        */
-      function updateCopilot(token, data) {
-        return deleteCopilot(token, data).then(function () {
-          return createCopilot(token, data);
+      function updateCopilot(data) {
+        return deleteCopilot(data).then(function () {
+          return createCopilot(data);
         });
       }
 
@@ -210,7 +164,7 @@ angular.module('supportAdminApp')
       /**
        * Find Reviewers
        */
-      function findReviewers(token, categoryId) {
+      function findReviewers(categoryId) {
         var request = $http({
           method: 'GET',
           url: ADMIN_TOOL_URL + '/admin/reviewers',
@@ -219,7 +173,6 @@ angular.module('supportAdminApp')
           },
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           }
         });
         return _processRequest(request, 'reviewers');
@@ -229,13 +182,12 @@ angular.module('supportAdminApp')
       /**
        * creates Reviewer
        */
-      function createReviewer(token, data) {
+      function createReviewer(data) {
         var request = $http({
           method: 'POST',
           url: ADMIN_TOOL_URL + '/admin/reviewers',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           },
           data: angular.toJson(data)
         });
@@ -245,13 +197,12 @@ angular.module('supportAdminApp')
       /**
        * Delete Reviewer
        */
-      function deleteReviewer(token, data) {
+      function deleteReviewer(data) {
         var request = $http({
           method: "DELETE",
           url: ADMIN_TOOL_URL + "/admin/reviewers",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           },
           data: angular.toJson(data)
         });
@@ -262,10 +213,10 @@ angular.module('supportAdminApp')
       /**
        * Update Reviewer
        */
-      function updateReviewer(token, oldReviewer, newReviewer) {
-        var requests = [deleteReviewer(token, oldReviewer)];
+      function updateReviewer(oldReviewer, newReviewer) {
+        var requests = [deleteReviewer(oldReviewer)];
         if (oldReviewer.categoryId !== newReviewer.categoryId) {
-          requests.push(deleteReviewer(token, {
+          requests.push(deleteReviewer({
             username: newReviewer.username,
             categoryId: newReviewer.categoryId
           }).catch(function (error) {
@@ -277,27 +228,25 @@ angular.module('supportAdminApp')
         }
         return $q.all(requests).then(function () {
           delete newReviewer.id;
-          return createReviewer(token, newReviewer)
+          return createReviewer(newReviewer)
         });
       }
 
       /**
        * Find review board project categories
        */
-      function findReviewBoardProjectCategories(token) {
+      function findReviewBoardProjectCategories() {
         var request = $q.all([$http({
           method: 'GET',
           url: ADMIN_TOOL_URL + '/develop/challengetypes',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           }
         }), $http({
           method: 'GET',
           url: ADMIN_TOOL_URL + '/design/challengetypes',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
           }
         })]);
         return _processRequest(request);

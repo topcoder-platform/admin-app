@@ -24,9 +24,16 @@ angular.module('supportAdminApp')
      * @return {Promise} Resolves to the created role object.
      */
     Service.createRole = function(roleName) {
-      return $http.post(API_URL + '/v3/roles', {
-        param: {
-          roleName: roleName
+      return $http({
+        method: 'POST',
+        url: API_URL + '/v3/roles',
+        data: angular.toJson({
+          param: {
+            roleName: roleName
+          }
+        }),
+        headers: {
+          'Content-Type': 'application/json'
         }
       }).then(function(res) {
         return res.data.result.content;

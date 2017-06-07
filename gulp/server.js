@@ -27,7 +27,9 @@ function browserSyncInit(baseDir, files, browser) {
       middleware: middleware,
       routes: routes
     },
-    browser: browser
+    browser: browser,
+    host: 'local.topcoder-dev.com',
+    open: 'external'
   });
 }
 
