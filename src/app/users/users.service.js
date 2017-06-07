@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('UserService', ['$log', '$q', '$http', 'User', 'API_URL', 'API_VERSION_PATH',
+  .factory('UserService', ['$log', '$q','$http', 'User', 'API_URL', 'API_VERSION_PATH',
     function ($log, $q, $http, User, API_URL, API_VERSION_PATH) {
       // local dev
       //var API_URL = 'http://local.topcoder-dev.com:8080';
-
+      
       var UserService = {};
 
       /** find user by ID */
@@ -208,7 +208,7 @@ angular.module('supportAdminApp')
           }
         );
       }, // updateEmail()
-
+      
       /**
        *  updates a user status
        */
@@ -249,7 +249,7 @@ angular.module('supportAdminApp')
           }
         );
       }; // updateStatus()
-
+      
       /** get achievements for the specified user id */
       UserService.getAchievements = function(userId) {
         if(!userId) {
@@ -288,7 +288,7 @@ angular.module('supportAdminApp')
           }
         );
       }; // getAchievements()
-
+      
       /**
        * Instantiate a user object(s)
        */
@@ -303,8 +303,8 @@ angular.module('supportAdminApp')
           return User.createInstance(data);
         }
       };
-
-
+    
+    
       /** get profile by handle */
       UserService.getProfile = function(handle) {
         if(!handle) {
@@ -343,10 +343,10 @@ angular.module('supportAdminApp')
           }
         );
       }; // findById()
-
+      
       UserService.getProfileEndpoint = function(handle) {
         return API_URL + '/'+API_VERSION_PATH+'/members/' + handle;
       }
-
+    
       return UserService;
     }]);
