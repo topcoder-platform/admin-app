@@ -4,292 +4,327 @@
  * support-admin-app
  */
 angular.module('supportAdminApp', [
-              'ngAnimate',
-              'ngCookies',
-              'ngTouch',
-              'ngSanitize',
-              'ngResource',
-              'csvReader',
-              'ui.router',
-              'ui.bootstrap',
-              'app.constants',
-              'appirio-tech-ng-api-services',
-              'appirio-tech-ng-auth',
-              'angular-clipboard',
-              'ng-file-model',
-              'ui.multiselect',
-              'ui.bootstrap.datetimepicker',
-              'angularMoment'])
+    'ngAnimate',
+    'ngCookies',
+    'ngTouch',
+    'ngSanitize',
+    'ngResource',
+    'csvReader',
+    'ui.router',
+    'ui.bootstrap',
+    'app.constants',
+    'angular-clipboard',
+    'ng-file-model',
+    'ui.multiselect',
+    'ui.bootstrap.datetimepicker',
+    'angularMoment',
+    'angular-jwt'])
   // In the run phase of your Angular application
-  .run(function ($rootScope, $location, AuthService, $state, UserV3Service) {
-    // Listen to '$locationChangeSuccess', not '$stateChangeStart'
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if (toState.name === 'login') {
-        return;
-      }
-      console.log('state changed. loggedIn: ' + AuthService.isLoggedIn()); // debug
-      if (!AuthService.isLoggedIn()) {
-        $state.go('login');
-      } else {
-        UserV3Service.loadUser().then(function (currentUser) {
-          $rootScope.currentUser = currentUser;
-          $state.go(toState, toParams);
-        });
-      }
-    });
+  .run(function (AuthService) {
+    // init AuthService, it has to be done once, when app starts
+    AuthService.init();
   })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-      $stateProvider
-        .state('login', {
-           url: '/login',
-           templateUrl: 'app/login/login.html',
-           data: { pageTitle: 'Login' }
-        })
-        .state('index', {
-            abstract: true,
-            url: '/index',
-            templateUrl: 'components/common/content.html'
-        })
-        .state('index.main', {
-            url: '/main',
-            templateUrl: 'app/main/main.html',
-            data: { pageTitle: 'Dashboard' }
-        })
-        .state('index.users', {
-            url: '/users',
-            templateUrl: 'app/users/users.html',
-            data: { pageTitle: 'User Management' }
-        })
-        .state('index.admintool', {
-            url: '/admintool',
-            templateUrl: 'app/admintool/admintool.html',
-            data: { pageTitle: 'Admins / Copilots / Reviewers  Management' }
-        })
-        .state('index.sso', {
-            url: '/sso',
-            templateUrl: 'app/sso/sso.html',
-            data: { pageTitle: 'SSO User Management' }
-        })
-        .state('index.addmembers', {
-            url: '/add',
-            templateUrl: 'app/addmembers/add.html',
-            data: { pageTitle: 'User Management' }
-        })
-        .state('index.permission_management', {
-            url: '/permission_management',
-            templateUrl: 'app/permission_management/permission_management.html',
-            data: { pageTitle: 'Permission Management' },
-            controller: 'PermissionManagementCtrl',
-            controllerAs: 'ctrl',
-        })
-        .state('index.submissions', {
-            abstract: true,
-            url: '/submissions',
-            templateUrl: 'app/submissions/submissions.html',
-            data: { pageTitle: 'Submissions' }
-        })
-        .state('index.submissions.list', {
-            url: '/list',
-            templateUrl: 'app/submissions/submissions.list.html',
-            data: { pageTitle: 'Submissions List' },
-            controller: 'SubmissionListCtrl'
-        })
-        .state('index.submissions.new', {
-            url: '/new',
-            templateUrl: 'app/submissions/submissions.new.html',
-            controller: 'NewSubmissionCtrl',
-            data: { pageTitle: 'New Submission' }
-        })
-        .state('index.tags', {
-          abstract: true,
-          url: '/tags',
-          templateUrl: 'app/tags/tags.html',
-          data: { pageTitle: 'Tags' },
-          controller: function ($scope, $state, TagService) {
-            $scope.$state = $state;
-            $scope.tagDomains = [{
-              value: 'skills',
-              name: 'Skills'
-            }, {
-              value: 'events',
-              name: 'Events'
-            }, {
-              value: 'technology',
-              name: 'Technology'
-            }, {
-              value: 'platform',
-              name: 'Platform'
-            }];
+    var authenticate = ['AuthService', '$q', '$state', function(AuthService, $q, $state) {
+      return AuthService.authenticate().catch(function(err) {
+        // if we get error that use doesn't have permissions
+        // then go to auth page, which will show permissions denied error
+        if (err === AuthService.ERROR.NO_PERMISSIONS) {
+          $state.go('auth');
+        }
+        return $q.reject();
+      });
+    }];
 
-            $scope.tagCategories = [{
-              value: 'data_science',
-              name: 'Data Science'
-            }, {
-              value: 'develop',
-              name: 'Develop'
-            },
-              {
-                value: 'design',
-                name: 'Design'
-              }];
-
-            $scope.tagStatuses = [{
-              value: 'approved',
-              name: 'Approved'
-            }, {
-              value: 'pending',
-              name: 'Pending'
-            }];
-
-            TagService.getTechnologyStatuses().then(function(techStatuses) {
-              _.forEach(techStatuses, function(status) {
-                status.value = _.lowerCase(status.description);
-                status.name = status.description;
-              });
-              $scope.techStatuses = techStatuses;
+    $stateProvider
+      .state('auth', {
+        url: '/auth',
+        templateUrl: 'app/auth/auth.html',
+        data: { pageTitle: 'Authentication' },
+        resolve: {
+          auth: ['AuthService', '$q', function(AuthService, $q) {
+            // for auth state we use another resolver then all other states
+            return AuthService.authenticate().catch(function(err) {
+              // if we get error that use doesn't have permissions
+              // we still resolve the promise and proceed to auth page
+              // which will show permissions denied error
+              // also we keep going if we are in loging out process
+              if (err === AuthService.ERROR.NO_PERMISSIONS || AuthService.logginOut) {
+                return $q.resolve();
+              }
+              return $q.reject();
             });
-            $scope.getTagStatuses = function(domainType) {
-              if (domainType === 'technology') {
-                return $scope.techStatuses;
-              } else {
-                return $scope.tagStatuses;
-              }
-            }
-          }
-        })
-        .state('index.tags.list', {
-          url: '/list',
-          templateUrl: 'app/tags/tags.list.html',
-          controller: 'TagListCtrl'
-        })
-        .state('index.tags.new', {
-          url: '/new',
-          templateUrl: 'app/tags/tags.new.html',
-          controller: 'NewTagCtrl',
-          data: { pageTitle: 'New Tag' }
-        })
-        .state('index.tags.edit', {
-          url: '/edit/:tagId',
-          templateUrl: 'app/tags/tags.edit.html',
-          controller: 'EditTagCtrl',
-          data: { pageTitle: 'Edit Tag' }
-        })
-        .state('index.work', {
-          abstract: true,
-          url: '/work',
-          templateUrl: 'app/work/work.html',
-          data: { pageTitle: 'Work Items Management' }
-        })
-        .state('index.work.list', {
-          url: '/list/:id',
-          views: {
-            'work-details': {
-              templateUrl: 'app/work/work.details.html'
-            },
-            'work-list': {
-              templateUrl: 'app/work/work.list.html',
-              data: { pageTitle: 'work List' },
-              controller: 'WorkListCtrl',
-              params: {
-                id: ''
-              }
-            },
-            'work-messages': {
-              templateUrl: 'app/work/work.messages.html',
-              controller: 'projectController'
-            }
-          }
-        })
-        .state('index.workStepEdit', {
-          url: '/work/:id/:stepId',
-          templateUrl: 'app/work/workStepEdit.html',
-          data: { pageTitle: 'Edit Step' },
-          controller: 'WorkStepEditCtrl',
-          params: {
-            id: '',
-            stepId: ''
-          }
-        })
-        .state('index.projects', {
-          url: '/projects',
-          templateUrl: 'app/work/projects.html',
-          data: { pageTitle: 'Projects List' },
-          controller: 'ProjectListCtrl',
-          controllerAs: 'vm'
-        })
-        .state('index.clients', {
-          abstract: true,
-          url: '/clients',
-          templateUrl: 'app/clients/clients.html',
-          data: { pageTitle: 'Clients' },
-          controller: 'billingaccount.ClientsController'
-        })
-        .state('index.clients.list', {
-          url: '/list',
-          templateUrl: 'app/clients/clients.list.html',
-          controller: 'billingaccount.ClientsListController'
-        })
-        .state('index.clients.new', {
-          url: '/new',
-          templateUrl: 'app/clients/clients.new.html',
-          controller: 'billingaccount.NewClientController',
-          data: { pageTitle: 'New Client' }
-        })
-        .state('index.clients.edit', {
-          url: '/edit/:clientId',
-          templateUrl: 'app/clients/clients.edit.html',
-          controller: 'billingaccount.EditClientController',
-          data: { pageTitle: 'Edit Client' }
-        })
-        .state('index.billingaccounts', {
-          abstract: true,
-          url: '/billingaccounts',
-          templateUrl: 'app/billing_accounts/billingaccounts.html',
-          data: { pageTitle: 'Billing Accounts' },
-          controller: 'billingaccount.BillingAccountsController'
-        })
-        .state('index.billingaccounts.list', {
-          url: '/list',
-          templateUrl: 'app/billing_accounts/billingaccounts.list.html',
-          controller: 'billingaccount.BillingAccountsListController'
-        })
-        .state('index.billingaccounts.new', {
-          url: '/new',
-          templateUrl: 'app/billing_accounts/billingaccounts.new.html',
-          controller: 'billingaccount.NewBillingAccountController',
-          data: { pageTitle: 'New Billing Account' }
-        })
-        .state('index.billingaccounts.edit', {
-          url: '/edit/:accountId',
-          templateUrl: 'app/billing_accounts/billingaccounts.edit.html',
-          controller: 'billingaccount.EditBillingAccountController',
-          data: { pageTitle: 'Edit Billing Account' }
-        })
-        .state('index.billingaccounts.view', {
-          url: '/view/:accountId',
-          templateUrl: 'app/billing_accounts/billingaccounts.view.html',
-          controller: 'billingaccount.ViewBillingAccountController',
-          data: { pageTitle: 'Details - Billing Account' }
-        })
-        .state('index.billingaccountresources', {
-          abstract: true,
-          url: '/billingaccountresources',
-          templateUrl: 'app/billing_account_resources/billingaccountresources.html',
-          data: { pageTitle: 'Billing Account Resources' },
-          controller: 'billingaccount.BillingAccountResourcesController'
-        })
-        .state('index.billingaccountresources.list', {
-          url: '/list/:accountId',
-          templateUrl: 'app/billing_account_resources/billingaccountresources.list.html',
-          controller: 'billingaccount.BillingAccountResourcesListController'
-        })
-        .state('index.billingaccountresources.new', {
-          url: '/:accountId/new',
-          templateUrl: 'app/billing_account_resources/billingaccountresources.new.html',
-          controller: 'billingaccount.NewBillingAccountResourceController',
-          data: { pageTitle: 'New Billing Account Resource' }
-        });
+          }]
+        }
+      })
+      .state('index', {
+        abstract: true,
+        url: '/index',
+        templateUrl: 'components/common/content.html'
+      })
+      .state('index.main', {
+        url: '/main',
+        templateUrl: 'app/main/main.html',
+        data: { pageTitle: 'Dashboard' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.users', {
+        url: '/users',
+        templateUrl: 'app/users/users.html',
+        data: { pageTitle: 'User Management' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.admintool', {
+        url: '/admintool',
+        templateUrl: 'app/admintool/admintool.html',
+        data: { pageTitle: 'Admins / Copilots / Reviewers  Management' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.sso', {
+        url: '/sso',
+        templateUrl: 'app/sso/sso.html',
+        data: { pageTitle: 'SSO User Management' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.addmembers', {
+        url: '/add',
+        templateUrl: 'app/addmembers/add.html',
+        data: { pageTitle: 'User Management' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.permission_management', {
+        url: '/permission_management',
+        templateUrl: 'app/permission_management/permission_management.html',
+        data: { pageTitle: 'Permission Management' },
+        controller: 'PermissionManagementCtrl',
+        controllerAs: 'ctrl',
+        resolve: { auth: authenticate }
+      })
+      .state('index.submissions', {
+        abstract: true,
+        url: '/submissions',
+        templateUrl: 'app/submissions/submissions.html',
+        data: { pageTitle: 'Submissions' }
+      })
+      .state('index.submissions.list', {
+        url: '/list',
+        templateUrl: 'app/submissions/submissions.list.html',
+        data: { pageTitle: 'Submissions List' },
+        controller: 'SubmissionListCtrl',
+        resolve: { auth: authenticate }
+      })
+      .state('index.submissions.new', {
+        url: '/new',
+        templateUrl: 'app/submissions/submissions.new.html',
+        controller: 'NewSubmissionCtrl',
+        data: { pageTitle: 'New Submission' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.tags', {
+        abstract: true,
+        url: '/tags',
+        templateUrl: 'app/tags/tags.html',
+        data: { pageTitle: 'Tags' },
+        controller: function ($scope, $state, TagService) {
+          $scope.$state = $state;
+          $scope.tagDomains = [{
+            value: 'skills',
+            name: 'Skills'
+          }, {
+            value: 'events',
+            name: 'Events'
+          }, {
+            value: 'technology',
+            name: 'Technology'
+          }, {
+            value: 'platform',
+            name: 'Platform'
+          }];
 
-    $urlRouterProvider.otherwise('/login');
+          $scope.tagCategories = [{
+            value: 'data_science',
+            name: 'Data Science'
+          }, {
+            value: 'develop',
+            name: 'Develop'
+          },
+            {
+              value: 'design',
+              name: 'Design'
+            }];
+
+          $scope.tagStatuses = [{
+            value: 'approved',
+            name: 'Approved'
+          }, {
+            value: 'pending',
+            name: 'Pending'
+          }];
+
+          TagService.getTechnologyStatuses().then(function(techStatuses) {
+            _.forEach(techStatuses, function(status) {
+              status.value = _.lowerCase(status.description);
+              status.name = status.description;
+            });
+            $scope.techStatuses = techStatuses;
+          });
+          $scope.getTagStatuses = function(domainType) {
+            if (domainType === 'technology') {
+              return $scope.techStatuses;
+            } else {
+              return $scope.tagStatuses;
+            }
+          }
+        }
+      })
+      .state('index.tags.list', {
+        url: '/list',
+        templateUrl: 'app/tags/tags.list.html',
+        controller: 'TagListCtrl',
+        resolve: { auth: authenticate }
+      })
+      .state('index.tags.new', {
+        url: '/new',
+        templateUrl: 'app/tags/tags.new.html',
+        controller: 'NewTagCtrl',
+        data: { pageTitle: 'New Tag' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.tags.edit', {
+        url: '/edit/:tagId',
+        templateUrl: 'app/tags/tags.edit.html',
+        controller: 'EditTagCtrl',
+        data: { pageTitle: 'Edit Tag' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.work', {
+        abstract: true,
+        url: '/work',
+        templateUrl: 'app/work/work.html',
+        data: { pageTitle: 'Work Items Management' }
+      })
+      .state('index.work.list', {
+        url: '/list/:id',
+        views: {
+          'work-details': {
+            templateUrl: 'app/work/work.details.html'
+          },
+          'work-list': {
+            templateUrl: 'app/work/work.list.html',
+            data: { pageTitle: 'work List' },
+            controller: 'WorkListCtrl',
+            params: {
+              id: ''
+            }
+          },
+          'work-messages': {
+            templateUrl: 'app/work/work.messages.html',
+            controller: 'projectController'
+          }
+        },
+        resolve: { auth: authenticate }
+      })
+      .state('index.workStepEdit', {
+        url: '/work/:id/:stepId',
+        templateUrl: 'app/work/workStepEdit.html',
+        data: { pageTitle: 'Edit Step' },
+        controller: 'WorkStepEditCtrl',
+        params: {
+          id: '',
+          stepId: ''
+        },
+        resolve: { auth: authenticate }
+      })
+      .state('index.projects', {
+        url: '/projects',
+        templateUrl: 'app/work/projects.html',
+        data: { pageTitle: 'Projects List' },
+        controller: 'ProjectListCtrl',
+        controllerAs: 'vm',
+        resolve: { auth: authenticate }
+      })
+      .state('index.clients', {
+        abstract: true,
+        url: '/clients',
+        templateUrl: 'app/clients/clients.html',
+        data: { pageTitle: 'Clients' },
+        controller: 'billingaccount.ClientsController'
+      })
+      .state('index.clients.list', {
+        url: '/list',
+        templateUrl: 'app/clients/clients.list.html',
+        controller: 'billingaccount.ClientsListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.clients.new', {
+        url: '/new',
+        templateUrl: 'app/clients/clients.new.html',
+        controller: 'billingaccount.NewClientController',
+        data: { pageTitle: 'New Client' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.clients.edit', {
+        url: '/edit/:clientId',
+        templateUrl: 'app/clients/clients.edit.html',
+        controller: 'billingaccount.EditClientController',
+        data: { pageTitle: 'Edit Client' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.billingaccounts', {
+        abstract: true,
+        url: '/billingaccounts',
+        templateUrl: 'app/billing_accounts/billingaccounts.html',
+        data: { pageTitle: 'Billing Accounts' },
+        controller: 'billingaccount.BillingAccountsController'
+      })
+      .state('index.billingaccounts.list', {
+        url: '/list',
+        templateUrl: 'app/billing_accounts/billingaccounts.list.html',
+        controller: 'billingaccount.BillingAccountsListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.billingaccounts.new', {
+        url: '/new',
+        templateUrl: 'app/billing_accounts/billingaccounts.new.html',
+        controller: 'billingaccount.NewBillingAccountController',
+        data: { pageTitle: 'New Billing Account' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.billingaccounts.edit', {
+        url: '/edit/:accountId',
+        templateUrl: 'app/billing_accounts/billingaccounts.edit.html',
+        controller: 'billingaccount.EditBillingAccountController',
+        data: { pageTitle: 'Edit Billing Account' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.billingaccounts.view', {
+        url: '/view/:accountId',
+        templateUrl: 'app/billing_accounts/billingaccounts.view.html',
+        controller: 'billingaccount.ViewBillingAccountController',
+        data: { pageTitle: 'Details - Billing Account' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.billingaccountresources', {
+        abstract: true,
+        url: '/billingaccountresources',
+        templateUrl: 'app/billing_account_resources/billingaccountresources.html',
+        data: { pageTitle: 'Billing Account Resources' },
+        controller: 'billingaccount.BillingAccountResourcesController'
+      })
+      .state('index.billingaccountresources.list', {
+        url: '/list/:accountId',
+        templateUrl: 'app/billing_account_resources/billingaccountresources.list.html',
+        controller: 'billingaccount.BillingAccountResourcesListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.billingaccountresources.new', {
+        url: '/:accountId/new',
+        templateUrl: 'app/billing_account_resources/billingaccountresources.new.html',
+        controller: 'billingaccount.NewBillingAccountResourceController',
+        data: { pageTitle: 'New Billing Account Resource' },
+        resolve: { auth: authenticate }
+      });
+
+    $urlRouterProvider.otherwise('/index/main');
     // $locationProvider.html5Mode(true).hashPrefix('!');
   });

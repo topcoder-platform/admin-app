@@ -28,29 +28,26 @@ The following configuration parameters are available:
 
 | Name                     | Description                     |
 |--------------------------|---------------------------------|
-| ES_PROJECT_API_URL       | URL of the ES project API       |
 | API_URL                  | URL of the topcoder API         |
-| WORK_API_URL             | URL of the topcoder work API    |
 | ADMIN_TOOL_URL           | URL of the admin tool API       |
 | API_VERSION_PATH         | Version of the API              |
-| AUTH0_CLIENT_ID          | Client ID for Auth0             |
-| AUTH0_DOMAIN             | Domain for Auth0 authentication |
-| AUTH0_TOKEN_NAME         | Auth0 token name                |
-| AUTH0_REFRESH_TOKEN_NAME | Auth0 refresh token name        |
+| COOKIES_SECURE           | If true the cookies set by this App will only be transmitted over secure  protocols like https. |
+| AUTH_URL                 | Url of Topcoder auth form       |
+| ACCOUNTS_CONNECTOR_URL   | Url to TC account connector     |
+| JWT_V3_NAME              | jwt V3 cookie name              |
+| JWT_V2_NAME              | jwt V2 cookie name              |
 
 ## Start the Application
+
+As application uses Topcoder authorization we have to run it on the one of allowed domains. For development purposes we can use `local.topcoder-dev.com:3000`. So before run we have to add into `hosts` file the line `127.0.0.1 local.topcoder-dev.com`. Be aware, that we also have to run on the port `3000` to be able to authorize when run locally.
 
 Simply execute the following command to start the app in development mode (with browsersync)
 ```
 npm install
-npm start
+gulp build
+gulp serve
 ```
-Application will be hosted and running at http://locahost:3000
-
-To build the application to be hosted on a real webserver run:
-```
-npm run build
-```
+Application will be hosted and running at http://local.topcoder-dev.com:3000.
 
 ## Execute E2E Tests
 
@@ -59,8 +56,6 @@ Before executing the end-to-end (e2e) protractor tests, these environment variab
 | Name | Description | Default Value |
 | --- | --- | --- |
 | BUILD_ENV | Deployment configuration to be tested by e2e tests. | See [Configuration](#configuration) for possible values. Defaults to `dev`. |
-| TEST_USER | Account username to use for e2e tests. | No default. Must be set. |
-| TEST_PASSWORD | Account password to use for e2e tests. | No default. Must be set. |
 | TEST_PORT | Port from which to serve the app for e2e tests. | Defaults to `3000`. |
 
 ```npm test```
