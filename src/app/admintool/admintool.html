@@ -32,20 +32,20 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <input id="search-condition-handle" type="text" class="form-control"
-                                               ng-model="formSearch.handle" ng-disabled="!v2Token || formSearch.isLoading" ng-trim="true">
+                                               ng-model="formSearch.handle" ng-disabled="formSearch.isLoading" ng-trim="true">
                                     </div>
                                     <div class="col-md-4" ng-if="formSearch.isReviewer()">
                                         <select id="search-condition-category" class="form-control m-b"
                                                 ng-model="formSearch.categoryId"
                                                 ng-options="projectCategory.challengeCategoryId as projectCategory.name for projectCategory in reviewBoardProjectCategories"
-                                                ng-disabled="!v2Token || formSearch.isLoading"
+                                                ng-disabled="formSearch.isLoading"
                                                 ng-change="changeRole()">
                                         </select>
                                     </div>
                                     <div class="col-md-2">
                                         <select id="search-condition-role" class="form-control m-b"
                                                 ng-model="formSearch.role"
-                                                ng-disabled="!v2Token || formSearch.isLoading"
+                                                ng-disabled="formSearch.isLoading"
                                                 ng-options="k as v  for (k,v) in constRoles"
                                                 ng-change="changeRole()">
                                         </select>
@@ -53,7 +53,7 @@
                                     <div class="col-md-2">
                                         <button class="btn btn-sm btn-warning pull-left"
                                                 ng-click="search()"
-                                                ng-disabled="!v2Token || !formSearch.role || formSearch.isLoading ||
+                                                ng-disabled="!formSearch.role || formSearch.isLoading ||
                                                 (formSearch.isReviewer() && !formSearch.categoryId)"
                                                 type="submit">
                                             <strong>Find User(s)</strong>
@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <button ng-click="openNewUserRoleDialog()" type="submit" class="btn btn-sm btn-info pull-right"
-                                                ng-disabled="!v2Token || formSearch.isLoading">
+                                                ng-disabled="formSearch.isLoading">
                                             <strong><i class="fa fa-plus"></i> Add</strong>
                                         </button>
                                     </div>

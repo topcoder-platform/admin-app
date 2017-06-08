@@ -33,7 +33,7 @@
     "gulp-useref": "~1.0.2",
     "http-proxy": "~1.7.0",
     "jasmine-core": "^2.5.2",
-	"jshint":"~2.9.4",
+    "jshint": "~2.9.4",
     "jshint-stylish": "~1.0.0",
     "main-bower-files": "~2.13.1",
     "protractor": "~5.1.1",
@@ -46,8 +46,9 @@
   },
   "scripts": {
     "postinstall": "bower install --config.interactive=false",
+    "clean": "gulp clean",
     "build": "gulp build",
-    "start": "gulp serve",
+    "start": "gulp publish",
     "test": "gulp protractor"
   }
 }

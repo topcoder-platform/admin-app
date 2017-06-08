@@ -2,7 +2,7 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('addmembers.AddMemberController', ['$log', '$scope', '$parse', 'AuthService', 'MemberService', function ($log, $scope, $parse, $authService, $memberService) {
+module.controller('addmembers.AddMemberController', ['$log', '$scope', '$parse', 'MemberService', function ($log, $scope, $parse, $memberService) {
 
     $scope.errors = [];
     $scope.response = [];
