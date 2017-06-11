@@ -10,7 +10,7 @@ gulp.task('styles', function () {
 
   var lessOptions = {
     paths: [
-      'bower_components',
+      'node_modules',
       paths.src + '/app',
       paths.src + '/components'
     ]
