@@ -1,0 +1,59 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h2>
+                        <span ng-if="groups[groupId]">{{groups[groupId]}}</span>
+                        <span class="text-info" ng-if="groupId && !groups[groupId]">loading...</span>
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" name="addMemberForm" data-toggle="validator" novalidate>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <h3>Add member of type</h3>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="membershipType" ng-model="membershipType" value="user" /> user
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        <input type="radio" name="membershipType" ng-model="membershipType" value="group" /> group
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="membershipType === 'user'">
+                            <div class="row">
+                                <div class="form-group col-md-12" ng-class="{'has-error': addMemberForm.userHandles.$touched && addMemberForm.userHandles.$invalid}">
+                                    <label for="user-handles">User Handles</label>
+                                    <textarea id="user-handles" class="form-control" ng-model="userHandles" ng-required="membershipType === 'user'" placeholder="Comma separated user handles" name="userHandles"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="membershipType === 'group'">
+                            <div class="row">
+                                <div class="form-group col-md-12" ng-class="{'has-error': addMemberForm.groupIds.$touched && addMemberForm.groupIds.$invalid}">
+                                    <label for="group-ids">Group IDs</label>
+                                    <textarea id="group-ids" class="form-control" ng-model="groupIds" ng-required="membershipType === 'group'" placeholder="Comma separated group ids" name="groupIds"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-12">
+                                <button ui-sref="index.groupmembers.list({groupId: groupId})" type="button" class="btn btn-sm btn-warning m-l pull-right">
+                                    <strong>Cancel</strong>
+                                </button>
+                                <button ng-click="submitMemberships()" type="submit" class="btn btn-sm btn-success pull-right" ng-disabled="addMemberForm.$invalid || processing">
+                                    <strong>Add Members</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

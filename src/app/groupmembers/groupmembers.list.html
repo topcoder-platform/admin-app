@@ -1,0 +1,85 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <!-- add membership button row -->
+    <div class="row">
+        <div class="col col-md-12 col-lg-12">
+            <a class="btn btn-primary pull-right m-b" ui-sref="index.groups.list" style="margin-left: 20px">
+                <strong>Back</strong>
+            </a>
+            <a class="btn btn-info pull-right m-b" ui-sref="index.groupmembers.new({groupId: groupId})">
+                <strong><i class="fa fa-plus"></i> Add Members</strong>
+            </a>
+        </div>
+    </div>
+    <!-- list members row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h2>
+                        <span ng-if="groups[groupId]">{{groups[groupId]}}</span>
+                        <span class="text-info" ng-if="groupId && !groups[groupId]">loading...</span>
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!isLoading">
+                        <div ng-repeat="memberType in memberTypes">
+                            <h2>{{memberType === 'user' ? 'Users' : 'Groups'}}</h2>
+                            <table class="table table-stripped" ng-show="memberships[memberType].length">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" ng-model="isAllSelected[memberType]" ng-change="toggleAll(memberType); checkSelected();" /></th>
+                                        <th>{{memberType === 'user' ? 'User Id' : 'Group Id'}}</th>
+                                        <th>{{memberType === 'user' ? 'Handle' : 'Name'}}</th>
+                                        <th>Created by</th>
+                                        <th>Created at</th>
+                                        <th>Modified by</th>
+                                        <th>Modified at</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="animate-repeat" ng-repeat="membership in memberships[memberType]">
+                                        <td><input type="checkbox" ng-model="membership.isSelected" ng-change="checkSelected();" /></td>
+                                        <td>{{membership.memberId}}</td>
+                                        <td>
+                                            <span ng-show="memberType === 'user'">
+                                                <span ng-if="users[membership.memberId]">{{users[membership.memberId]}}</span>
+                                                <span class="text-info" ng-if="membership.memberId && !users[membership.memberId]">loading...</span>
+                                            </span>
+                                            <span ng-show="memberType === 'group'">
+                                                <span ng-if="groups[membership.memberId]">{{groups[membership.memberId]}}</span>
+                                                <span class="text-info" ng-if="membership.memberId && !groups[membership.memberId]">loading...</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="users[membership.createdBy]">{{users[membership.createdBy]}}</span>
+                                            <span class="text-info" ng-if="membership.createdBy && !users[membership.createdBy]">loading...</span>
+                                        </td>
+                                        <td>{{membership.createdAt | date:'MMM dd, yyyy'}}</td>
+                                        <td>
+                                            <span ng-if="users[membership.modifiedBy]">{{users[membership.modifiedBy]}}</span>
+                                            <span class="text-info" ng-if="membership.modifiedBy && !users[membership.modifiedBy]">loading...</span>
+                                        </td>
+                                        <td>{{membership.modifiedAt | date:'MMM dd, yyyy'}}</td>
+                                        <td>
+                                            <button data-ng-click='removeMember(membership)' class="btn btn-sm btn-danger" ng-disabled="membership.isRemoving">
+                                                <strong>Remove</strong>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div ng-show="!memberships[memberType].length">No members</div><br/>
+                        </div>
+
+                        <button data-ng-click='removeSelected()' class="btn btn-sm btn-danger" ng-disabled="!hasSelected || processing" ng-show="memberships['group'].length || memberships['user'].length"><strong>Remove Selected</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
