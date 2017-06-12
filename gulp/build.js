@@ -5,7 +5,7 @@ var gulp = require('gulp');
 var paths = gulp.paths;
 
 var $ = require('gulp-load-plugins')({
-  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
+  pattern: ['gulp-*', 'uglify-save-license', 'del']
 });
 
 gulp.task('partials', function () {
@@ -46,7 +46,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
-    .pipe($.replace('../bootstrap/fonts', 'fonts'))
+    .pipe($.replace(/\.?\.?\/node_modules\/\w+-?\/?\w+\/fonts\/?/g, '../fonts/'))
     .pipe($.csso())
     .pipe(cssFilter.restore())
     .pipe(assets.restore())
@@ -69,7 +69,10 @@ gulp.task('images', function () {
 });
 
 gulp.task('fonts', function () {
-  return gulp.src($.mainBowerFiles())
+  return gulp.src([
+    "node_modules/bootstrap/dist/fonts/*.{eot,svg,ttf,woff}",
+    "node_modules/footable/css/fonts/*.{eot,svg,ttf,woff}"
+    ])
     .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
     .pipe($.flatten())
     .pipe(gulp.dest(paths.dist + '/fonts/'))
@@ -77,7 +80,7 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('fontawesome', function () {
-    return gulp.src('bower_components/font-awesome/fonts/*.{eot,svg,ttf,woff}')
+    return gulp.src('node_modules/font-awesome/fonts/*.{eot,svg,ttf,woff}')
      .pipe(gulp.dest(paths.dist + '/fonts/'));
 });
 

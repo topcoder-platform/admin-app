@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group col-md-2">
                     <label>Category</label>
-                    <multiselect options="c.name for c in tagCategories" ng-model="addForm.categories" data-multiple="true">
+                    <multiselect ng-model="addForm.categories" options="tagCategories" id-prop="value" display-prop="name">
                     </multiselect>
                 </div>
             </div>

@@ -10,7 +10,7 @@ var paths = gulp.paths;
 
 function runTests (singleRun, done) {
   var bowerDeps = wiredep({
-    directory: 'bower_components',
+    directory: 'node_modules',
     exclude: ['bootstrap-sass-official'],
     dependencies: true,
     devDependencies: true

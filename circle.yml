@@ -12,7 +12,6 @@ dependencies:
     - curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
 
   override:
-    - rm -rf bower_components
     - npm install
 
   post:

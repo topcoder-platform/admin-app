@@ -1,0 +1,4 @@
+/*add css dependencies in node_modules here*/
+
+@import url("../node_modules/metismenu/dist/metisMenu.css");
+@import url("../node_modules/footable/css/footable.core.css");
