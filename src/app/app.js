@@ -270,6 +270,39 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'Edit Client' },
         resolve: { auth: authenticate }
       })
+      .state('index.groups', {
+        abstract: true,
+        url: '/groups',
+        templateUrl: 'app/groups/groups.html',
+        data: { pageTitle: 'Groups' },
+        controller: 'permissionmanagement.GroupsController'
+      })
+      .state('index.groups.list', {
+        url: '/list',
+        templateUrl: 'app/groups/groups.list.html',
+        controller: 'permissionmanagement.GroupsListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.groupmembers', {
+        abstract: true,
+        url: '/groupmembers/:groupId',
+        templateUrl: 'app/groupmembers/groupmembers.html',
+        data: { pageTitle: 'Group Members' },
+        controller: 'permissionmanagement.GroupMembersController'
+      })
+      .state('index.groupmembers.list', {
+        url: '/list',
+        templateUrl: 'app/groupmembers/groupmembers.list.html',
+        controller: 'permissionmanagement.GroupMembersListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.groupmembers.new', {
+        url: '/new',
+        templateUrl: 'app/groupmembers/groupmembers.new.html',
+        controller: 'permissionmanagement.GroupMembersNewController',
+        data: { pageTitle: 'Add Group Members' },
+        resolve: { auth: authenticate }
+      })
       .state('index.billingaccounts', {
         abstract: true,
         url: '/billingaccounts',

@@ -1,0 +1,50 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!isLoading">
+                        <table class="table table-stripped" ng-show="groups.length">
+                            <thead>
+                                <tr>
+                                    <th>Group ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Created by</th>
+                                    <th>Created at</th>
+                                    <th>Modified by</th>
+                                    <th>Modified at</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="group in groups">
+                                    <td>
+                                        <a ui-sref="index.groupmembers.list({groupId: group.id})">{{group.id}}</a>
+                                    </td>
+                                    <td>{{group.name}}</td>
+                                    <td>{{group.description}}</td>
+                                    <td>
+                                        <span ng-if="users[group.createdBy]">{{users[group.createdBy]}}</span>
+                                        <span class="text-info" ng-if="group.createdBy && !users[group.createdBy]">loading...</span>
+                                    </td>
+                                    <td>{{group.createdAt | date:'MMM dd, yyyy'}}</td>
+                                    <td>
+                                        <span ng-if="users[group.modifiedBy]">{{users[group.modifiedBy]}}</span>
+                                        <span class="text-info" ng-if="group.modifiedBy && !users[group.modifiedBy]">loading...</span>
+                                    </td>
+                                    <td>{{group.modifiedAt | date:'MMM dd, yyyy'}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                        <div ng-show="!groups.length">No records found</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
