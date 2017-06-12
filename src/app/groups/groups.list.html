@@ -25,7 +25,9 @@
                                     <td>
                                         <a ui-sref="index.groupmembers.list({groupId: group.id})">{{group.id}}</a>
                                     </td>
-                                    <td>{{group.name}}</td>
+                                    <td>
+                                        <a ui-sref="index.groupmembers.list({groupId: group.id})">{{group.name}}</a>
+                                    </td>
                                     <td>{{group.description}}</td>
                                     <td>
                                         <span ng-if="users[group.createdBy]">{{users[group.createdBy]}}</span>
