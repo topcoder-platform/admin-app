@@ -15,7 +15,7 @@ angular.module('supportAdminApp', [
     'app.constants',
     'angular-clipboard',
     'ng-file-model',
-    'ui.multiselect',
+    'btorfs.multiselect',
     'ui.bootstrap.datetimepicker',
     'angularMoment',
     'angular-jwt'])
