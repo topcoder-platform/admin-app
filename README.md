@@ -12,11 +12,9 @@ Internal application used to administer specific support tasks related to the To
 
 ## Installation
 
-To install npm and bower dependencies run:
+To install npm  dependencies run:
 
 > npm install
-
-Bower is set to run as a npm postinstall script.
 
 ## Configuration
 
@@ -64,13 +62,12 @@ Before executing the end-to-end (e2e) protractor tests, these environment variab
 
 ### Install global dependencies
 
-```npm install -g gulp@3.8.10 bower```
+```npm install -g gulp@3.8.10```
 
 ### Install project dependencies
 
 ```
 npm install
-bower install
 ```
 
 ### Start the Application
