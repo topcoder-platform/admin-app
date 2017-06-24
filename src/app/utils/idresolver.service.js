@@ -53,6 +53,19 @@ angular.module('supportAdminApp')
           }
         }
 
+        /**
+         * Clears the queue of user handles to load
+         *
+         * We define clearQueue function this way because loadUser
+         * function is widely used in the project, to avoid changing
+         * it everywhere.
+         *
+         * So in the new places where we need it, we can call loadUser.clearQueue()
+         */
+        loadUser.clearQueue = function() {
+          userLoadQueue = [];
+        }
+
         return loadUser;
       }
 
@@ -94,6 +107,19 @@ angular.module('supportAdminApp')
               });
             }
           }
+        }
+
+        /**
+         * Clears the queue of group names to load
+         *
+         * We define clearQueue function this way because loadUser
+         * function is widely used in the project, to avoid changing
+         * it everywhere. And for loadGroup we just want to keep it same way.
+         *
+         * So in the new places where we need it, we can call loadGroup.clearQueue()
+         */
+        loadGroup.clearQueue = function() {
+          groupLoadQueue = [];
         }
 
         return loadGroup;
