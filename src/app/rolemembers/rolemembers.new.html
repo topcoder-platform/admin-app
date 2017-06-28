@@ -1,0 +1,36 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h2>
+                        <span ng-if="role">{{role.roleName}}</span>
+                        <span class="text-info" ng-if="!role">loading...</span>
+                    </h2>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" name="addMemberForm" data-toggle="validator" novalidate>
+                        <div>
+                            <div class="row">
+                                <div class="form-group col-md-12" ng-class="{'has-error': addMemberForm.userHandles.$touched && addMemberForm.userHandles.$invalid}">
+                                    <label for="user-handles">User Handles</label>
+                                    <textarea id="user-handles" class="form-control" ng-model="userHandles" ng-required="true" placeholder="Comma separated user handles" name="userHandles" ng-disabled="isProcessing"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="form-group col-md-12">
+                                <button ui-sref="index.rolemembers.list({roleId: role.id})" type="button" class="btn btn-sm btn-warning m-l pull-right">
+                                    <strong>Cancel</strong>
+                                </button>
+                                <button ng-click="submitMember()" type="submit" class="btn btn-sm btn-success pull-right" ng-disabled="addMemberForm.$invalid || isProcessing">
+                                    <strong>Add Members</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -92,14 +92,6 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'User Management' },
         resolve: { auth: authenticate }
       })
-      .state('index.permission_management', {
-        url: '/permission_management',
-        templateUrl: 'app/permission_management/permission_management.html',
-        data: { pageTitle: 'Permission Management' },
-        controller: 'PermissionManagementCtrl',
-        controllerAs: 'ctrl',
-        resolve: { auth: authenticate }
-      })
       .state('index.submissions', {
         abstract: true,
         url: '/submissions',
@@ -301,6 +293,41 @@ angular.module('supportAdminApp', [
         templateUrl: 'app/groupmembers/groupmembers.new.html',
         controller: 'permissionmanagement.GroupMembersNewController',
         data: { pageTitle: 'Add Group Members' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.roles', {
+        abstract: true,
+        url: '/roles',
+        templateUrl: 'app/roles/roles.html',
+        data: { pageTitle: 'Roles' },
+        controller: 'permissionmanagement.RolesController'
+      })
+      .state('index.roles.list', {
+        url: '/list',
+        templateUrl: 'app/roles/roles.list.html',
+        data: { pageTitle: 'Roles' },
+        controller: 'permissionmanagement.RolesListController',
+        controllerAs: 'ctrl',
+        resolve: { auth: authenticate }
+      })
+      .state('index.rolemembers', {
+        abstract: true,
+        url: '/rolemembers/:roleId',
+        templateUrl: 'app/rolemembers/rolemembers.html',
+        data: { pageTitle: 'Role Members' },
+        controller: 'permissionmanagement.RoleMembersController'
+      })
+      .state('index.rolemembers.list', {
+        url: '/list',
+        templateUrl: 'app/rolemembers/rolemembers.list.html',
+        controller: 'permissionmanagement.RoleMembersListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.rolemembers.new', {
+        url: '/new',
+        templateUrl: 'app/rolemembers/rolemembers.new.html',
+        controller: 'permissionmanagement.RoleMembersNewController',
+        data: { pageTitle: 'Add Role Members' },
         resolve: { auth: authenticate }
       })
       .state('index.billingaccounts', {
