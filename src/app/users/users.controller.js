@@ -176,6 +176,29 @@ module.controller('users.UserSearchController', [
         });
       };
       
+
+      $scope.openRolesEditDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'md',
+          templateUrl: 'app/users/roles-edit-dialog.html',
+          controller: 'users.RolesEditDialogController',
+          resolve: {
+            user: function(){ return $scope.users[index]; }
+          }
+        });
+      };
+
+      $scope.openGroupsEditDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'md',
+          templateUrl: 'app/users/groups-edit-dialog.html',
+          controller: 'users.GroupsEditDialogController',
+          resolve: {
+            user: function(){ return $scope.users[index]; }
+          }
+        });
+      };
+
     }
 ]);
 
@@ -208,7 +231,7 @@ module.controller('users.UserEditDialogController', [
           $alert.error('Handle is not changed.', $scope);
           return;
         }
-        
+
         if(window.confirm('Are you sure you want to save changes?')) {
           $scope.form.setLoading(true);
           $userService.updateHandle(user.id, $scope.form.handle).then(
@@ -224,7 +247,7 @@ module.controller('users.UserEditDialogController', [
           );
         }
       };
-      
+
       $scope.checkProfile = function() {
         $userService.getProfile($scope.form.handle).then(
           function(profile) {
