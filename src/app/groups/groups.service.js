@@ -55,6 +55,31 @@ angular.module('supportAdminApp')
       };
 
       /**
+       * Get a groups of the particular member
+       *
+       * @param  {String}  memberId        member id
+       * @param  {String}  membershipType  membership type: 'user' or 'group'
+       * @return {Promise}                 promise get a members group list
+       */
+      GroupService.findByMember = function(memberId, membershipType) {
+        return $http({
+          method: 'GET',
+          url: GroupService.getBasePath() + '/groups/?memberId=' + memberId + '&membershipType=' + membershipType,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          if (response && response.data && response.data.result) {
+            return response.data.result.content;
+          } else {
+            return $q.reject({
+              error : 'Cannot find data in response'
+            })
+          }
+        }).catch(GroupService.handleError);
+      };
+
+      /**
        * Handle API response error
        *
        * @param  {Error}   error    the error as received in catch callback
