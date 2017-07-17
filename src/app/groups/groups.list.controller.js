@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('permissionmanagement.GroupsListController', [
-              '$scope', '$rootScope', 'GroupService', 'UserService', 'IdResolverService', 'Alert',
-    function ($scope, $rootScope, GroupService, UserService, IdResolverService, $alert) {
+              '$scope', '$rootScope', 'GroupService', 'UserService', 'IdResolverService', 'Alert', '$timeout',
+    function ($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout) {
 
       // true data is loading
       $scope.isLoading = false;
@@ -27,13 +27,27 @@ module.controller('permissionmanagement.GroupsListController', [
           $scope.groups.forEach(function(group) {
             loadUser(group.createdBy);
             loadUser(group.modifiedBy);
-          })
+          });
+          if ($scope.groups.length) {
+            // make sure changes to scope are applied
+            // and redraw footable table with current group list
+            $timeout(function() {
+              $('.footable').trigger('footable_redraw');
+              $scope.isLoading = false;
+            });
+          } else {
+            $scope.isLoading = false;
+          }
         }).catch(function (error) {
           $alert.error(error.error, $rootScope);
-        }).finally(function() {
           $scope.isLoading = false;
         });
       };
+
+      // init footable plugin
+      angular.element(document).ready(function() {
+        $('.footable').footable();
+      });
 
       // load the groups on controller init
       $scope.fetch();
