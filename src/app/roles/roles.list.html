@@ -94,7 +94,7 @@
                     ng-if="role.createdBy && !ctrl.users[role.createdBy]"
                   >loading...</span>
                 </td>
-                <td>{{role.createdAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} {{role.createdAt ? 'EDT' : ''}}</td>
+                <td>{{role.createdAt | date : 'yyyy-MM-dd  HH:mm' : 'EDT'}} {{role.createdAt ? 'EDT' : ''}}</td>
                 <td>
                   <span ng-if="ctrl.users[role.modifiedBy]">
                     {{ctrl.users[role.modifiedBy]}}
@@ -104,7 +104,7 @@
                     ng-if="role.modifiedBy && !ctrl.users[role.modifiedBy]"
                   >loading...</span>
                 </td>
-                <td>{{role.modifiedAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} {{role.modifiedAt ? 'EDT' : ''}}</td>
+                <td>{{role.modifiedAt | date : 'yyyy-MM-dd  HH:mm' : 'EDT'}} {{role.modifiedAt ? 'EDT' : ''}}</td>
               </tr>
             </tbody>
 
