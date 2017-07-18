@@ -54,12 +54,14 @@ angular.module('supportAdminApp')
         var query = "";
         angular.forEach({
           "fields": opts.fields || "id,handle,email,active,emailActive,status,credential,firstName,lastName,createdAt,modifiedAt",
-          "filter": opts.filter
-        //"limit" : null,
+          "filter": opts.filter,
+          "limit" : opts.limit,
         //"offset": null,
         //"orderBy": null,
         }, function(value, key) {
-          query += ('&' + key + '=' + encodeURIComponent(value));
+          if (value) {
+            query += ('&' + key + '=' + encodeURIComponent(value));
+          }
         });
 
         var request = $http({
