@@ -49,7 +49,7 @@
                     <div class="text-center" ng-show="isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
-                    <div ng-show="!isLoading">
+                    <div ng-show="!isLoading" class="table-responsive">
                         <table class="footable table table-stripped toggle-arrow-tiny" ng-show="members.length" data-page-size="20">
                             <thead>
                                 <tr>
@@ -88,6 +88,7 @@
 
                         <button data-ng-click='removeSelected()' class="btn btn-sm btn-danger" ng-disabled="!hasSelected || isProcessing" ng-show="members.length"><strong>Remove Selected</strong></button>
                     </div>
+                    <!-- table-responsive -->
                 </div>
             </div>
         </div>

@@ -8,8 +8,11 @@ body {
 }
 
 html,body {
-  height: 100%;
+  min-height: 100%;
+}
 
+.app-wrapper {
+  height: inherit;
 }
 
 body.full-height-layout #wrapper,
@@ -18,7 +21,7 @@ body.full-height-layout #page-wrapper {
 }
 
 #page-wrapper {
-  min-height: auto;
+  height: 100%;
 }
 
 body.boxed-layout {
@@ -171,6 +174,7 @@ video {
 #wrapper {
   width: 100%;
   overflow-x: hidden;
+  height: inherit;
 }
 
 .wrapper {
@@ -183,16 +187,17 @@ video {
 
 #page-wrapper {
   padding: 0 15px;
-  min-height: 568px;
+  min-height: 667px;
   position: relative !important;
 }
 
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
+    min-height: 959px;
     margin: 0 0 0 240px;
-    min-height: 1000px;
   }
+  
 }
 
 .title-action {
