@@ -20,7 +20,7 @@
                                         <input id="search-condition-handle" type="text" class="form-control" ng-model="challengeSearch.challengeId" ng-disabled="challengeSearch.isLoading" ng-trim="true">
                                     </div>
                                     <div class="col-md-4 no-padding-left">
-                                        <button ng-click="findChallenge()" ng-disabled="challengeSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left">
+                                        <button ng-click="findChallenge()" ng-disabled="challengeSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left btn-find-challenge">
                                             <strong>Find challenge</strong>
                                         </button>
                                     </div>
@@ -38,25 +38,28 @@
                                                 <dd>{{challengeObj.subTrack}}</dd>
                                                 <dt>(Submittable) Phases</dt>
                                                 <dd>
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <td>Id</td>
-                                                                <td>Type</td>
-                                                                <td>Status</td>
-                                                                <td>Actual / Schedule End Time</td>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="p in challengePhases">
-                                                                <td>{{p.value.id}}</td>
-                                                                <td>{{p.name}}</td>
-                                                                <td>{{p.value.phaseStatus}}</td>
-                                                                <td ng-show="p.value.phaseStatus==='Closed'">{{p.value.actualEndTime|amFromUnix| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (A)</td>
-                                                                <td ng-hide="p.value.phaseStatus==='Closed'">{{p.value.scheduledEndTime|amFromUnix| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (S)</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <td>Id</td>
+                                                                    <td>Type</td>
+                                                                    <td>Status</td>
+                                                                    <td>Actual / Schedule End Time</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="p in challengePhases">
+                                                                    <td>{{p.value.id}}</td>
+                                                                    <td>{{p.name}}</td>
+                                                                    <td>{{p.value.phaseStatus}}</td>
+                                                                    <td ng-show="p.value.phaseStatus==='Closed'">{{p.value.actualEndTime|amFromUnix| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (A)</td>
+                                                                    <td ng-hide="p.value.phaseStatus==='Closed'">{{p.value.scheduledEndTime|amFromUnix| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (S)</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- table-responsive -->
                                                 </dd>
                                             </dl>
                                         </div>

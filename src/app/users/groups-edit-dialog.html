@@ -9,7 +9,7 @@
       <div class="text-center" ng-show="isLoading">
           <img src="assets/images/loading.gif" />
       </div>
-      <div ng-show="!isLoading">
+      <div ng-show="!isLoading" class="table-responsive">
           <table class="table table-stripped" ng-show="userGroups.length">
               <thead>
                   <tr>
@@ -34,6 +34,7 @@
           </table>
           <div ng-show="!userGroups.length">No groups<br/><br/></div>
       </div>
+      <!-- table-responsive -->
     </div>
     <div class="row" ng-show="!isLoading">
       <form name="addGroupForm" class="form-horizontal">

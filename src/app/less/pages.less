@@ -610,6 +610,10 @@ a.compose-mail {
   margin-bottom: 20px;
 }
 
+.word-wrap {
+  word-break: break-all;
+}
+
 .mail-box-header {
   background-color: #ffffff;
   border: 1px solid @border-color;
@@ -1319,3 +1323,24 @@ body.body-small .vote-icon {
   display: none;
 }
 
+// Mobile new style
+@media (max-width: 768px) {
+
+  .float-e-margins {
+    &.import-form {
+      .row {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .block {
+        word-break: break-all;
+      }
+    }
+  }
+  
+  .float-e-margins table .btn-group {
+    width: 100%;
+  }
+  
+}

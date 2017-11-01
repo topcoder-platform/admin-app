@@ -6,7 +6,7 @@
                     <div class="text-center" ng-show="isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
-                    <div ng-show="!isLoading">
+                    <div ng-show="!isLoading" class="table-responsive">
                         <table class="footable table table-stripped toggle-arrow-tiny" ng-show="groups.length" data-page-size="50">
                             <thead>
                                 <tr>
@@ -53,6 +53,7 @@
                         </table>
                         <div ng-show="!groups.length">No records found</div>
                     </div>
+                    <!-- table-responsive -->
                 </div>
             </div>
         </div>

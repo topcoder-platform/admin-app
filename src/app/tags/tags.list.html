@@ -45,7 +45,7 @@
                             <div ng-show="!isLoading && tags.length === 0">
                                 <p> No Tags found. </p>
                             </div>
-                            <div ng-hide="isLoading || tags.length === 0">
+                            <div ng-hide="isLoading || tags.length === 0" class="table-responsive">
                                 <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="50" id="tagsTable" data-sort="true">
                                     <thead>
                                     <tr>
@@ -100,6 +100,7 @@
                                     </tfoot>
                                 </table>
                             </div>
+                            <!-- table-responsive -->
                         </div>
                     </div>
                 </div>
