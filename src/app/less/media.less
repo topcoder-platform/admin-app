@@ -2,7 +2,11 @@
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 @sidebar-width;
-    min-height: 1200px;
+    height: 100%;
+  }
+  
+  .m-menu {
+    display: none;
   }
 
   .navbar-static-side {
@@ -23,14 +27,57 @@
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 0px;
-    min-height: 1000px;
+  }
+
+  .m-menu {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 2;
+    &.menu-open {
+      color: #fff;
+    }
+  }
+
+  .table-responsive {
+    overflow-y: auto;
+    border: none;
+    padding-bottom: 49px;
+    margin: 0;
+  }
+
+  // Now at mobile, paignation will be position absolute and display 0 left
+  .table-responsive .pagination {
+    position: absolute;
+    left: 34px;
+    bottom: 42px;
+  }
+
+  .roles-table .pagination {
+    bottom: 22px;
+  }
+
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+    top: 30px;
   }
 
   .body-small .navbar-static-side {
-    display: none;
     z-index: 2001;
     position: absolute;
-    width: 70px;
+    width: 100%;
+    top: 0;
+  }
+
+  .metismenu {
+    display: none;
+  }
+
+  .metismenu.menu-open {
+    background: rgb(47, 64, 80);
+    display: block;
   }
 
   .body-small.mini-navbar .navbar-static-side {

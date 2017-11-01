@@ -1,6 +1,7 @@
 <nav class="navbar-default navbar-static-side" role="navigation" ng-controller="NavController">
     <div class="sidebar-collapse">
-        <ul side-navigation class="nav metismenu" id="side-menu">
+            <a href="" ng-click="menuOpen()" class="m-menu" ng-class="{'menu-open':menuList}"><i class="fa fa-reorder"></i></a>
+        <ul side-navigation class="nav metismenu" id="side-menu" ng-class="{'menu-open':menuList}">
             <li class="nav-header">
                 <img src="assets/images/logo.png" />
             </li>

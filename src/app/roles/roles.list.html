@@ -65,7 +65,7 @@
             </div>
           </form>
         </div>
-        <div class="ibox-content" ng-show="ctrl.roles">
+        <div class="ibox-content table-responsive roles-table" ng-show="ctrl.roles">
           <table
             class="footable table table-stripped toggle-arrow-tiny"
             data-page-size="50"
@@ -94,7 +94,7 @@
                     ng-if="role.createdBy && !ctrl.users[role.createdBy]"
                   >loading...</span>
                 </td>
-                <td>{{role.createdAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} {{role.createdAt ? 'EDT' : ''}}</td>
+                <td>{{role.createdAt | date : 'yyyy-MM-dd  HH:mm' : 'EDT'}} {{role.createdAt ? 'EDT' : ''}}</td>
                 <td>
                   <span ng-if="ctrl.users[role.modifiedBy]">
                     {{ctrl.users[role.modifiedBy]}}
@@ -104,7 +104,7 @@
                     ng-if="role.modifiedBy && !ctrl.users[role.modifiedBy]"
                   >loading...</span>
                 </td>
-                <td>{{role.modifiedAt | date : 'MM dd yyyy HH:mm' : 'EDT'}} {{role.modifiedAt ? 'EDT' : ''}}</td>
+                <td>{{role.modifiedAt | date : 'yyyy-MM-dd  HH:mm' : 'EDT'}} {{role.modifiedAt ? 'EDT' : ''}}</td>
               </tr>
             </tbody>
 
@@ -117,6 +117,7 @@
             </tfoot>
           </table>
         </div>
+        <!-- table-responsive -->
       </div>
     </div>
   </div>

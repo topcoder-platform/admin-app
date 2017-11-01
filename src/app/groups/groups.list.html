@@ -6,11 +6,11 @@
                     <div class="text-center" ng-show="isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
-                    <div ng-show="!isLoading">
-                        <table class="table table-stripped" ng-show="groups.length">
+                    <div ng-show="!isLoading" class="table-responsive">
+                        <table class="footable table table-stripped toggle-arrow-tiny" ng-show="groups.length" data-page-size="50">
                             <thead>
                                 <tr>
-                                    <th>Group ID</th>
+                                    <th data-type="numeric">Group ID</th>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Created by</th>
@@ -33,18 +33,27 @@
                                         <span ng-if="users[group.createdBy]">{{users[group.createdBy]}}</span>
                                         <span class="text-info" ng-if="group.createdBy && !users[group.createdBy]">loading...</span>
                                     </td>
-                                    <td>{{group.createdAt | date:'MMM dd, yyyy'}}</td>
+                                    <td>{{group.createdAt | date : 'yyyy-MM-dd  HH:mm' : 'EDT'}} {{group.createdAt ? 'EDT' : ''}}</td>
                                     <td>
                                         <span ng-if="users[group.modifiedBy]">{{users[group.modifiedBy]}}</span>
                                         <span class="text-info" ng-if="group.modifiedBy && !users[group.modifiedBy]">loading...</span>
                                     </td>
-                                    <td>{{group.modifiedAt | date:'MMM dd, yyyy'}}</td>
+                                    <td>{{group.modifiedAt | date : 'yyyy-MM-dd  HH:mm' : 'EDT'}} {{group.modifiedAt ? 'EDT' : ''}}</td>
                                 </tr>
                             </tbody>
+
+                            <tfoot>
+                              <tr>
+                                <td colspan="7">
+                                  <ul class="pagination pull-right"></ul>
+                                </td>
+                              </tr>
+                            </tfoot>
 
                         </table>
                         <div ng-show="!groups.length">No records found</div>
                     </div>
+                    <!-- table-responsive -->
                 </div>
             </div>
         </div>

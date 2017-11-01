@@ -15,16 +15,41 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h2>
-                        <span ng-if="role">{{role.roleName}}</span>
-                        <span class="text-info" ng-if="!role">loading...</span>
-                    </h2>
+                    <div class="row">
+                        <div class="col col-md-12 col-lg-12">
+                            <h2>
+                                <span ng-if="role">{{role.roleName}}</span>
+                                <span class="text-info" ng-if="!role">loading...</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="row" style="border-top: 1px solid #e7eaec; padding-top: 15px; padding-bottom: 8px; margin-top: 7px;">
+                        <div class="col col-md-12 col-lg-12">
+                            <form role="form" name="filterForm" novalidate="novalidate">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="userId">User Id</label>
+                                        <input id="userId" type="text" class="form-control" ng-model="filterCriteria.userId" name="userId" ng-disabled="isLoading">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="userHandle">User Handle</label>
+                                        <input id="userHandle" type="text" class="form-control" ng-model="filterCriteria.userHandle" name="userHandle" ng-disabled="isLoading">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-12 col-lg-12">
+                                        <button class="btn btn-primary btn-sm pull-right" ng-click="applyFilter();" ng-disabled="isLoading">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <div class="text-center" ng-show="isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
-                    <div ng-show="!isLoading">
+                    <div ng-show="!isLoading" class="table-responsive">
                         <table class="footable table table-stripped toggle-arrow-tiny" ng-show="members.length" data-page-size="20">
                             <thead>
                                 <tr>
@@ -63,6 +88,7 @@
 
                         <button data-ng-click='removeSelected()' class="btn btn-sm btn-danger" ng-disabled="!hasSelected || isProcessing" ng-show="members.length"><strong>Remove Selected</strong></button>
                     </div>
+                    <!-- table-responsive -->
                 </div>
             </div>
         </div>

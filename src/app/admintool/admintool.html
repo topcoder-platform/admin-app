@@ -84,10 +84,10 @@
                     <div class="text-center" ng-show="formSearch.isLoading">
                         <img src="assets/images/loading.gif"/>
                     </div>
-                    <div ng-show="!formSearch.isLoading && formSearch.role && formSearch.usersFound && !users.length">
+                    <div ng-show="!formSearch.isLoading && formSearch.role && formSearch.usersFound && !users.length" class="table-responsive">
                         <p> No users found. </p>
                     </div>
-                    <div ng-show="!formSearch.isLoading && formSearch.role && formSearch.usersFound && users.length">
+                    <div ng-show="!formSearch.isLoading && formSearch.role && formSearch.usersFound && users.length" class="table-responsive">
                         <table class="footable table table-stripped toggle-arrow-tiny"
                                data-sort="true"
                                data-page-size="50">
@@ -135,6 +135,7 @@
                             </tfoot>
                         </table>
                     </div>
+                    <!-- table-responsive -->
                 </div>
             </div>
         </div>
