@@ -1,0 +1,198 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Challenge Management</h2>
+  </div>
+  <div class="col-lg-2">
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row" ng-controller="challenge.SearchController" ng-show="authorized()">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <form role="form">
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+              <div class="form-group col-md-12">
+                <label for="search-condition-handle">Challenge ID</label>
+                <div class="row">
+                  <div class="col-md-4 ">
+                    <input id="search-condition-handle" type="text" class="form-control" ng-model="challengeSearch.challengeId" ng-disabled="challengeSearch.isLoading" ng-trim="true">
+                  </div>
+                  <div class="col-md-4 no-padding-left">
+                    <button ng-click="findChallenge()" ng-disabled="challengeSearch.isLoading" type="submit" class="btn btn-sm btn-warning pull-left btn-find-challenge">
+                      <strong>Find challenge</strong>
+                    </button>
+                  </div>
+                </div>
+                <div ng-show='challengeSearch.challengeFound'>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <!-- Challenge Details -->
+                      <dl class="dl-horizontal">
+                        <dt>Name </dt>
+                        <dd>{{challengeObj.name}}</dd>
+                        <dt>Status</dt>
+                        <dd>{{challengeObj.status}}</dd>
+                        <dt>Track</dt>
+                        <dd>{{challengeObj.track}}</dd>
+                        <dt>SubTrack</dt>
+                        <dd>{{challengeObj.subTrack}}</dd>
+                        <dt ng-show="challengeObj.currentPhases.length > 0">Current Phases</dt>
+                        <dd ng-show="challengeObj.currentPhases.length > 0">
+                          <div class="table-responsive">
+                            <table class="table">
+                              <thead>
+                              <tr>
+                                <td>Id</td>
+                                <td>Type</td>
+                                <td>Status</td>
+                                <td>Actual / Schedule Start Time</td>
+                                <td>Schedule End Time</td>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr ng-repeat="p in challengeObj.currentPhases">
+                                <td>{{p.id}}</td>
+                                <td>{{p.phaseType}}</td>
+                                <td>{{p.phaseStatus}}</td>
+                                <td ng-show="p.phaseStatus==='Closed'">{{p.actualStartTime| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (A)</td>
+                                <td ng-hide="p.phaseStatus==='Closed'">{{p.scheduledStartTime| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (S)</td>
+                                <td>{{p.scheduledEndTime| amTimezone:'America/New_York'| amDateFormat:'MM.DD.YYYY HH:mm z'}} (S)</td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-md-12">
+                      <button class="btn btn-sm btn-info m-l pull-right"
+                              type="submit"
+                              ng-disabled="challengeSearch.isLoading"
+                              ng-click="openResetDialog('reset review')">
+                        <strong>Reset Review</strong></button>
+                      <button class="btn btn-sm btn-info m-l pull-right"
+                              type="submit"
+                              ng-disabled="challengeSearch.isLoading"
+                              ng-click="openResetDialog('reset aggregation')">
+                        <strong>Reset Aggregation</strong></button>
+                      <button class="btn btn-sm btn-info m-l pull-right"
+                              type="submit"
+                              ng-disabled="challengeSearch.isLoading"
+                              ng-click="openUpdateAutopilotDialog('update autopilot')">
+                        <strong>Update Autopilot</strong></button>
+                      <button class="btn btn-sm btn-info m-l pull-right"
+                              type="submit"
+                              ng-disabled="challengeSearch.isLoading"
+                              ng-click="openUpdatePercentageFeeDialog()">
+                        <strong>Update Percentage Challenge Fee</strong></button>
+                      <button class="btn btn-sm btn-info m-l pull-right"
+                              type="submit"
+                              ng-disabled="challengeSearch.isLoading"
+                              ng-click="openUpdateFixedFeeDialog()">
+                        <strong>Update Fixed Challenge Fee</strong></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="ibox-content">
+          <div class="text-center" ng-show="challengeSearch.isLoading">
+            <img src="assets/images/loading.gif" />
+          </div>
+          <div ng-show="!challengeSearch.isLoading && challengeSearch.challengeFound && challengeSearch.reviewFound" class="table-responsive">
+            <table class="footable table table-stripped toggle-arrow-tiny">
+              <thead>
+              <tr>
+                <th class="footable-sortable" ng-click="sort('id')" ng-class="{'footable-sorted': sortCriteria === 'id' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'id' && sortOrder === 'desc'}">Review ID
+                  <span class="footable-sort-indicator"></span>
+                </th>
+                <!--<th class="footable-sortable" ng-click="sort('resourceId')" ng-class="{'footable-sorted': sortCriteria === 'resourceId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'resourceId' && sortOrder === 'desc'}">Resource ID-->
+                <!--<span class="footable-sort-indicator"></span>-->
+                <!--</th>-->
+                <th class="footable-sortable" ng-click="sort('submissionId')" ng-class="{'footable-sorted': sortCriteria === 'submissionId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'submissionId' && sortOrder === 'desc'}">Submission ID
+                  <span class="footable-sort-indicator"></span>
+                </th>
+                <!--<th class="footable-sortable" ng-click="sort('projectPhaseId')" ng-class="{'footable-sorted': sortCriteria === 'projectPhaseId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'projectPhaseId' && sortOrder === 'desc'}">ProjectPhase ID-->
+                <!--<span class="footable-sort-indicator"></span>-->
+                <!--</th>-->
+                <th class="footable-sortable" ng-click="sort('scorecardId')" ng-class="{'footable-sorted': sortCriteria === 'scorecardId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'scorecardId' && sortOrder === 'desc'}">Scorecard ID
+                  <span class="footable-sort-indicator"></span>
+                </th>
+                <!--<th class="footable-sortable" ng-click="sort('uploadId')" ng-class="{'footable-sorted': sortCriteria === 'uploadId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'uploadId' && sortOrder === 'desc'}">Upload ID-->
+                <!--<span class="footable-sort-indicator"></span>-->
+                <!--</th>-->
+                <!--<th>Committed</th>-->
+                <th class="footable-sortable" ng-click="sort('score')" ng-class="{'footable-sorted': sortCriteria === 'score' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'score' && sortOrder === 'desc'}">Score
+                  <span class="footable-sort-indicator"></span>
+                </th>
+                <th class="footable-sortable" ng-click="sort('initialScore')" ng-class="{'footable-sorted': sortCriteria === 'initialScore' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'initialScore' && sortOrder === 'desc'}">InitialScore
+                  <span class="footable-sort-indicator"></span>
+                </th>
+                <!--<th class="footable-sortable" ng-click="sort('reviewerUserId')" ng-class="{'footable-sorted': sortCriteria === 'reviewerUserId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'reviewerUserId' && sortOrder === 'desc'}">ReviewerUser ID-->
+                <!--<span class="footable-sort-indicator"></span>-->
+                <!--</th>-->
+                <!--<th class="footable-sortable" ng-click="sort('submitterUserId')" ng-class="{'footable-sorted': sortCriteria === 'submitterUserId' && sortOrder === 'asc', 'footable-sorted-desc': sortCriteria === 'submitterUserId' && sortOrder === 'desc'}">SubmitterUser ID-->
+                <!--<span class="footable-sort-indicator"></span>-->
+                <!--</th>-->
+                <th data-sort-ignore="true">Action</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr class="animate-repeat" ng-repeat="review in reviews" ng-class-even="'footable-even'" ng-class-odd="'footable-odd'">
+                <td>{{review.id}}</td>
+                <!--<td>{{review.resourceId}}</td>-->
+                <td>{{review.submissionId}}</td>
+                <!--<td>{{review.projectPhaseId}}</td>-->
+                <td>{{review.scorecardId}}</td>
+                <!--<td>{{review.uploadId}}</td>-->
+                <!--<td>{{review.committed}}</td>-->
+                <td>{{review.score}}</td>
+                <td>{{review.initialScore}}</td>
+                <!--<td>{{review.reviewerUserId}}</td>-->
+                <!--<td>{{review.submitterUserId}}</td>-->
+                <td>
+                  <a class="btn btn-sm btn-success"  ng-click="openReopenReviewDialog(review.id)">
+                    ReOpen
+                  </a>
+                  <a class="btn btn-sm btn-danger" ng-click="openDeleteReviewDialog(review.id)">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+
+              <tfoot>
+              <tr>
+                <td colspan="6">
+                  <ul class="pagination pull-right">
+                    <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}"><a
+                            ng-click="changePage(1)">«</a></li>
+                    <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}">
+                      <a ng-click="changePage(pageNumber - 1)">‹</a>
+                    </li>
+                    <li class="footable-page" ng-class="{'active' : item === pageNumber}" ng-repeat="item in getPageArray()">
+                      <a ng-click="changePage(item)">{{item}}</a></li>
+                    <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                      <a  ng-click="changePage(pageNumber + 1)">›</a>
+                    </li>
+                    <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                      <a ng-click="changePage(getLastPage())">»</a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

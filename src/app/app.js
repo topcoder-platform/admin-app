@@ -383,6 +383,12 @@ angular.module('supportAdminApp', [
         controller: 'billingaccount.NewBillingAccountResourceController',
         data: { pageTitle: 'New Billing Account Resource' },
         resolve: { auth: authenticate }
+      })
+      .state('index.challenges', {
+        url: 'challenges',
+        templateUrl: 'app/challenges/challenges.html',
+        data: { pageTitle: 'Challenge Management'},
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');

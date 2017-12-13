@@ -1,0 +1,22 @@
+<div class="inmodal">
+  <div class="modal-header" style="padding:14px"></div>
+  <div class="modal-body">
+    <div class="row">
+      <form role="form" name="actionForm">
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+        <div class="form-group">
+          <label>Are you want to {{form.action}}?</label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="cancel()">
+      No
+    </button>
+    <button type="button" class="btn btn-primary" ng-click="save()">
+      Yes
+    </button>
+  </div>
+
+</div>
