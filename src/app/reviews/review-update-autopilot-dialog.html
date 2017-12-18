@@ -1,0 +1,29 @@
+<div class="inmodal">
+  <div class="modal-header" style="padding:14px"></div>
+  <div class="modal-body">
+    <div class="row">
+      <form role="form" name="autoForm">
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+        <div class="form-group">
+          <label>Are you want to update autopilot?</label>
+          <br>
+          <br>
+          <label>Enable</label>
+          <select class="form-control m-b" ng-model="form.value" ng-options="o.v as o.n for o in [{ n: '', v: '' }, { n: 'True', v: true }, { n: 'False', v: false }]">>
+            <!--<option value="True">True</option>-->
+            <!--<option value="False">False</option>-->
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="cancel()">
+      Close
+    </button>
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="form.value === ''">
+      Save
+    </button>
+  </div>
+
+</div>
