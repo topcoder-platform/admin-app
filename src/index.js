@@ -33,3 +33,4 @@ require('moment-timezone');
 require('ng-file-model');
 require('pace-js');
 require('footable');
+window.shortid = require('shortid')

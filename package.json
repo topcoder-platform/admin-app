@@ -2,10 +2,9 @@
   "name": "support-admin-app",
   "version": "2.3.0",
   "dependencies": {
-    "pace-js": "~1.0.2",
     "angular": "~1.4.4",
     "angular-animate": "~1.4.4",
-    "angular-ui-bootstrap": "~2.5.0",
+    "angular-bootstrap-multiselect": "git+https://github.com/bentorfs/angular-bootstrap-multiselect.git#master",
     "angular-clipboard": "~1.2.1",
     "angular-cookies": "~1.4.4",
     "angular-footable": "~0.0.3",
@@ -15,7 +14,7 @@
     "angular-sanitize": "~1.4.4",
     "angular-storage": "~0.0.11",
     "angular-touch": "~1.4.4",
-    "angular-bootstrap-multiselect": "git+https://github.com/bentorfs/angular-bootstrap-multiselect.git#master",
+    "angular-ui-bootstrap": "~2.5.0",
     "angular-ui-router": "~0.2.13",
     "auth0-angular": "~4.0.4",
     "auth0-js": "~6.4.2",
@@ -30,9 +29,12 @@
     "metismenu": "~2.0.2",
     "moment": "~2.11.2",
     "moment-timezone": "~0.5.0",
-    "ng-file-model": "~0.0.4"
+    "ng-file-model": "~0.0.4",
+    "pace-js": "~1.0.2",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
+    "angular-mocks": "~1.4.4",
     "brfs": "1.4.3",
     "browser-sync": "~2.18.8",
     "browserify": "^9.0.3",
@@ -41,7 +43,7 @@
     "chalk": "~0.5.1",
     "del": "~2.2.2",
     "ejsify": "1.0.0",
-    "gulp": "~3.8.10",
+    "gulp": "^3.8.11",
     "gulp-angular-filesort": "~1.0.4",
     "gulp-angular-templatecache": "~1.4.2",
     "gulp-autoprefixer": "~2.0.0",
@@ -70,12 +72,11 @@
     "jshint": "~2.9.4",
     "jshint-stylish": "~1.0.0",
     "protractor": "~5.1.1",
-    "require-dir": "~0.1.0",
+    "require-dir": "~0.3.2",
     "uglify-save-license": "~0.4.1",
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0",
-    "wiredep": "~4.0.0",
-    "angular-mocks": "~1.4.4"
+    "wiredep": "~4.0.0"
   },
   "engines": {
     "node": ">=0.10.0"

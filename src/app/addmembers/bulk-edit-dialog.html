@@ -1,0 +1,46 @@
+<div class="inmodal">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="reg-dialog-label">Bulk Edit</h4>
+  </div>
+  <div class="modal-body" style="background-color: #fff;">
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th>SSO Provider Type</th>
+              <th>SSO Provider</th>
+              <th>Group</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="animate-repeat">
+              <td>
+                <input type="text" ng-model="providerType" class="form-control" />
+              </td>
+              <td>
+                <input type="text" ng-model="provider" class="form-control"/>
+              </td>
+              <td>
+                <select ng-options="group.name for group in groups track by group.id" ng-model="group" class="form-control"></select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- table-responsive -->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="bulkUpdate()">
+      Bulk Update
+    </button>
+    <button type="button" class="btn btn-white" ng-click="close()">
+      Close
+    </button>
+  </div>
+</div>
