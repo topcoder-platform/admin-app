@@ -8,7 +8,7 @@ csvImport.directive('csvReader', [function () {
     var convertToJSON = function (content) {
 
         // Declare our variables
-        var lines = content.csv.split('\n'),
+        var lines = content.csv.split(/\r|\n|\r\n/),
             headers = lines[0].split(content.separator),
             columnCount = lines[0].split(content.separator).length,
             results = [];
@@ -16,6 +16,7 @@ csvImport.directive('csvReader', [function () {
         // For each row
         for (var i = 1; i < lines.length; i++) {
 
+          if(lines[i] != ''){
             // Declare an object
             var obj = {};
 
@@ -31,6 +32,7 @@ csvImport.directive('csvReader', [function () {
 
             // Push our object to our result array
             results.push(obj);
+          }
         }
 
         // Return our array
@@ -42,7 +44,7 @@ csvImport.directive('csvReader', [function () {
         scope: {
             results: '=',
             separator: '=',
-            callback: '&saveResultsCallback'
+            callback: '&'
         },
         link: function (scope, element, attrs) {
 
@@ -81,7 +83,7 @@ csvImport.directive('csvReader', [function () {
                             scope.results = convertToJSON(data);
 
                             // Call our callback function
-                            scope.callback(scope.result);
+                            scope.callback({inputJson: scope.results});
                         });
                     };
 
