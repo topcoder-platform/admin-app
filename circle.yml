@@ -33,6 +33,6 @@ deployment:
     commands:
       - ./deploy.sh PROD admin.topcoder.com
   dev:
-    branch: [dev, 'feature/auth0-js-security-vulnerability']
+    branch: dev
     commands:
       - ./deploy.sh DEV admin.topcoder-dev.com
