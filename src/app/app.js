@@ -24,7 +24,7 @@ angular.module('supportAdminApp', [
     // init AuthService, it has to be done once, when app starts
     AuthService.init();
   })
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
     var authenticate = ['AuthService', '$q', '$state', function(AuthService, $q, $state) {
       return AuthService.authenticate().catch(function(err) {
         // if we get error that use doesn't have permissions
@@ -383,8 +383,14 @@ angular.module('supportAdminApp', [
         controller: 'billingaccount.NewBillingAccountResourceController',
         data: { pageTitle: 'New Billing Account Resource' },
         resolve: { auth: authenticate }
+      })
+      .state('index.challenges', {
+        url: 'challenges',
+        templateUrl: 'app/challenges/challenges.html',
+        data: { pageTitle: 'Challenge Management'},
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');
-    // $locationProvider.html5Mode(true).hashPrefix('!');
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
   });
