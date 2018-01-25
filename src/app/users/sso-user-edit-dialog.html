@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
           <label>Provider type </label>
-          <select ng-options="provider for provider in providerTypes" class="form-control" ng-model="user.profile.providerType"></select>
+          <select ng-options="provider for provider in providerTypes" class="form-control" ng-model="user.profile.providerType" disabled></select>
         </div>
         <div class="form-group" ng-class="{'has-error': userForm.provider.$touched && userForm.provider.$invalid}">
           <label>Provider</label>
