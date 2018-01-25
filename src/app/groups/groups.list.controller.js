@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('permissionmanagement.GroupsListController', [
-              '$scope', '$rootScope', 'GroupService', 'UserService', 'IdResolverService', 'Alert', '$timeout',
-    function ($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout) {
+              '$scope', '$rootScope', 'GroupService', 'UserService', 'IdResolverService', 'Alert', '$timeout', '$uibModal',
+    function ($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout, $modal) {
 
       // true data is loading
       $scope.isLoading = false;
@@ -51,5 +51,16 @@ module.controller('permissionmanagement.GroupsListController', [
 
       // load the groups on controller init
       $scope.fetch();
+
+      $scope.openGroupEditDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/groups/group-edit-dialog.html',
+          controller: 'groups.GroupEditDialogController',
+          resolve: {
+						parentScope: function(){ return $scope; }
+					}
+        });
+      };
     }
 ]);

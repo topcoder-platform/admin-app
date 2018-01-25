@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('UserService', ['$log', '$q','$http', 'User', 'API_URL', 'API_VERSION_PATH',
-    function ($log, $q, $http, User, API_URL, API_VERSION_PATH) {
+  .factory('UserService', ['$log', '$q','$http', 'User', 'API_URL', 'API_VERSION_PATH', 'helper',
+    function ($log, $q, $http, User, API_URL, API_VERSION_PATH, helper) {
       // local dev
       //var API_URL = 'http://local.topcoder-dev.com:8080';
       
@@ -27,23 +27,7 @@ angular.module('supportAdminApp')
             $log.debug(response);
             return UserService.createUser(response.data.result.content);
           },
-          function(error) {
-            $log.error(error);
-            var err;
-            if(error && error.data && error.data.result) {
-              err = {
-                status: error.status,
-                error : error.data.result.content
-              };
-            }
-            if(!err) {
-              err = {
-                status: error.status,
-                error : error.statusText
-              };
-            }
-            return $q.reject(err);
-          }
+          helper.handleError
         );
       }; // findById()
 
@@ -77,23 +61,7 @@ angular.module('supportAdminApp')
             $log.debug(response);
             return UserService.createUser(response.data.result.content);
           },
-          function(error) {
-            $log.error(error);
-            var err;
-            if(error && error.data && error.data.result) {
-              err = {
-                status: error.status,
-                error : error.data.result.content
-              };
-            }
-            if(!err) {
-              err = {
-                status: error.status,
-                error : error.statusText
-              };
-            }
-            return $q.reject(err);
-          }
+          helper.handleError
         );
       }; // find()
 
@@ -155,23 +123,7 @@ angular.module('supportAdminApp')
             $log.debug(response);
             return UserService.createUser(response.data.result.content);
           },
-          function(error) {
-            $log.error(error);
-            var err;
-            if(error && error.data && error.data.result) {
-              err = {
-                status: error.status,
-                error : error.data.result.content
-              };
-            }
-            if(!err) {
-              err = {
-                status: error.status,
-                error : error.statusText
-              };
-            }
-            return $q.reject(err);
-          }
+          helper.handleError
         );
       }; // updateHandle()
 
@@ -191,23 +143,7 @@ angular.module('supportAdminApp')
             $log.debug(response);
             return UserService.createUser(response.data.result.content);
           },
-          function(error) {
-            $log.error(error);
-            var err;
-            if(error && error.data && error.data.result) {
-              err = {
-                status: error.status,
-                error : error.data.result.content
-              };
-            }
-            if(!err) {
-              err = {
-                status: error.status,
-                error : error.statusText
-              };
-            }
-            return $q.reject(err);
-          }
+          helper.handleError
         );
       }, // updateEmail()
       
@@ -232,23 +168,7 @@ angular.module('supportAdminApp')
             $log.debug(response);
             return UserService.createUser(response.data.result.content);
           },
-          function(error) {
-            $log.error(error);
-            var err;
-            if(error && error.data && error.data.result) {
-              err = {
-                status: error.status,
-                error : error.data.result.content
-              };
-            }
-            if(!err) {
-              err = {
-                status: error.status,
-                error : error.statusText
-              };
-            }
-            return $q.reject(err);
-          }
+          helper.handleError
         );
       }; // updateStatus()
       
@@ -349,6 +269,31 @@ angular.module('supportAdminApp')
       UserService.getProfileEndpoint = function(handle) {
         return API_URL + '/'+API_VERSION_PATH+'/members/' + handle;
       }
+
+      /**
+       * Creates or updates the user SSO profile
+       * @param {Integer} userId The userId
+       * @param {Object} profile The user SSO profile.
+       */
+      UserService.createOrUpdateSSOUserLogin = function(userId, profile) {
+        var payload = JSON.stringify({ param: profile });
+        var request = $http({
+          method: 'POST',
+          url: API_URL + '/v3/users/'+userId+'/createOrUpdateSSOUserLogin',
+          headers: {
+            "Content-Type":"application/json"
+          },
+          data: payload
+        });
+
+        return request.then(
+          function(response) {
+            $log.debug(response);
+            return response.data;
+          },
+          helper.handleError
+        );
+      };
     
       return UserService;
     }]);

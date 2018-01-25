@@ -6,6 +6,9 @@
                     <div class="text-center" ng-show="isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
+                    <button type="submit" class="btn btn-sm btn-info" ng-click="openGroupEditDialog()">
+                      <strong><i class="fa fa-plus"></i> New Group</strong>
+                  </button>
                     <div ng-show="!isLoading" class="table-responsive">
                         <table class="footable table table-stripped toggle-arrow-tiny" ng-show="groups.length" data-page-size="50">
                             <thead>
