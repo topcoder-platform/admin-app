@@ -80,6 +80,65 @@ angular.module('supportAdminApp')
       };
 
       /**
+       * Creates a group
+       * @param {Object} group The group.
+       */
+      GroupService.create = function(group) {
+        var request = $http({
+          method: 'POST',
+          url: GroupService.getBasePath() + '/groups',
+          headers: {
+            "Content-Type":"application/json"
+          },
+          data: JSON.stringify({ param: group })
+        });
+
+        return request.then(
+          function(response) {
+            if (response && response.data && response.data.result) {
+              var newGroup = response.data.result.content;
+              var securityGroup = {id: newGroup.id, name: newGroup.name};
+              return GroupService.createSecurityGroup(securityGroup)
+                .then(function(response){}, GroupService.handleError);
+            } else {
+              return $q.reject({
+                error : 'Cannot find data in response'
+              })
+            }
+          },
+          GroupService.handleError
+        );
+      };
+
+      /**
+       * Creates a security group
+       * @param {Object} group The security group.
+       */
+      GroupService.createSecurityGroup = function(group) {
+        var request = $http({
+          method: 'POST',
+          url: GroupService.getBasePath() + '/groups/securityGroups',
+          headers: {
+            "Content-Type":"application/json"
+          },
+          data: JSON.stringify({ param: group })
+        });
+
+        return request.then(
+          function(response) {
+            if (response && response.data && response.data.result) {
+              return response.data.result.content;
+            } else {
+              return $q.reject({
+                error : 'Cannot find data in response'
+              })
+            }
+          },
+          GroupService.handleError
+        );
+      };
+
+      /**
        * Handle API response error
        *
        * @param  {Error}   error    the error as received in catch callback
