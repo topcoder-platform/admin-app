@@ -294,6 +294,28 @@ angular.module('supportAdminApp')
           helper.handleError
         );
       };
+
+      /**
+       * Get SSO login providers.
+       * @returns {Array} The SSO login providers.
+       */
+      UserService.getSsoLoginProviders = function() {
+        var request = $http({
+          method: 'GET',
+          url: API_URL + '/v3/ssoLoginProviders',
+          headers: {
+            "Content-Type":"application/json"
+          }
+        });
+
+        return request.then(
+          function(response) {
+            $log.debug(response);
+            return response.data.result.content;
+          },
+          helper.handleError
+        );
+      };
     
       return UserService;
     }]);
