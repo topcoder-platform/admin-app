@@ -10,27 +10,9 @@ module.controller('users.SsoUserEditDialogController', [
     // currently selected user object
     $scope.user = user;
 
-    // These are the provider types accepted in the API.
-    $scope.providerTypes = [
-      'ad',
-      'adfs',
-      'auth0',
-      'behance',
-      'bitbucket',
-      'dribbble',
-      'facebook',
-      'github',
-      'google-oauth2',
-      'linkedin',
-      'samlp',
-      'sfdc',
-      'stackoverflow',
-      'twitter'
-    ];
-
-    // true if details are being loaded/saved
+     // true if details are being loaded/saved
     $scope.isLoading = false;
-    
+
     /**
        * Close dialog
        */
@@ -48,10 +30,10 @@ module.controller('users.SsoUserEditDialogController', [
         .then(function (data) {
           $scope.user.profile = {};
           if (data.profile) {
-            // we can't have all properties form profile as saving will fail. 
+            // we can't have all properties form profile as saving will fail.
             $scope.user.profile = {
               userId: data.profile.userId,
-              providerType: data.profile.providerType,
+              name: data.profile.name,
               provider: data.profile.provider
             }
           }
@@ -82,6 +64,23 @@ module.controller('users.SsoUserEditDialogController', [
         });
     }
 
+    /**
+     * Retrieves the SSO login providers.
+     */
+    $scope.loadSsoProviders = function () {
+      UserService
+        .getSsoLoginProviders()
+        .then(function (data) {
+          $scope.providers = data.map(function (provider) {
+            return provider.name
+          });
+        })
+        .catch(function (error) {
+          $alert.error(error.error, $scope);
+        })
+    }
+
     $scope.loadData();
+    $scope.loadSsoProviders();
   }
 ]);
