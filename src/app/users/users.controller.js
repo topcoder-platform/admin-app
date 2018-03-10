@@ -199,6 +199,17 @@ module.controller('users.UserSearchController', [
         });
       };
 
+      $scope.openSsoUserEditDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/users/sso-user-edit-dialog.html',
+          controller: 'users.SsoUserEditDialogController',
+          resolve: {
+				    user: function(){ return $scope.users[index]; }
+			    }
+        });
+      };
+
     }
 ]);
 
