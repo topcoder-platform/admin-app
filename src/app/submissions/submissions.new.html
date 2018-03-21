@@ -50,7 +50,7 @@
                         <label for="source-archive">Source archive (.zip)</label>
                         <div class="row">
                             <div class="form-group col-md-12 no-padding-right">
-                                <input type="file" accept=".zip" file-model ng-model="files.SOURCE_ZIP" required>
+                                <input type="file" accept=".zip" file-model ng-model="files.SOURCE_ZIP" ng-required="challengeObj.track=='DESIGN'">
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <label for="submission-cover ">Submission cover (.jpg or .png)</label>
                         <div class="row">
                             <div class="form-group col-md-12 no-padding-right">
-                                <input type="file" accept=".jpg,.png,.jpeg" file-model ng-model="files.DESIGN_COVER" required>
+                                <input type="file" accept=".jpg,.png,.jpeg" file-model ng-model="files.DESIGN_COVER" ng-required="challengeObj.track=='DESIGN'">
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                 <div class="row" ng-show="challengeObj.track=='DESIGN'">
                     <div class="form-group col-md-2 ">
                         <label for="submission-rank ">Rank</label>
-                        <input id="submission-rank " type="text " class="form-control " ng-model="newSubmission.data.submitterRank" required>
+                        <input id="submission-rank " type="text " class="form-control " ng-model="newSubmission.data.submitterRank" ng-required="challengeObj.track=='DESIGN'">
                     </div>
                 </div>
             </div>
