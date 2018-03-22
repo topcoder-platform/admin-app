@@ -18,15 +18,19 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
     $scope.finishing = false;
     $scope.uploadProgress = 0;
     var fileUploadProgress = {};
-    /** List of possible font Sources */
+    
+    /** 
+     * Init new submission object based on the selected track 
+     */
     var initNewSubmission = function(challengeObj) {
-      $scope.newSubmission = {
+      if(challengeObj.track === "DESIGN") {
+        $scope.newSubmission = {
           reference: {
             type: "CHALLENGE",
             id: challengeObj.id
           },
           data: {
-            method: challengeObj.track === "DESIGN" ? "DESIGN_CHALLENGE_ZIP_FILE" : "DEVELOP_CHALLENGE_ZIP_FILE",
+            method: "DESIGN_CHALLENGE_ZIP_FILE",
             files: [],
             fonts: [],
             stockArts: [],
@@ -34,7 +38,20 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
             submitterRank: 1
           }
         };
+      } else {
+        $scope.newSubmission = {
+          reference: {
+            type: "CHALLENGE",
+            id: challengeObj.id
+          },
+          data: {
+            method: "DEVELOP_CHALLENGE_ZIP_FILE",
+            files: []
+          }
+        };
+      }
     };
+
     if ($scope.challengeObj) {
       initNewSubmission($scope.challengeObj);
     }
@@ -190,6 +207,14 @@ module.controller('NewSubmissionCtrl', ['$scope', 'SubmissionService', '$state',
                   mediaType: $scope.files[type].type,
                   status: "PENDING"
                 });  
+              });
+            } else {
+              // push the submission zip file to the submission files array
+              $scope.newSubmission.data.files.push({
+                name: $scope.files['SUBMISSION_ZIP'].name,
+                  type: 'SUBMISSION_ZIP',
+                  mediaType: $scope.files['SUBMISSION_ZIP'].type,
+                  status: "PENDING"
               });
             }
             $submissionService.createSubmission($scope.newSubmission).then(
