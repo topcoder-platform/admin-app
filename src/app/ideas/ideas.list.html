@@ -1,0 +1,80 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()" ng-controller="IdeaListController">
+  <!-- add client button row -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <div class="row">
+            <div class="col col-md-12 col-lg-12">
+              <form role="form" name="searchForm">
+
+                <div class="row">
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.username.$touched && formSearch.criteria.username.$invalid}">
+                    <label for="username">User Name</label>
+                    <input id="username" type="text" class="form-control" ng-model="formSearch.criteria.username" name="username" required>
+                  </div>
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.password.$touched && formSearch.criteria.password.$invalid}">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" class="form-control" ng-model="formSearch.criteria.password" name="password" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.domain.$touched && formSearch.criteria.domain.$invalid}">
+                    <label for="domain">Domain</label>
+                    <input id="domain" type="text" class="form-control" ng-keyup="onDomainKeyUp($event)" ng-model="formSearch.criteria.domain" name="domain" required>
+                  </div>
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.clientId.$touched && formSearch.criteria.clientId.$invalid}">
+                    <label for="clientId">Client Id</label>
+                    <input id="clientId" type="text" class="form-control" ng-model="formSearch.criteria.clientId" name="clientId" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.communityId.$touched && formSearch.criteria.communityId.$invalid}">
+                    <label for="communityId">Community Id</label>
+                    <input id="communityId" type="text"   onkeyup="value=value.replace(/[^\d]/g,'') "  ng-pattern="/[^a-zA-Z]/" class="form-control" ng-model="formSearch.criteria.communityId" name="communityId" required>
+                  </div>
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.stageId.$touched && formSearch.criteria.stageId.$invalid}">
+                    <label for="stageId">Stage Id</label>
+                    <input id="stageId" type="text" class="form-control"   onkeyup="value=value.replace(/[^\d]/g,'') "  ng-pattern="/[^a-zA-Z]/" ng-model="formSearch.criteria.stageId" name="stageId" required>
+                  </div>
+                </div>
+              </form>
+              <div class="row">
+                <div class="col col-md-12 col-lg-12">
+                  <button class="btn btn-primary btn-sm pull-right" ng-click="getIdeaList()" ng-disabled="searchForm.$invalid|| formSearch.isLoading">Load</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <div class="text-center" ng-show="formSearch.isLoading">
+            <img src="assets/images/loading.gif" />
+          </div>
+          <div ng-show="!formSearch.isLoading" class="table-responsive">
+            <table class="footable table table-stripped toggle-arrow-tiny">
+              <thead>
+              <tr>
+                <th>Title</th>
+                <th>Link</th>
+                <th data-sort-ignore="true">Action</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <tr class="animate-repeat" ng-repeat="idea in ideas">
+                <td>{{idea.title}}</td>
+                <td>{{idea.links[0].href}}</td>
+                <td><a class="btn btn-sm btn-success" ng-click="openDetailDialog($index)"  style="margin-left: 4px">
+                  Detail
+                </a></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- table-responsive -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

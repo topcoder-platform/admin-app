@@ -34,6 +34,11 @@ The following configuration parameters are available:
 | ACCOUNTS_CONNECTOR_URL   | Url to TC account connector     |
 | JWT_V3_NAME              | jwt V3 cookie name              |
 | JWT_V2_NAME              | jwt V2 cookie name              |
+| OAUTH2_TOKEN_NAME              | OAuth2 token name              |
+| OAUTH2_TOKEN_EXPIRETIME_TAGNAME           | OAuth2 token expire time tag name           |
+| OAUTH2_CLIENT_SECRET              | OAuth2 client secret              |
+| SPIGIT_API_URL             | SPIGIT api base url       |
+|SPIGIT_API_VERSION_PATH            | SPIGIT api version path     |
 
 ## Start the Application
 

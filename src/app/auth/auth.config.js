@@ -12,8 +12,8 @@ angular.module('supportAdminApp')
     var refreshingToken = null;
 
     jwtInterceptorProvider.tokenGetter = [
-              'AuthService', '$http', 'API_URL', 'ADMIN_TOOL_URL', 'config',
-      function($authService, $http, API_URL, ADMIN_TOOL_URL, config) {
+              'AuthService', '$http', 'API_URL', 'ADMIN_TOOL_URL', 'config',  'SPIGIT_API_URL',
+      function($authService, $http, API_URL, ADMIN_TOOL_URL, config, SPIGIT_API_URL) {
         // token V2 for API V2
         if (config.url.indexOf(ADMIN_TOOL_URL) > -1) {
           if ($authService.getTokenV2()) {
@@ -24,39 +24,42 @@ angular.module('supportAdminApp')
 
         // token V3 for API V3
         } else {
-          var currentToken = $authService.getTokenV3();
+          if (config.url.indexOf(SPIGIT_API_URL) === -1) {
 
-          function handleRefreshResponse(res) {
-            var newToken, ref, ref1, ref2;
+            var currentToken = $authService.getTokenV3();
 
-            newToken = (ref = res.data) != null ? (ref1 = ref.result) != null ? (ref2 = ref1.content) != null ? ref2.token : void 0 : void 0 : void 0;
+            function handleRefreshResponse(res) {
+              var newToken, ref, ref1, ref2;
 
-            $authService.setTokenV3(newToken);
+              newToken = (ref = res.data) != null ? (ref1 = ref.result) != null ? (ref2 = ref1.content) != null ? ref2.token : void 0 : void 0 : void 0;
 
-            return newToken;
-          };
+              $authService.setTokenV3(newToken);
 
-          function refreshingTokenComplete() {
-            return refreshingToken = null;
-          };
+              return newToken;
+            };
 
-          if ($authService.getTokenV3() && $authService.isTokenV3Expired()) {
-            if (refreshingToken === null) {
-              refreshingToken = $http({
-                method: 'GET',
-                url: API_URL + "/v3/authorizations/1",
-                headers: {
-                  'Authorization': "Bearer " + currentToken
-                }
-              })
-              .then(handleRefreshResponse)["finally"](refreshingTokenComplete)
-              .catch(function() {
-                $authService.login();
-              });
+            function refreshingTokenComplete() {
+              return refreshingToken = null;
+            };
+
+            if ($authService.getTokenV3() && $authService.isTokenV3Expired()) {
+              if (refreshingToken === null) {
+                refreshingToken = $http({
+                  method: 'GET',
+                  url: API_URL + "/v3/authorizations/1",
+                  headers: {
+                    'Authorization': "Bearer " + currentToken
+                  }
+                })
+                  .then(handleRefreshResponse)["finally"](refreshingTokenComplete)
+                  .catch(function () {
+                    $authService.login();
+                  });
+              }
+              return refreshingToken;
+            } else {
+              return currentToken;
             }
-            return refreshingToken;
-          } else {
-            return currentToken;
           }
         }
       }];
