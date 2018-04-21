@@ -1,0 +1,46 @@
+<div class="inmodal">
+  <div class="modal-header" style="padding:14px"></div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="text-center" ng-show="isLoading">
+        <img src="assets/images/loading.gif" />
+      </div>
+      <form role="form" name="detaillForm">
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+        <div class="form-group">
+          <h2>Idea Information</h2>
+          <label>Ttitle</label>
+          <input ng-model="form.title" type="text" class="form-control" readonly="readonly">
+        </div>
+        <div class="form-group">
+          <label>Content</label>
+          <div ng-bind-html="form.content" class="content"></div>
+          <!--<div><textarea readonly="readonly">{{form.content}}</textarea></div>-->
+        </div>
+        <hr>
+        <h2>Creator Information</h2>
+        <div class="form-group">
+          <label>First Name</label>
+          <input ng-model="form.firstName" type="text" class="form-control" readonly="readonly">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input ng-model="form.lastName" type="text" class="form-control" readonly="readonly">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input ng-model="form.email" type="text" class="form-control" readonly="readonly">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-white" ng-click="cancel()" ng-disabed="form.isLoading">
+      Close
+    </button>
+  </div>
+  <div style="text-align:center;position:absolute;top:65px;left:0;width:100%;height:100%;zIndex:1;"
+       ng-show="form.isLoading">
+    <img src="assets/images/loading.gif"/>
+  </div>
+</div>

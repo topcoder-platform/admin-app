@@ -7,7 +7,12 @@
     "AUTH_URL": "https://accounts.topcoder-dev.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder-dev.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH" : "/api/v1"
   },
   "dev": {
     "API_URL" : "https://api.topcoder-dev.com",
@@ -17,7 +22,12 @@
     "AUTH_URL": "https://accounts.topcoder-dev.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder-dev.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH" : "/api/v1"
   },
   "qa": {
     "API_URL" : "https://api.topcoder-qa.com",
@@ -27,7 +37,12 @@
     "AUTH_URL": "https://accounts.topcoder-qa.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder-qa.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH" : "/api/v1"
   },
   "prod": {
     "API_URL" : "https://api.topcoder.com",
@@ -37,6 +52,11 @@
     "AUTH_URL": "https://accounts.topcoder.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH" : "/api/v1"
   }
 }
