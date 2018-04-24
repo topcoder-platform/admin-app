@@ -2,14 +2,15 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('IdeasDetailController', ['$scope',  '$log','IdeaService', 'Alert', '$timeout', 'OAuth2Service','$uibModalInstance', 'ideaId', 'domain', 'username', 'password', 'clientId', '$sce', 'SPIGIT_API_URL',
-  function ($scope, $log, IdeaService, $alert, $timeout, OAuth2Service, $modalInstance, ideaId, domain, username, password, clientId, $sce, SPIGIT_API_URL) {
+module.controller('IdeasDetailController', ['$scope',  '$log','IdeaService', 'Alert', '$timeout', 'OAuth2Service','$uibModalInstance', 'ideaId', 'domain', 'username', 'password', 'clientId', 'clientSecret', '$sce', 'SPIGIT_API_URL',
+  function ($scope, $log, IdeaService, $alert, $timeout, OAuth2Service, $modalInstance, ideaId, domain, username, password, clientId, clientSecret, $sce, SPIGIT_API_URL) {
 
   $scope.ideaId = ideaId;
   $scope.domain = domain;
   $scope.username = username;
   $scope.password = password;
   $scope.clientId = clientId;
+  $scope.clientSecret = clientSecret;
 
   $scope.form = {};
   $scope.isLoading = false;
@@ -20,7 +21,7 @@ module.controller('IdeasDetailController', ['$scope',  '$log','IdeaService', 'Al
 
     // If token expired should get new token first
     if (OAuth2Service.checkTokenExpireTime()) {
-      OAuth2Service.refreshToken($scope.username, $scope.password, $scope.domain, $scope.clientId).then(function (data) {
+      OAuth2Service.refreshToken($scope.username, $scope.password, $scope.domain, $scope.clientId, $scope.clientSecret).then(function (data) {
          $scope.loadDetail();
       }).catch(function (error) {
         $alert.error(error.message, $scope);

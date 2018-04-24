@@ -10,7 +10,6 @@
     "JWT_V2_NAME": "tcjwt",
     "OAUTH2_TOKEN_NAME": "oa2spigit",
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
-    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH" : "/api/v1"
   },
@@ -25,7 +24,6 @@
     "JWT_V2_NAME": "tcjwt",
     "OAUTH2_TOKEN_NAME": "oa2spigit",
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
-    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH" : "/api/v1"
   },
@@ -40,7 +38,6 @@
     "JWT_V2_NAME": "tcjwt",
     "OAUTH2_TOKEN_NAME": "oa2spigit",
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
-    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH" : "/api/v1"
   },
@@ -55,7 +52,6 @@
     "JWT_V2_NAME": "tcjwt",
     "OAUTH2_TOKEN_NAME": "oa2spigit",
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
-    "OAUTH2_CLIENT_SECRET": "qTyeKfuKB7h3CG6tVFJf3QIoMpmp4gnliRupMAM2jEqGjqYR",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH" : "/api/v1"
   }

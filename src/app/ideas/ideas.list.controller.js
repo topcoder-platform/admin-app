@@ -45,7 +45,11 @@ module.controller('IdeaListController', ['$scope', '$rootScope', '$log','IdeaSer
      * Refresh OAuth Token
      */
     $scope.refreshToken = function () {
-      OAuth2Service.refreshToken($scope.formSearch.criteria.username, $scope.formSearch.criteria.password, $scope.formSearch.criteria.domain, $scope.formSearch.criteria.clientId).then(function (data) {
+      OAuth2Service.refreshToken($scope.formSearch.criteria.username, 
+        $scope.formSearch.criteria.password, 
+        $scope.formSearch.criteria.domain,
+        $scope.formSearch.criteria.clientId,
+        $scope.formSearch.criteria.clientSecret).then(function (data) {
         $scope.currentDomain = $scope.formSearch.criteria.domain;
         $scope.search();
       }).catch(function (error) {
@@ -65,6 +69,7 @@ module.controller('IdeaListController', ['$scope', '$rootScope', '$log','IdeaSer
           username:  function () { return $scope.formSearch.criteria.username; },
           password:  function () { return $scope.formSearch.criteria.password; },
           clientId:  function () { return $scope.formSearch.criteria.clientId; },
+          clientSecret:  function () { return $scope.formSearch.criteria.clientSecret; },
         }
       });
     }

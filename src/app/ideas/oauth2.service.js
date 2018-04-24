@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-.factory('OAuth2Service', ['$q', '$log', '$http', 'helper', '$cookies', '$state', 'OAUTH2_TOKEN_NAME', 'COOKIES_SECURE', 'OAUTH2_CLIENT_SECRET', 'SPIGIT_API_URL', 'OAUTH2_TOKEN_EXPIRETIME_TAGNAME', 'moment',
-  function($q, $log, $http, helper,$cookies, $state, OAUTH2_TOKEN_NAME, COOKIES_SECURE,  OAUTH2_CLIENT_SECRET, SPIGIT_API_URL, OAUTH2_TOKEN_EXPIRETIME_TAGNAME, moment) {
+.factory('OAuth2Service', ['$q', '$log', '$http', 'helper', '$cookies', '$state', 'OAUTH2_TOKEN_NAME', 'COOKIES_SECURE', 'SPIGIT_API_URL', 'OAUTH2_TOKEN_EXPIRETIME_TAGNAME', 'moment',
+  function($q, $log, $http, helper,$cookies, $state, OAUTH2_TOKEN_NAME, COOKIES_SECURE, SPIGIT_API_URL, OAUTH2_TOKEN_EXPIRETIME_TAGNAME, moment) {
 
   var OAuth2Service = { };
 
@@ -12,16 +12,17 @@ angular.module('supportAdminApp')
      * @param password
      * @param domain
      * @param clientId
+     * @param clientSecret
      * @returns {Promise<any>}
      */
-    OAuth2Service.refreshToken = function(username, password, domain, clientId) {
+    OAuth2Service.refreshToken = function(username, password, domain, clientId, clientSecret) {
 
         var params = {
           grant_type: 'password',
           username: username,
           password: password,
           client_id : clientId,
-          client_secret: OAUTH2_CLIENT_SECRET
+          client_secret: clientSecret
         };
         const searchParams = Object.keys(params).map(function (key) {
           return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);

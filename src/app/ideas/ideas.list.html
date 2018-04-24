@@ -19,13 +19,17 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.domain.$touched && formSearch.criteria.domain.$invalid}">
+                  <div class="form-group col-md-3" ng-class="{'has-error': formSearch.criteria.domain.$touched && formSearch.criteria.domain.$invalid}">
                     <label for="domain">Domain</label>
                     <input id="domain" type="text" class="form-control" ng-keyup="onDomainKeyUp($event)" ng-model="formSearch.criteria.domain" name="domain" required>
                   </div>
-                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.clientId.$touched && formSearch.criteria.clientId.$invalid}">
+                  <div class="form-group col-md-3" ng-class="{'has-error': formSearch.criteria.clientId.$touched && formSearch.criteria.clientId.$invalid}">
                     <label for="clientId">Client Id</label>
                     <input id="clientId" type="text" class="form-control" ng-model="formSearch.criteria.clientId" name="clientId" required>
+                  </div>
+                  <div class="form-group col-md-6" ng-class="{'has-error': formSearch.criteria.clientSecret.$touched && formSearch.criteria.clientSecret.$invalid}">
+                    <label for="clientSecret">Client Secret</label>
+                    <input id="clientSecret" type="password" class="form-control" ng-model="formSearch.criteria.clientSecret" name="clientSecret" required>
                   </div>
                 </div>
                 <div class="row">
