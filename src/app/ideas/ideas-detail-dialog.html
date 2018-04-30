@@ -35,12 +35,9 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-white" ng-click="cancel()" ng-disabed="form.isLoading">
+      <button class="btn btn-primary" ng-click="createProject()" ng-disabled="isLoading">Create Project</button>
+    <button type="button" class="btn btn-white" ng-click="cancel()" ng-disabed="isLoading">
       Close
     </button>
-  </div>
-  <div style="text-align:center;position:absolute;top:65px;left:0;width:100%;height:100%;zIndex:1;"
-       ng-show="form.isLoading">
-    <img src="assets/images/loading.gif"/>
   </div>
 </div>
