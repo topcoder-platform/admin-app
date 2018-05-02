@@ -100,26 +100,28 @@ module.controller('IdeasDetailController', [
     $scope.createProject = function () {
       var project = {
         name: $scope.idea.title,
-        description: $scope.idea.content
+        description: angular.element('.content')[0].innerText
       };
       $scope.isLoading = true;
       ProjectService
         .createProject(project, $scope.user)
         .then(function (project) {
           ProjectService
-          .addUserToProject(project.id, $scope.idea.creator_id)
-          .then(function (data) {
-            $alert.info("Project created.", $scope);
-          })
-          .catch(function (error) {
-            $alert.error(error.error, $scope);
-          }).finally(function(){
-            $scope.isLoading = false;
-          });
+            .addUserToProject(project.id, $scope.idea.creator_id)
+            .then(function (data) {
+              $alert.info("Project created.", $scope);
+            })
+            .catch(function (error) {
+              $alert.error(error.error, $scope);
+            })
+            . finally(function () {
+              $scope.isLoading = false;
+            });
         })
         .catch(function (error) {
           $alert.error(error.error, $scope);
-        }).finally(function(){
+        })
+        . finally(function () {
           $scope.isLoading = false;
         });
     }
