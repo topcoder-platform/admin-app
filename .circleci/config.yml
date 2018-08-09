@@ -78,6 +78,8 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - build_and_test
+      - build_and_prod
       - deploy_dev:
           filters:
             branches:
