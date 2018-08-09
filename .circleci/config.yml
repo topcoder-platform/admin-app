@@ -1,0 +1,64 @@
+version: 2
+defaults: &defaults
+  docker:
+    - image: circleci/node:6.14-stretch-browsers
+
+jobs:
+  build_and_test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
+      - restore_cache:
+          key: node-modules-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: node-modules-{{ checksum "package-lock.json" }}
+          paths: 
+            - node_modules
+      
+      - run: ./node_modules/gulp/bin/gulp.js clean
+      - run: ./node_modules/gulp/bin/gulp.js build
+      - run: ./node_modules/gulp/bin/gulp.js publish
+
+      - run: npm run test
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - node_modules
+
+  deploy_prod:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: ./deploy.sh PROD admin.topcoder.com
+
+  deploy_dev:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: ./deploy.sh DEV admin.topcoder-dev.com
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build_and_test
+      - deploy_dev:
+          filters:
+            branches:
+              only: [dev, dev-circleci2]
+          requires:
+            - build_and_test
+      - deploy_prod:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build_and_test
