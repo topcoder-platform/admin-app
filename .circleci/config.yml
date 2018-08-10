@@ -5,7 +5,7 @@ defaults: &defaults
 
 jobs:
   build_and_test:
-    <<: *defaults
+    <<: *defaults  
     steps:
       - checkout
       - run: curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
@@ -28,9 +28,38 @@ jobs:
           paths:
             - dist
             - node_modules
+            
+  build_and_prod:
+    <<: *defaults
+    environment:
+      BUILD_ENV: "prod"    
+    steps:
+      - checkout
+      - run: curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
+      - restore_cache:
+          key: node-modules-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: node-modules-{{ checksum "package-lock.json" }}
+          paths: 
+            - node_modules
+      
+      - run: ./node_modules/gulp/bin/gulp.js clean
+      - run: ./node_modules/gulp/bin/gulp.js build
+      - run: ./node_modules/gulp/bin/gulp.js publish
 
+      - run: npm run test
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - node_modules
+            
   deploy_prod:
     <<: *defaults
+    environment:
+      BUILD_ENV: "prod"     
     steps:
       - checkout
       - attach_workspace:
@@ -50,6 +79,7 @@ workflows:
   build-and-deploy:
     jobs:
       - build_and_test
+      - build_and_prod
       - deploy_dev:
           filters:
             branches:
@@ -61,4 +91,4 @@ workflows:
             branches:
               only: master
           requires:
-            - build_and_test
+            - build_and_prod
