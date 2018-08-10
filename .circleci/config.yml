@@ -78,12 +78,18 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build_and_test
-      - build_and_prod
+      - build_and_test:
+          filters:
+            branches:
+              only: dev      
+      - build_and_prod:
+          filters:
+            branches:
+              only: master      
       - deploy_dev:
           filters:
             branches:
-              only: [dev, dev-circleci2]
+              only: dev
           requires:
             - build_and_test
       - deploy_prod:
