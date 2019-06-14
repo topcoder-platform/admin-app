@@ -13,9 +13,9 @@ gulp.task('publish', function() {
       //Bucket: "support-admin.topcoder-dev.com"
       Bucket: process.env.AWS_BUCKET
     }
-    ,
-    "accessKeyId": process.env.AWS_KEY,
-    "secretAccessKey": process.env.AWS_SECRET
+   // ,
+   // "accessKeyId": process.env.AWS_KEY,
+   // "secretAccessKey": process.env.AWS_SECRET
   });
 
   // define custom headers
