@@ -2,11 +2,21 @@ version: 2
 defaults: &defaults
   docker:
     - image: circleci/node:6.14-stretch-browsers
+install_dependency: &install_dependency
+  name: Installation of build and deployment dependencies.
+  command: |
+    sudo apt install jq
+    sudo pip install awscli --upgrade
+    sudo pip install docker-compose
+install_deploysuite: &install_deploysuite
+  name: Installation of install_deploysuite.
+  command: |
+    git clone --branch v1.4 https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
+    cp ./../buildscript/master_deploy.sh .
+    cp ./../buildscript/buildenv.sh .
+    cp ./../buildscript/awsconfiguration.sh .
 
-jobs:
-  build_and_test:
-    <<: *defaults  
-    steps:
+build_steps: &build_steps
       - checkout
       - run: curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
       - restore_cache:
@@ -16,63 +26,55 @@ jobs:
           key: node-modules-{{ checksum "package-lock.json" }}
           paths: 
             - node_modules
-      
       - run: ./node_modules/gulp/bin/gulp.js clean
       - run: ./node_modules/gulp/bin/gulp.js build
-      - run: ./node_modules/gulp/bin/gulp.js publish
-
+      # - run: ./node_modules/gulp/bin/gulp.js publish
       - run: npm run test
-
       - persist_to_workspace:
           root: .
           paths:
             - dist
             - node_modules
+
+deploy_steps: &deploy_steps
+      - checkout
+      - run: *install_dependency
+      - run: *install_deploysuite
+      - attach_workspace:
+          at: .
+      - deploy:
+          name: Running deployment.
+          command: |
+            ./awsconfiguration.sh $DEPLOY_ENV
+            source awsenvconf 
+            ./deploy.sh $BUCKET_NAME
+
+jobs:
+  build_and_test:
+    <<: *defaults  
+    steps: *build_steps
             
   build_and_prod:
     <<: *defaults
     environment:
       BUILD_ENV: "prod"    
-    steps:
-      - checkout
-      - run: curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
-      - restore_cache:
-          key: node-modules-{{ checksum "package-lock.json" }}
-      - run: npm install
-      - save_cache:
-          key: node-modules-{{ checksum "package-lock.json" }}
-          paths: 
-            - node_modules
-      
-      - run: ./node_modules/gulp/bin/gulp.js clean
-      - run: ./node_modules/gulp/bin/gulp.js build
-      - run: ./node_modules/gulp/bin/gulp.js publish
-
-      - run: npm run test
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
-            - node_modules
+    steps: *build_steps
             
   deploy_prod:
     <<: *defaults
     environment:
-      BUILD_ENV: "prod"     
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: ./deploy.sh PROD admin.topcoder.com
+      BUILD_ENV: "prod"
+      DEPLOY_ENV: "PROD"
+      BUCKET_NAME: "admin.topcoder.com"    
+    steps: *deploy_steps
 
   deploy_dev:
     <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: ./deploy.sh DEV admin.topcoder-dev.com
+    environment:
+      BUILD_ENV: "dev"    
+      DEPLOY_ENV: "DEV" 
+      BUCKET_NAME: "admin.topcoder-dev.com"    
+    steps: *deploy_steps
 
 workflows:
   version: 2
@@ -87,12 +89,14 @@ workflows:
             branches:
               only: master      
       - deploy_dev:
+          context : org-global
           filters:
             branches:
               only: dev
           requires:
             - build_and_test
       - deploy_prod:
+          context : org-global
           filters:
             branches:
               only: master
