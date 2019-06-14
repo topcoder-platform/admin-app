@@ -46,6 +46,7 @@ deploy_steps: &deploy_steps
       - deploy:
           name: Running deployment.
           command: |
+            echo $DEPLOY_ENV
             ./awsconfiguration.sh $DEPLOY_ENV
             source awsenvconf 
             ./deploy.sh $BUCKET_NAME
