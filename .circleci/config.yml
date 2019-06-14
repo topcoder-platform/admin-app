@@ -49,6 +49,7 @@ deploy_steps: &deploy_steps
             echo $DEPLOY_ENV
             ./awsconfiguration.sh $DEPLOY_ENV
             source awsenvconf 
+            aws configure list
             ./deploy.sh $BUCKET_NAME
 
 jobs:
