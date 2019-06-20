@@ -65,6 +65,10 @@ module.controller('permissionmanagement.GroupMembersListController', [
         };
       });
 
+      // used to get all groups
+      $scope.page = 1;
+      $scope.perPage = 1000;
+
       /**
        * Return membership records which are selected in the table by checkboxes
        *
@@ -89,9 +93,9 @@ module.controller('permissionmanagement.GroupMembersListController', [
           $scope.isLoading[memberType] = true;
         });
 
-        GroupMemberService.fetch(groupId).then(function(data) {
+        GroupMemberService.fetch(groupId, {page: $scope.page, perPage: $scope.perPage}).then(function(data) {
           $scope.memberTypes.forEach(function(memberType) {
-            $scope.memberships[memberType] = data.content.filter(function(membership) { return membership.membershipType === memberType });
+            $scope.memberships[memberType] = data.filter(function(membership) { return membership.membershipType === memberType });
             allMemberships[memberType] = _.clone($scope.memberships[memberType]);
             $scope.memberships[memberType].forEach(function(membership) {
               loadUser(membership.createdBy);
@@ -152,7 +156,7 @@ module.controller('permissionmanagement.GroupMembersListController', [
        */
       $scope.removeMember = function(membership) {
         membership.isRemoving = true;
-        return GroupMemberService.removeMember($stateParams.groupId, membership.id).then(function() {
+        return GroupMemberService.removeMember($stateParams.groupId, membership.memberId).then(function() {
           $scope.memberships[membership.membershipType] = $scope.memberships[membership.membershipType].filter(function(record) {
             return record.id !== membership.id;
           });
@@ -273,8 +277,8 @@ module.controller('permissionmanagement.GroupMembersListController', [
        */
       function getGroupIdsFilteredByName(groupName, valueType) {
         if (!groupIdsByNamePromise) {
-          groupIdsByNamePromise = GroupService.fetch().then(function(data) {
-            return data.content;
+          groupIdsByNamePromise = GroupService.fetch({page: $scope.page, perPage: $scope.perPage}).then(function(data) {
+            return data;
           });
         }
 
