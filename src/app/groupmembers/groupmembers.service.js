@@ -25,7 +25,7 @@ angular.module('supportAdminApp').factory('GroupMemberService', [
       })
         .then(function(response) {
           if (response && response.data) {
-            return response.data.result || [];
+            return response.data || [];
           } else {
             return $q.reject({
               error: 'Cannot find data in response'
