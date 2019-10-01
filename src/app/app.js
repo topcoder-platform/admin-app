@@ -389,6 +389,20 @@ angular.module('supportAdminApp', [
         templateUrl: 'app/challenges/challenges.html',
         data: { pageTitle: 'Challenge Management'},
         resolve: { auth: authenticate }
+      })
+      .state('index.ideas', {
+        abstract: true,
+        url: '/ideas',
+        templateUrl: 'app/ideas/ideas.html',
+        data: { pageTitle: 'Spigit' },
+        controller: 'IdeasController'
+      })
+      .state('index.ideas.list', {
+        url: '/list',
+        templateUrl: 'app/ideas/ideas.list.html',
+        data: { pageTitle: 'Spigit - Idea List' },
+        controller: 'IdeaListController',
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');

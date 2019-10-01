@@ -19,7 +19,7 @@ require('angular-sanitize');
 require('angular-storage');
 require('angular-touch');
 require('angular-ui-bootstrap');
-require('angular-ui-router');
+require('@uirouter/angularjs');
 require('auth0-angular');
 require('auth0-js');
 require('auth0-lock');

@@ -1,42 +1,62 @@
 {
   "local": {
-    "API_URL" : "https://127.0.0.1:8443",
-    "ADMIN_TOOL_URL" : "http://localhost:8080/api/v2",
-    "API_VERSION_PATH" : "v3",
+    "API_URL": "https://api.topcoder-dev.com",
+    "ADMIN_TOOL_URL": "https://api.topcoder-dev.com/v2",
+    "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts.topcoder-dev.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder-dev.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH": "/api/v1",
+    "GROUP_V5_API_URL": "http://localhost:3000/v5"
   },
   "dev": {
-    "API_URL" : "https://api.topcoder-dev.com",
-    "ADMIN_TOOL_URL" : "https://api.topcoder-dev.com/v2",
-    "API_VERSION_PATH" : "v3",
+    "API_URL": "https://api.topcoder-dev.com",
+    "ADMIN_TOOL_URL": "https://api.topcoder-dev.com/v2",
+    "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts.topcoder-dev.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder-dev.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH": "/api/v1",
+    "GROUP_V5_API_URL": "https://api.topcoder-dev.com/v5"
   },
   "qa": {
-    "API_URL" : "https://api.topcoder-qa.com",
-    "ADMIN_TOOL_URL" : "https://api.topcoder-qa.com/v2",
-    "API_VERSION_PATH" : "v3",
+    "API_URL": "https://api.topcoder-qa.com",
+    "ADMIN_TOOL_URL": "https://api.topcoder-qa.com/v2",
+    "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts.topcoder-qa.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder-qa.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH": "/api/v1",
+    "GROUP_V5_API_URL": "http://localhost:9000"
   },
   "prod": {
-    "API_URL" : "https://api.topcoder.com",
-    "ADMIN_TOOL_URL" : "https://api.topcoder.com/v2",
-    "API_VERSION_PATH" : "v3",
+    "API_URL": "https://api.topcoder.com",
+    "ADMIN_TOOL_URL": "https://api.topcoder.com/v2",
+    "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts.topcoder.com/member",
     "ACCOUNTS_CONNECTOR_URL": "https://accounts.topcoder.com/connector.html",
     "JWT_V3_NAME": "v3jwt",
-    "JWT_V2_NAME": "tcjwt"
+    "JWT_V2_NAME": "tcjwt",
+    "OAUTH2_TOKEN_NAME": "oa2spigit",
+    "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
+    "SPIGIT_API_URL": "spigit.com",
+    "SPIGIT_API_VERSION_PATH": "/api/v1",
+    "GROUP_V5_API_URL": "http://localhost:9000"
   }
 }

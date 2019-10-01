@@ -93,7 +93,7 @@ angular.module('supportAdminApp')
             if (loadingGroup) groupLoadQueue.push(id);
             else {
               loadingGroup = true;
-              GroupService.findById(id, ['name']).then(function(res) {
+              GroupService.findById(id).then(function(res) {
                 scopeStore[id] = res.name;
               }).catch(function() {
                 scopeStore[id] = id + ' (not found)';
