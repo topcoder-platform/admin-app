@@ -3,80 +3,36 @@
     <button type="button" class="close" aria-label="Close" ng-click="close()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title" id="reg-dialog-label">SSO Logins of {{user.handle}}</h4>
+    <h4 class="modal-title" id="reg-dialog-label">SSO User</h4>
   </div>
-
   <div class="modal-body">
     <div class="row">
-      <div class="text-center" ng-show="isLoading">
-        <img src="assets/images/loading.gif" />
-      </div>
-      <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
-      <div class="table-responsive">
-        <table class="table table-stripped" ng-show="userLogins.length">
-          <thead>
-            <tr>
-              <th>User ID</th>
-              <th>Name</th>
-              <th>Provider</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="animate-repeat pointer" ng-repeat="userLogin in userLogins" ng-class="{'footable-odd': $index % 2}" data-ng-click="selectRow(userLogin)"
-              title="Click to view/edit details.">
-              <td>{{userLogin.userId}}</td>
-              <td>{{userLogin.name}}</td>
-              <td>{{userLogin.provider}}</td>
-              <td>{{userLogin.email}}</td>
-              <td>
-                <button data-ng-click='remove(userLogin);$event.stopPropagation();' class="btn btn-sm btn-danger" ng-disabled="isLoading">
-                  <strong>Remove</strong>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-        <div ng-show="!userLogins.length">No SSO logins
-          <br/>
-        </div>
-      </div>
-      <!-- table-responsive -->
-      <button type="button" class="btn btn-primary" ng-click="add()" ng-disabled="isLoading" ng-hide="isAdding || isEditing">
-        Add
-      </button>
-      <form role="form" name="userForm" ng-show="isEditing || isAdding">
+      <form role="form" name="userForm">
+        <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
         <div class="form-group" ng-class="{'has-error': userForm.userId.$touched && userForm.userId.$invalid}">
           <label>User Id</label>
-          <input ng-model="currentUserLogin.userId" type="text" class="form-control" name="userId" required>
+          <input ng-model="user.profile.userId" type="text" class="form-control" name="userId" required>
         </div>
-        <div class="form-group" ng-class="{'has-error': userForm.name.$touched && userForm.name.$invalid}">
-          <label>Name </label>
-          <input ng-model="currentUserLogin.name" type="text" class="form-control" name="name">
+        <div class="form-group">
+          <label>Provider type </label>
+          <select ng-options="provider for provider in providerTypes" class="form-control" ng-model="user.profile.providerType" disabled></select>
         </div>
         <div class="form-group" ng-class="{'has-error': userForm.provider.$touched && userForm.provider.$invalid}">
           <label>Provider</label>
-          <select ng-options="provider for provider in providers" class="form-control" ng-model="currentUserLogin.provider" required
-            ng-disabled="isEditing"></select>
-        </div>
-        <div class="form-group" ng-class="{'has-error': userForm.email.$touched && userForm.email.$invalid}">
-          <label>Email</label>
-          <input ng-model="currentUserLogin.email" type="email" class="form-control" name="email">
+          <input ng-model="user.profile.provider" type="text" class="form-control" name="provider" required>
         </div>
       </form>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-white" ng-click="close()" ng-disabed="isLoading" ng-hide="isEditing || isAdding">
+    <button type="button" class="btn btn-white" ng-click="close()" ng-disabed="isLoading">
       Close
     </button>
-    <button type="button" class="btn btn-white" ng-click="isEditing=false; isAdding=false" ng-disabed="isLoading" ng-show="isEditing || isAdding">
-      Cancel
-    </button>
-    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="userForm.$invalid || isLoading" ng-show="isEditing || isAdding">
+    <button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="userForm.$invalid || isLoading">
       Save
     </button>
+  </div>
+  <div style="text-align:center;position:absolute;top:65px;left:0;width:100%;height:100%;zIndex:1;" ng-show="isLoading">
+    <img src="assets/images/loading.gif" />
   </div>
 </div>

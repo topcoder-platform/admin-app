@@ -201,7 +201,7 @@ module.controller('users.UserSearchController', [
 
       $scope.openSsoUserEditDialog = function(index) {
         var modalInstance = $modal.open({
-          size: 'md',
+          size: 'sm',
           templateUrl: 'app/users/sso-user-edit-dialog.html',
           controller: 'users.SsoUserEditDialogController',
           resolve: {

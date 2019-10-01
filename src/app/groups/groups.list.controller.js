@@ -3,38 +3,27 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('permissionmanagement.GroupsListController', [
-  '$scope',
-  '$rootScope',
-  'GroupService',
-  'UserService',
-  'IdResolverService',
-  'Alert',
-  '$timeout',
-  '$uibModal',
-  function($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout, $modal) {
-    // true data is loading
-    $scope.isLoading = false;
+              '$scope', '$rootScope', 'GroupService', 'UserService', 'IdResolverService', 'Alert', '$timeout', '$uibModal',
+    function ($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout, $modal) {
 
-    // list data
-    $scope.groups = [];
+      // true data is loading
+      $scope.isLoading = false;
 
-    // used to get all groups
-    $scope.page = 1;
-    $scope.perPage = 1000;
+      // list data
+      $scope.groups = [];
 
-    /* Maps user ids, present in the page, into user handles. */
-    $scope.users = {};
-    var loadUser = IdResolverService.getUserResolverFunction($scope.users);
+      /* Maps user ids, present in the page, into user handles. */
+      $scope.users = {};
+      var loadUser = IdResolverService.getUserResolverFunction($scope.users);
 
-    /**
-     * Get all groups
-     */
-    $scope.fetch = function() {
-      $alert.clear();
-      $scope.isLoading = true;
-      GroupService.fetch({ page: $scope.page, perPage: $scope.perPage })
-        .then(function(data) {
-          $scope.groups = data;
+      /**
+       * Get all groups
+       */
+      $scope.fetch = function () {
+        $alert.clear();
+        $scope.isLoading = true;
+        GroupService.fetch().then(function(data) {
+          $scope.groups = data.content;
           $scope.groups.forEach(function(group) {
             loadUser(group.createdBy);
             loadUser(group.modifiedBy);
@@ -49,32 +38,29 @@ module.controller('permissionmanagement.GroupsListController', [
           } else {
             $scope.isLoading = false;
           }
-        })
-        .catch(function(error) {
+        }).catch(function (error) {
           $alert.error(error.error, $rootScope);
           $scope.isLoading = false;
         });
-    };
+      };
 
-    // init footable plugin
-    angular.element(document).ready(function() {
-      $('.footable').footable();
-    });
-
-    // load the groups on controller init
-    $scope.fetch();
-
-    $scope.openGroupEditDialog = function(index) {
-      var modalInstance = $modal.open({
-        size: 'sm',
-        templateUrl: 'app/groups/group-edit-dialog.html',
-        controller: 'groups.GroupEditDialogController',
-        resolve: {
-          parentScope: function() {
-            return $scope;
-          }
-        }
+      // init footable plugin
+      angular.element(document).ready(function() {
+        $('.footable').footable();
       });
-    };
-  }
+
+      // load the groups on controller init
+      $scope.fetch();
+
+      $scope.openGroupEditDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/groups/group-edit-dialog.html',
+          controller: 'groups.GroupEditDialogController',
+          resolve: {
+						parentScope: function(){ return $scope; }
+					}
+        });
+      };
+    }
 ]);

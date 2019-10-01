@@ -23,10 +23,6 @@ module.controller('users.GroupsEditDialogController', [
       // list of existent groups where user is not a member
       $scope.availableGroups = [];
 
-      // used to get all groups
-      $scope.page = 1;
-      $scope.perPage = 1000;
-
       // array of all the existent groups
       var allGroups = [];
 
@@ -57,17 +53,12 @@ module.controller('users.GroupsEditDialogController', [
       $scope.loadData = function() {
         $scope.isLoading = true;
         $q.all([
-          GroupService.findByMember({
-            page: $scope.page,
-            perPage: $scope.perPage,
-            memberId: user.id,
-            membershipType: 'user'
-          }),
-          GroupService.fetch({page: $scope.page, perPage: $scope.perPage})
+          GroupService.findByMember(user.id, 'user'),
+          GroupService.fetch()
         ]).then(function(data) {
           // sort group list for easy navigation
           $scope.userGroups = _.sortBy(data[0], 'name');
-          allGroups = data[1];
+          allGroups = data[1].content;
           updateAvailableGroups();
         }).catch(function(error) {
           $alert.error(error.error, $scope);
@@ -117,8 +108,8 @@ module.controller('users.GroupsEditDialogController', [
         // to delete a member from a group we have to know membership id
         // the only way to get it is to get all membership records of the group
         // and then find the one for current user
-        GroupMemberService.fetch(group.id, {page: $scope.page, perPage: $scope.perPage}).then(function(data) {
-          var memberships = data;
+        GroupMemberService.fetch(group.id).then(function(data) {
+          var memberships = data.content;
 
           var membership = _.find(memberships, function(membership) {
             // as memberId is a string and user.id is a number
@@ -132,7 +123,7 @@ module.controller('users.GroupsEditDialogController', [
             $alert.warning('User is already not a member of the group `' + group.name + '`.', $scope);
             removeGroupFromList(group);
           } else {
-            return GroupMemberService.removeMember(group.id, membership.memberId).then(function() {
+            return GroupMemberService.removeMember(group.id, membership.id).then(function() {
               removeGroupFromList(group);
             });
           }
