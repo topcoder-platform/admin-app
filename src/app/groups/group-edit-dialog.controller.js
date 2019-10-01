@@ -21,12 +21,6 @@ module.controller('groups.GroupEditDialogController', [
      */
     $scope.save = function () {
       $scope.isLoading = true;
-      if ($scope.group.privateGroup === undefined) {
-        $scope.group.privateGroup =  false;
-      }
-      if ($scope.group.selfRegister === undefined) {
-        $scope.group.selfRegister = false;
-      }
       GroupService
         .create($scope.group)
         .then(function (data) {

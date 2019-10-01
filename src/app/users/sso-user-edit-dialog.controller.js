@@ -10,15 +10,27 @@ module.controller('users.SsoUserEditDialogController', [
     // currently selected user object
     $scope.user = user;
 
-    // The user logins.
-    $scope.userLogins = [];
-
-    // the current sso user login
-    $scope.currentUserLogin = {};
+    // These are the provider types accepted in the API.
+    $scope.providerTypes = [
+      'ad',
+      'adfs',
+      'auth0',
+      'behance',
+      'bitbucket',
+      'dribbble',
+      'facebook',
+      'github',
+      'google-oauth2',
+      'linkedin',
+      'samlp',
+      'sfdc',
+      'stackoverflow',
+      'twitter'
+    ];
 
     // true if details are being loaded/saved
     $scope.isLoading = false;
-
+    
     /**
        * Close dialog
        */
@@ -27,14 +39,22 @@ module.controller('users.SsoUserEditDialogController', [
     };
 
     /**
-     * Load SSO user logins.
+     * Load user profile.
      */
     $scope.loadData = function () {
       $scope.isLoading = true;
       UserService
-        .getSsoUserLogins($scope.user.id)
+        .findById($scope.user.id)
         .then(function (data) {
-          $scope.userLogins = data;
+          $scope.user.profile = {};
+          if (data.profile) {
+            // we can't have all properties form profile as saving will fail. 
+            $scope.user.profile = {
+              userId: data.profile.userId,
+              providerType: data.profile.providerType,
+              provider: data.profile.provider
+            }
+          }
         })
         .catch(function (error) {
           $alert.error(error.error, $scope);
@@ -45,82 +65,14 @@ module.controller('users.SsoUserEditDialogController', [
     }
 
     /**
-     * Create the SSO user login.
+     * Create or updates the user SSO profile.
      */
     $scope.save = function () {
       $scope.isLoading = true;
-
-      // There are some extra properties that from the table listing that are rejected
-      // by the backend, so we need to create a new object.
-      var userLogin = {
-        userId: $scope.currentUserLogin.userId,
-        name: $scope.currentUserLogin.name,
-        email: $scope.currentUserLogin.email,
-        provider: $scope.currentUserLogin.provider
-      };
-
-      if ($scope.isAdding) {
-        UserService
-          .createSsoUserLogin($scope.user.id, userLogin)
-          .then(function (data) {
-            $scope
-              .userLogins
-              .push($scope.currentUserLogin);
-            $scope.isAdding = false;
-          })
-          .catch(function (error) {
-            $alert.error(error.error, $scope);
-          })
-          . finally(function () {
-            $scope.isLoading = false;
-          });
-      } else {
-
-        UserService
-          .updateSsoUserLogin($scope.user.id, userLogin)
-          .then(function (data) {
-            $scope.isEditing = false;
-          })
-          .catch(function (error) {
-            $alert.error(error.error, $scope);
-          })
-          . finally(function () {
-            $scope.isLoading = false;
-          });
-      }
-    }
-
-    /**
-     * Retrieves the SSO login providers.
-     */
-    $scope.loadSsoProviders = function () {
       UserService
-        .getSsoLoginProviders()
+        .createOrUpdateSSOUserLogin($scope.user.id, $scope.user.profile)
         .then(function (data) {
-          $scope.providers = data.map(function (provider) {
-            return provider.name
-          });
-        })
-        .catch(function (error) {
-          $alert.error(error.error, $scope);
-        })
-    }
-
-    /**
-     * @param {Object} userLogin The user login.
-     * Removes the SSO login.
-    */
-    $scope.remove = function (userLogin) {
-      $scope.isLoading = true;
-      $scope.isEditing = false;
-      $scope.isAdding = false;
-
-      UserService
-        .deleteSsoUserLogin($scope.user.id, userLogin.provider)
-        .then(function (data) {
-          _.remove($scope.userLogins, function (item) {
-              return item.provider === userLogin.provider;
-            });
+          $scope.close();
         })
         .catch(function (error) {
           $alert.error(error.error, $scope);
@@ -130,28 +82,6 @@ module.controller('users.SsoUserEditDialogController', [
         });
     }
 
-    /**
-     * @param {Object} userLogin The user login.
-     * Select the login from the table and populates it's details below.
-     */
-    $scope.selectRow = function (userLogin) {
-      $scope.currentUserLogin = userLogin;
-      $scope.userForm.$setUntouched()
-      $scope.isEditing = true;
-      $scope.isAdding = false;
-    }
-
-    /**
-     * Showing add form.
-     */
-    $scope.add = function () {
-      $scope.isAdding=true; 
-      $scope.isEditing = false;
-      $scope.currentUserLogin={};
-      $scope.userForm.$setUntouched();
-    }
-
     $scope.loadData();
-    $scope.loadSsoProviders();
   }
 ]);
