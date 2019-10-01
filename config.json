@@ -57,6 +57,6 @@
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
-    "GROUP_V5_API_URL": "https://api.topcoder.com/v5"
+    "GROUP_V5_API_URL": "http://localhost:9000"
   }
 }
