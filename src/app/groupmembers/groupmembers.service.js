@@ -46,9 +46,7 @@ angular.module('supportAdminApp').factory('GroupMemberService', [
       return $http({
         method: 'POST',
         url: GroupMemberService.getBasePath() + '/groups/' + groupId + '/members',
-        data: {
-          param: entity
-        },
+        data: entity,
         headers: {
           'Content-Type': 'application/json'
         }
