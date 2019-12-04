@@ -98,7 +98,7 @@ angular.module('supportAdminApp').factory('GroupService', [
         headers: {
           'Content-Type': 'application/json'
         },
-        data: JSON.stringify({ param: group })
+        data: JSON.stringify(group)
       });
 
       return request.then(function(response) {
