@@ -12,7 +12,8 @@
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
-    "GROUP_V5_API_URL": "http://localhost:3000/v5"
+    "GROUP_V5_API_URL": "http://localhost:3000/v5",
+    "LOOKUP_V5_API_URL": "http://localhost:3000/v5"
   },
   "dev": {
     "API_URL": "https://api.topcoder-dev.com",
@@ -27,7 +28,8 @@
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
-    "GROUP_V5_API_URL": "https://api.topcoder-dev.com/v5"
+    "GROUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "LOOKUP_V5_API_URL": "https://api.topcoder-dev.com/v5"
   },
   "qa": {
     "API_URL": "https://api.topcoder-qa.com",
@@ -42,7 +44,8 @@
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
-    "GROUP_V5_API_URL": "http://localhost:9000"
+    "GROUP_V5_API_URL": "http://localhost:9000",
+    "LOOKUP_V5_API_URL": "http://localhost:3000/v5"
   },
   "prod": {
     "API_URL": "https://api.topcoder.com",
@@ -57,6 +60,7 @@
     "OAUTH2_TOKEN_EXPIRETIME_TAGNAME": "oa2expire",
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
-    "GROUP_V5_API_URL": "https://api.topcoder.com/v5"
+    "GROUP_V5_API_URL": "https://api.topcoder.com/v5",
+    "LOOKUP_V5_API_URL": "https://api.topcoder.com/v5"
   }
 }

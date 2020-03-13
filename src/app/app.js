@@ -262,6 +262,33 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'Edit Client' },
         resolve: { auth: authenticate }
       })
+      .state('index.devices', {
+        abstract: true,
+        url: '/devices',
+        templateUrl: 'app/devices/devices.html',
+        data: { pageTitle: 'Devices' },
+        controller: 'devices.DevicesController'
+      })
+      .state('index.devices.list', {
+        url: '/list',
+        templateUrl: 'app/devices/devices.list.html',
+        controller: 'devices.DevicesListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.devices.new', {
+        url: '/new',
+        templateUrl: 'app/devices/devices.new.html',
+        controller: 'devices.NewDeviceController',
+        data: { pageTitle: 'New Device' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.devices.edit', {
+        url: '/edit/:deviceId',
+        templateUrl: 'app/devices/devices.edit.html',
+        controller: 'devices.EditDeviceController',
+        data: { pageTitle: 'Edit Device' },
+        resolve: { auth: authenticate }
+      })
       .state('index.groups', {
         abstract: true,
         url: '/groups',

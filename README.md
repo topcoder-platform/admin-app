@@ -39,6 +39,8 @@ The following configuration parameters are available:
 | SPIGIT_API_URL             | SPIGIT api base url       |
 |SPIGIT_API_VERSION_PATH            | SPIGIT api version path     |
 |GROUP_V5_API_URL            | URL of the v5 Groups API      |
+|LOOKUP_V5_API_URL            | URL of the v5 Devices API      |
+
 
 ## Start the Application
 
