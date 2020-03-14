@@ -20,12 +20,10 @@
                                         <input id="type" type="text" class="form-control" ng-model="formSearch.criteria.type"
                                                uib-typeahead="type for type in types | filter:$viewValue" name="type" >
                                     </div>
-                                    <div class="col-md-4 scrollable-dropdown-menu">
+                                    <div class="form-group col-md-4 scrollable-dropdown-menu">
                                         <label for="manufacturer">Manufacturer</label>
                                         <input id="manufacturer" type="text" class="form-control" ng-model="formSearch.criteria.manufacturer" name="manufacturer"
-                                        typeahead-loading="loadingLocations" uib-typeahead="manufacturer for manufacturer in getManufacturers($viewValue) | limitTo:15">
-
-                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh" ></i>
+                                        uib-typeahead="manufacturer for manufacturer in getManufacturers($viewValue) | limitTo:15">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="model">Model</label>

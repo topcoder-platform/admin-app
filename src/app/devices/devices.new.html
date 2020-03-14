@@ -12,8 +12,7 @@
                                 <div class="form-group col-md-6 scrollable-dropdown-menu" ng-class="{'has-error': editDeviceForm.manufacturer.$touched && editDeviceForm.manufacturer.$invalid}">
                                     <label for="device-manufacturer">Manufacturer</label>
                                     <input id="device-manufacturer" type="text" class="form-control" ng-model="device.manufacturer" name="manufacturer"
-                                        typeahead-loading="loadingLocations" uib-typeahead="manufacturer for manufacturer in getManufacturers($viewValue)" required="required">
-                                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh" ></i>
+                                        uib-typeahead="manufacturer for manufacturer in getManufacturers($viewValue)" required="required">
                                 </div>
                             </div>
                             <div class="row">
