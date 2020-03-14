@@ -46,13 +46,14 @@ module.controller('devices.EditDeviceController', ['$scope', '$rootScope', '$log
       // manufacturer autocomplete
       $scope.oldType = '';
       $scope.getManufacturers = function (viewValue) {
+        var loweCaseValue = viewValue.toLowerCase()
         if($scope.device.type == ''){
           return
         }
         // use the 'manufacturers' obtained early if the type is not changed to avoid frequent request
         if($scope.oldType == $scope.device.type){
           return $scope.manufacturers.filter(function(manufacturer) {
-            return manufacturer.indexOf(viewValue) != -1;
+            return manufacturer.toLowerCase().indexOf(loweCaseValue) != -1;
           });
         }
         return DeviceService.getManufacturers($scope.device.type).then(
@@ -60,7 +61,7 @@ module.controller('devices.EditDeviceController', ['$scope', '$rootScope', '$log
             $scope.manufacturers  = manufacturers;
             $scope.oldType = $scope.device.type;
             return $scope.manufacturers.filter(function(manufacturer) {
-              return manufacturer.indexOf(viewValue) != -1;
+              return manufacturer.toLowerCase().indexOf(loweCaseValue) != -1;
             });
           });
       }

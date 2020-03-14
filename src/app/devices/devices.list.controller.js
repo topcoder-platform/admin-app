@@ -40,13 +40,14 @@ module.controller('devices.DevicesListController', ['$scope', '$rootScope', '$lo
       // manufacturer autocomplete
       $scope.oldType = '';
       $scope.getManufacturers = function (viewValue) {
+        var loweCaseValue = viewValue.toLowerCase()
         if($scope.formSearch.criteria.type == ''){
           return
         }
         // use the 'manufacturers' obtained early if the type is not changed to avoid frequent request
         if($scope.oldType == $scope.formSearch.criteria.type){
           return $scope.manufacturers.filter(function(manufacturer) {
-            return manufacturer.indexOf(viewValue) != -1;
+            return manufacturer.toLowerCase().indexOf(loweCaseValue) != -1;
           });
         }
         return DeviceService.getManufacturers($scope.formSearch.criteria.type).then(
@@ -54,7 +55,7 @@ module.controller('devices.DevicesListController', ['$scope', '$rootScope', '$lo
             $scope.manufacturers  = manufacturers;
             $scope.oldType = $scope.formSearch.criteria.type;
             return $scope.manufacturers.filter(function(manufacturer) {
-              return manufacturer.indexOf(viewValue) != -1;
+              return manufacturer.toLowerCase().indexOf(loweCaseValue) != -1;
             });
           });
       }
