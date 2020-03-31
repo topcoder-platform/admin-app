@@ -1,0 +1,113 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <!-- add device button row -->
+    <div class="row">
+        <div class="col col-md-12 col-lg-12">
+            <a class="btn btn-info pull-right m-b" ui-sref="index.devices.new">
+                <strong><i class="fa fa-plus"></i> Add Device</strong>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col col-md-12 col-lg-12">
+                            <form role="form" name="searchFrom" novalidate="novalidate" autocomplete="off">
+                                <div class="row">
+                                    <div class="form-group col-md-4 scrollable-dropdown-menu">
+                                        <label for="type">Type</label>
+                                        <input id="type" type="text" class="form-control" ng-model="formSearch.criteria.type"
+                                               uib-typeahead="type for type in types | filter:$viewValue" name="type" >
+                                    </div>
+                                    <div class="form-group col-md-4 scrollable-dropdown-menu">
+                                        <label for="manufacturer">Manufacturer</label>
+                                        <input id="manufacturer" type="text" class="form-control" ng-model="formSearch.criteria.manufacturer" name="manufacturer"
+                                        uib-typeahead="manufacturer for manufacturer in getManufacturers($viewValue) | limitTo:15">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="model">Model</label>
+                                        <input id="model" type="text" class="form-control" ng-model="formSearch.criteria.model" name="model">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="operating-system">Operating System</label>
+                                        <input id="operating-system" type="text" class="form-control" ng-model="formSearch.criteria.operatingSystem" name="operatingSystem">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="operating-system-version">Operating System Version</label>
+                                        <input id="operating-system-version" type="text" class="form-control" ng-model="formSearch.criteria.operatingSystemVersion" name="operatingSystemVersion">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-12 col-lg-12">
+                                        <button class="btn btn-primary btn-sm pull-right" ng-click="search(true)">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="formSearch.isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!formSearch.isLoading &&  !devices.length" class="table-responsive">
+                            <p> No record found. </p>
+                        </div>
+                    <div ng-show="!formSearch.isLoading && devices.length > 0" class="table-responsive">
+                        <table class="footable table table-stripped toggle-arrow-tiny">
+                            <thead>
+                                <tr>
+                                    <th>Device ID</th>
+                                    <th>Type</th>
+                                    <th>Manufacturer</th>
+                                    <th>model</th>
+                                    <th>Operating System</th>
+                                    <th>Operating System Version</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="device in devices">
+                                    <td>
+                                        <a ui-sref="index.devices.edit({deviceId: device.id})">{{device.id}}</a>
+                                    </td>
+                                    <td>{{device.type}}</td>
+                                    <td>{{device.manufacturer}}</td>
+                                    <td>{{device.model}}</td>
+                                    <td>{{device.operatingSystem}}</td>
+                                    <td>{{device.operatingSystemVersion}}</td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6">
+                                        <ul class="pagination pull-right">
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}"><a
+                                                ng-click="changePage(1)">«</a></li>
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}">
+                                                <a ng-click="changePage(pageNumber - 1)">‹</a>
+                                            </li>
+                                            <li class="footable-page" ng-class="{'active' : item === pageNumber}" ng-repeat="item in getPageArray()">
+                                                <a ng-click="changePage(item)">{{item}}</a></li>
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                                                <a  ng-click="changePage(pageNumber + 1)">›</a>
+                                            </li>
+                                            <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                                                <a ng-click="changePage(getLastPage())">»</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- table-responsive -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
