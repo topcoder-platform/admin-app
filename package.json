@@ -85,6 +85,7 @@
     "clean": "gulp clean",
     "build": "gulp build",
     "start": "gulp publish",
-    "test": "gulp protractor"
+    "test": "gulp protractor",
+    "dev": "gulp serve"
   }
 }

@@ -49,8 +49,8 @@ As application uses Topcoder authorization we have to run it on the one of allow
 Simply execute the following command to start the app in development mode (with browsersync)
 ```
 npm install
-gulp build
-gulp serve
+npm run build
+npm run dev
 ```
 Application will be hosted and running at http://local.topcoder-dev.com:3000.
 
