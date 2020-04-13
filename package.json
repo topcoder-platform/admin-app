@@ -2,7 +2,7 @@
   "name": "support-admin-app",
   "version": "2.3.0",
   "dependencies": {
-    "angular": "~1.4.4",
+    "angular": "~1.7.9",
     "angular-animate": "~1.4.4",
     "angular-bootstrap-multiselect": "git+https://github.com/bentorfs/angular-bootstrap-multiselect.git#master",
     "angular-clipboard": "~1.2.1",
