@@ -1,0 +1,49 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <form role="form" name="editDeviceForm" data-toggle="validator" autocomplete="off" novalidate>
+                            <div class="row">
+                                <div class="form-group col-md-6 scrollable-dropdown-menu" ng-class="{'has-error': editDeviceForm.type.$touched && editDeviceForm.type.$invalid}">
+                                    <label for="device-type">Type</label>
+                                    <input id="device-type" type="text" class="form-control" ng-model="device.type"  uib-typeahead="type for type in types | filter:$viewValue" name="type" required="required">
+                                </div>
+                                <div class="form-group col-md-6 scrollable-dropdown-menu" ng-class="{'has-error': editDeviceForm.manufacturer.$touched && editDeviceForm.manufacturer.$invalid}">
+                                    <label for="device-manufacturer">Manufacturer</label>
+                                    <input id="device-manufacturer" type="text" class="form-control" ng-model="device.manufacturer" name="manufacturer"
+                                        uib-typeahead="manufacturer for manufacturer in getManufacturers($viewValue)" required="required">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6" ng-class="{'has-error': editDeviceForm.model.$touched && editDeviceForm.model.$invalid}">
+                                    <label for="device-model">Model</label>
+                                    <input id="device-model" type="text" class="form-control" ng-model="device.model" name="model" required="required">
+                                </div>
+                                <div class="form-group col-md-6" ng-class="{'has-error': editDeviceForm.operatingSystem.$touched && editDeviceForm.operatingSystem.$invalid}">
+                                    <label for="device-operating-system">Operating System</label>
+                                    <input id="device-operating-system" type="text" class="form-control" ng-model="device.operatingSystem" name="operatingSystem" required="required">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6" ng-class="{'has-error': editDeviceForm.operatingSystemVersion.$touched && editDeviceForm.operatingSystemVersion.$invalid}">
+                                    <label for="device-operating-system-version">Operating System Version</label>
+                                    <input id="device-operating-system-version" type="text" class="form-control" ng-model="device.operatingSystemVersion" name="operatingSystemVersion">
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="form-group col-md-12">
+                                    <button ui-sref="index.devices.list" type="button" class="btn btn-sm btn-warning m-l pull-right">
+                                        <strong>Cancel</strong>
+                                    </button>
+                                    <button ng-click="submitDevice()" type="submit" class="btn btn-sm btn-success pull-right" ng-disabled="editDeviceForm.$invalid || processing">
+                                        <strong>Add Device</strong>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

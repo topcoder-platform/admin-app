@@ -39,6 +39,8 @@ The following configuration parameters are available:
 | SPIGIT_API_URL             | SPIGIT api base url       |
 |SPIGIT_API_VERSION_PATH            | SPIGIT api version path     |
 |GROUP_V5_API_URL            | URL of the v5 Groups API      |
+|LOOKUP_V5_API_URL            | URL of the v5 Devices API      |
+
 
 ## Start the Application
 
@@ -47,8 +49,8 @@ As application uses Topcoder authorization we have to run it on the one of allow
 Simply execute the following command to start the app in development mode (with browsersync)
 ```
 npm install
-gulp build
-gulp serve
+npm run build
+npm run dev
 ```
 Application will be hosted and running at http://local.topcoder-dev.com:3000.
 
@@ -86,3 +88,6 @@ npm install
 ### Execute E2E Tests
 
 ```gulp protractor```
+
+
+Update to Push CI
