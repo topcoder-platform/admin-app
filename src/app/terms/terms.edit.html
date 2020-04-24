@@ -1,0 +1,61 @@
+<div class="ibox-title" style="margin-top: 10px">
+  <form role="form" name="editForm" data-toggle="validator" novalidate>
+    <div class="row">
+      <div class="form-group col-md-6" ng-class="{'has-error': editForm.title.$touched && editForm.title.$invalid}">
+        <label for="terms-title">Title</label>
+        <input id="terms-title" type="text" class="form-control" ng-model="editTerms.title" name="title" required>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="terms-url">URL</label>
+        <input id="terms-url" type="text" class="form-control" ng-model="editTerms.url">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12"
+        ng-class="{'has-error': editForm.termsText$touched && editForm.termsText.$invalid}">
+        <label for="terms-text">Text</label>
+        <textarea rows="5" id="terms-text" ng-model="editTerms.text" name="termsText" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6"
+        ng-class="{'has-error': editForm.agreeabilityType.$touched && editForm.agreeabilityType.$invalid}">
+        <label for="terms-agreeability-type">Agreeability Type</label>
+        <select id="terms-agreeability-type" class="form-control m-b"
+          ng-change="agreeabilityTypeChange(editTerms.agreeabilityTypeId)"
+          ng-options="agreeabilityType.id as agreeabilityType.name for agreeabilityType in agreeabilityTypes"
+          ng-model="editTerms.agreeabilityTypeId" name="agreeabilityType" required>
+        </select>
+      </div>
+      <div class="form-group col-md-6"
+        ng-class="{'has-error': editForm.docusignTemplateId.$touched && editForm.docusignTemplateId.$invalid}">
+        <label for="terms-docusign-template-Id">Docusign Template ID</label>
+        <input id="terms-docusign-template-Id" type="text" name="docusignTemplateId" class="form-control"
+          ng-disabled="!isDocuSignFieldEnabled" ng-required="isDocuSignFieldEnabled"
+          ng-model="editTerms.docusignTemplateId">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="terms-legacy-Id">Legacy ID</label>
+        <input id="terms-legacy-Id" type="number" class="form-control" ng-model="editTerms.legacyId">
+      </div>
+      <div class="form-group col-md-6" ng-class="{'has-error': editForm.typeId.$touched && editForm.typeId.$invalid}">
+        <label for="terms-type-id">Type ID</label>
+        <input id="terms-type-id" type="number" class="form-control" ng-model="editTerms.typeId" name="typeId" required>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="form-group col-md-12">
+        <button ui-sref="index.terms.list" type="button" class="btn btn-sm btn-warning pull-right"
+          style="margin-left: 4px">
+          <strong>Cancel</strong>
+        </button>
+        <button ng-click="saveTermsOfUse() " type="submit" class="btn btn-sm btn-success pull-right"
+          ng-disabled="editForm.$invalid || processing">
+          <strong>Save Changes</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
