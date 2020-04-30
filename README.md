@@ -37,6 +37,9 @@ The following configuration parameters are available:
 | OAUTH2_TOKEN_NAME              | OAuth2 token name              |
 | OAUTH2_TOKEN_EXPIRETIME_TAGNAME           | OAuth2 token expire time tag name           |
 | SPIGIT_API_URL             | SPIGIT api base url       |
+| SPIGIT_API_VERSION_PATH            | SPIGIT api version path     |
+| GROUP_V5_API_URL            | URL of the v5 Groups API      |
+| LOOKUP_V5_API_URL            | URL of the v5 Devices API      |
 | TERMS_V5_API_URL            | URL of the v5 Terms API      |
 | AGREEABILITY_TYPES            | List of Agreeable types and its UUID from Database     |
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID of the `"DocuSign Template"` Agreeable type      |
