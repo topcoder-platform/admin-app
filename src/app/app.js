@@ -430,6 +430,33 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'Spigit - Idea List' },
         controller: 'IdeaListController',
         resolve: { auth: authenticate }
+      })
+      .state('index.terms', {
+        abstract: true,
+        url: '/terms',
+        templateUrl: 'app/terms/terms.html',
+        data: { pageTitle: 'Terms of Use' },
+        controller: 'terms.TermsController'
+      })
+      .state('index.terms.list', {
+        url: '/list',
+        templateUrl: 'app/terms/terms.list.html',
+        controller: 'terms.TermsListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.terms.new', {
+        url: '/new',
+        templateUrl: 'app/terms/terms.new.html',
+        controller: 'terms.NewTermsController',
+        data: { pageTitle: 'New Terms of Use' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.terms.edit', {
+        url: '/edit/:termsId',
+        templateUrl: 'app/terms/terms.edit.html',
+        controller: 'terms.EditTermsController',
+        data: { pageTitle: 'Edit Terms of Use' },
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');
