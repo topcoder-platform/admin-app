@@ -18,8 +18,7 @@ module.controller('permissionmanagement.GroupsListController', [
     // list data
     $scope.groups = [];
 
-    // used to get all groups
-    //increase perPage to 2000 from 1000 to accomodate all groups in single call
+    // used to get all groups , increase the perPage limit to 2000 from 1000
     $scope.page = 1;
     $scope.perPage = 2000;
 
