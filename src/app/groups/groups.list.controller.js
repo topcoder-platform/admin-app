@@ -18,9 +18,9 @@ module.controller('permissionmanagement.GroupsListController', [
     // list data
     $scope.groups = [];
 
-    // used to get all groups
+    // used to get all groups , increased perPage from 1000 to 2000 to accomodate all groups in one call
     $scope.page = 1;
-    $scope.perPage = 1000;
+    $scope.perPage = 2000;
 
     /* Maps user ids, present in the page, into user handles. */
     $scope.users = {};
