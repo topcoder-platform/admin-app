@@ -11,7 +11,7 @@ module.controller('permissionmanagement.GroupsListController', [
   'Alert',
   '$timeout',
   '$uibModal',
-  function($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout, $modal) {
+  function ($scope, $rootScope, GroupService, UserService, IdResolverService, $alert, $timeout, $modal) {
     // true data is loading
     $scope.isLoading = false;
 
@@ -19,8 +19,9 @@ module.controller('permissionmanagement.GroupsListController', [
     $scope.groups = [];
 
     // used to get all groups
+    //increase perPage to 2000 from 1000 to accomodate all groups in single call
     $scope.page = 1;
-    $scope.perPage = 1000;
+    $scope.perPage = 2000;
 
     /* Maps user ids, present in the page, into user handles. */
     $scope.users = {};
@@ -29,20 +30,20 @@ module.controller('permissionmanagement.GroupsListController', [
     /**
      * Get all groups
      */
-    $scope.fetch = function() {
+    $scope.fetch = function () {
       $alert.clear();
       $scope.isLoading = true;
       GroupService.fetch({ page: $scope.page, perPage: $scope.perPage })
-        .then(function(data) {
+        .then(function (data) {
           $scope.groups = data;
-          $scope.groups.forEach(function(group) {
+          $scope.groups.forEach(function (group) {
             loadUser(group.createdBy);
             loadUser(group.modifiedBy);
           });
           if ($scope.groups.length) {
             // make sure changes to scope are applied
             // and redraw footable table with current group list
-            $timeout(function() {
+            $timeout(function () {
               $('.footable').trigger('footable_redraw');
               $scope.isLoading = false;
             });
@@ -50,27 +51,27 @@ module.controller('permissionmanagement.GroupsListController', [
             $scope.isLoading = false;
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           $alert.error(error.error, $rootScope);
           $scope.isLoading = false;
         });
     };
 
     // init footable plugin
-    angular.element(document).ready(function() {
+    angular.element(document).ready(function () {
       $('.footable').footable();
     });
 
     // load the groups on controller init
     $scope.fetch();
 
-    $scope.openGroupEditDialog = function(index) {
+    $scope.openGroupEditDialog = function (index) {
       var modalInstance = $modal.open({
         size: 'sm',
         templateUrl: 'app/groups/group-edit-dialog.html',
         controller: 'groups.GroupEditDialogController',
         resolve: {
-          parentScope: function() {
+          parentScope: function () {
             return $scope;
           }
         }
