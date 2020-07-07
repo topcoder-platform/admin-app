@@ -430,6 +430,12 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'Spigit - Idea List' },
         controller: 'IdeaListController',
         resolve: { auth: authenticate }
+      })
+      .state('index.notificationsbroadcast', {
+        url: 'notificationsbroadcast',
+        templateUrl: 'app/notifications_broadcast/notifications_broadcast.html',
+        data: { pageTitle: 'Notifications Broadcast'},
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');

@@ -13,7 +13,11 @@
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
     "GROUP_V5_API_URL": "http://localhost:3000/v5",
-    "LOOKUP_V5_API_URL": "http://localhost:3000/v5"
+    "LOOKUP_V5_API_URL": "http://localhost:3000/v5",
+    "BUSAPI_URL": "https://api.topcoder-dev.com/v5",
+    "NOTIFICATIONS_KAFKA_TOPIC":"admin.notification.broadcast",
+    "NOTIFCATIONS_EVENT_ORIGINATOR":"admin-app",
+    "TRACKS": ["develop", "design", "data science"]
   },
   "dev": {
     "API_URL": "https://api.topcoder-dev.com",
@@ -29,7 +33,11 @@
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
     "GROUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
-    "LOOKUP_V5_API_URL": "https://api.topcoder-dev.com/v5"
+    "LOOKUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "BUSAPI_URL": "https://api.topcoder-dev.com/v5",
+    "NOTIFICATIONS_KAFKA_TOPIC":"admin.notification.broadcast",
+    "NOTIFCATIONS_EVENT_ORIGINATOR":"admin-app",
+    "TRACKS": ["develop", "design", "data science"]
   },
   "qa": {
     "API_URL": "https://api.topcoder-qa.com",
@@ -45,7 +53,11 @@
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
     "GROUP_V5_API_URL": "http://localhost:9000",
-    "LOOKUP_V5_API_URL": "http://localhost:3000/v5"
+    "LOOKUP_V5_API_URL": "http://localhost:3000/v5",
+    "BUSAPI_URL": "https://api.topcoder-dev.com/v5",
+    "NOTIFICATIONS_KAFKA_TOPIC":"admin.notification.broadcast",
+    "NOTIFCATIONS_EVENT_ORIGINATOR":"admin-app",
+    "TRACKS": ["develop", "design", "data science"]
   },
   "prod": {
     "API_URL": "https://api.topcoder.com",
@@ -61,6 +73,10 @@
     "SPIGIT_API_URL": "spigit.com",
     "SPIGIT_API_VERSION_PATH": "/api/v1",
     "GROUP_V5_API_URL": "https://api.topcoder.com/v5",
-    "LOOKUP_V5_API_URL": "https://api.topcoder.com/v5"
+    "LOOKUP_V5_API_URL": "https://api.topcoder.com/v5",
+    "BUSAPI_URL": "https://api.topcoder.com/v5",
+    "NOTIFICATIONS_KAFKA_TOPIC":"admin.notification.broadcast",
+    "NOTIFCATIONS_EVENT_ORIGINATOR":"admin-app",
+    "TRACKS": ["develop", "design", "data science"]
   }
 }

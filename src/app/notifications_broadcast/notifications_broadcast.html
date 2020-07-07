@@ -1,0 +1,62 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Broadcast Notifications</h2>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row" ng-controller="notification.BroadcastController" ng-show="authorized()">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
+                            <div class="col-md-3">
+                                <label>Groups</label>
+                                <multiselect ng-model="notificationBroadcast.recipients.groups"
+                                    options="availableGroups" ng-disabled="notificationBroadcast.isLoading"
+                                    show-select-all="true" show-unselect-all="true" search-limit="10" show-search="true">
+                                </multiselect>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Skills</label>
+                                <multiselect ng-model="notificationBroadcast.recipients.skills"
+                                    options="availableSkills" ng-disabled="notificationBroadcast.isLoading"
+                                    show-select-all="true" show-unselect-all="true" search-limit="10" show-search="true">
+                                </multiselect>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tracks</label>
+                                <multiselect ng-model="notificationBroadcast.recipients.tracks"
+                                    options="availableTracks" ng-disabled="notificationBroadcast.isLoading"
+                                    show-select-all="true" show-unselect-all="true" show-search="true">
+                                </multiselect>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Countries</label>
+                                <multiselect ng-model="selectedCountries"
+                                    options="availableCountries" id-prop="name" display-prop="name" ng-disabled="notificationBroadcast.isLoading"
+                                    show-select-all="true" show-unselect-all="true" search-limit="10" show-search="true">
+                                </multiselect>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            <label>Announcement Text</label>
+                            <textarea  minlength="3" maxlength="140"
+                                ng-model="notificationBroadcast.announcement"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button ng-click="sendAnnouncement()" ng-disabled="notificationBroadcast.recipients.groups.length === 0 || notificationBroadcast.announcement.length === 0" type="submit"
+                                class="btn btn-sm btn-warning pull-right m-r">
+                                <strong>Send announcement</strong>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

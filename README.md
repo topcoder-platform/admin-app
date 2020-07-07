@@ -40,6 +40,10 @@ The following configuration parameters are available:
 |SPIGIT_API_VERSION_PATH            | SPIGIT api version path     |
 |GROUP_V5_API_URL            | URL of the v5 Groups API      |
 |LOOKUP_V5_API_URL            | URL of the v5 Devices API      |
+|BUSAPI_URL            | URL of the v5 BUS API to which notifications will be posted      |
+|NOTIFICATIONS_KAFKA_TOPIC            | The Kafka Topic to which the notifications will be sent      |
+|NOTIFCATIONS_EVENT_ORIGINATOR            | The originator of notifications sent by admin-app      |
+|TRACKS            | The array of the topcoder tracks.      |
 
 
 ## Start the Application
