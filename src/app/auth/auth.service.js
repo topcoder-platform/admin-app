@@ -229,7 +229,7 @@ angular.module('supportAdminApp')
        * @return {Boolean} true if token V3 is expired
        */
       AuthService.isTokenV3Expired = function() {
-        return !AuthService.getTokenV3() || jwtHelper.isTokenExpired(AuthService.getTokenV3(), 300);
+        return !AuthService.getTokenV3() || jwtHelper.isTokenExpired(AuthService.getTokenV3(), 10);
       }
 
       /**
