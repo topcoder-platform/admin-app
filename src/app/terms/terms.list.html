@@ -16,11 +16,11 @@
               <form role="form" name="searchFrom" novalidate="novalidate" autocomplete="off">
                 <div class="row">
                   <div class="form-group col-md-12">
-                    <label for="search-condition-handle">Legacy ID</label>
+                    <label for="search-condition-handle">Title</label>
                     <div class="row">
                       <div class="col-md-4 ">
-                        <input id="search-condition-handle" type="number" class="form-control"
-                          ng-model="formSearch.criteria.legacyId" ng-disabled="isLoading" ng-trim="true">
+                        <input id="search-condition-handle" type="text" class="form-control"
+                          ng-model="formSearch.criteria.title" ng-disabled="isLoading" ng-trim="true">
                       </div>
                       <div class="col-md-4 no-padding-left">
                         <button ng-click="search(true)" ng-disabled="isLoading" type="submit"
@@ -46,12 +46,9 @@
             <table class="footable table table-stripped toggle-arrow-tiny">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Legacy ID</th>
                   <th>Title</th>
-                  <th>URL</th>
                   <th>Agreeability Type</th>
-                  <th></th>
+                  <th>Info</th>
                 </tr>
               </thead>
 
@@ -60,12 +57,13 @@
                   <td>
                     <a ui-sref="index.terms.edit({termsId: terms.id})">{{terms.id}}</a>
                   </td>
-                  <td>{{terms.legacyId}}</td>
-                  <td>{{terms.title}}</td>
-                  <td class="word-wrap ">{{terms.url}}</td>
                   <td>{{terms.agreeabilityType}}</td>
-                  <td><a href="javascript:;" data-ng-click='deleteTerms(terms.id)' class="btn btn-sm btn-danger">Delete
-                      Terms</a></td>
+                  <td>{{terms.agreeabilityType==='Electronically-agreeable'?terms.url:terms.agreeabilityType==='Docusign-template'?terms.agreeabilityTypeId:''}}</td>
+                  <td class="btn-toolbar">
+                    <a href="javascript:;" data-ng-click='deleteTerms(terms.id)' class="btn btn-sm btn-danger">Delete Terms</a>
+                    <a ui-sref="index.terms.users({termsId: terms.id,title:terms.title})" class="btn btn-sm btn-info">View Users</a>
+                    <a href="javascript:;" ng-click='openAddUserDialog(terms)' class="btn btn-sm btn-info">Add User</a>
+                  </td>
                 </tr>
               </tbody>
 

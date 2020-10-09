@@ -53,7 +53,7 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
         if(entity.agreeabilityType) {
           delete entity.agreeabilityType;
         }
-        
+        delete entity.agreed;
         TermsService.editTerms($scope.editTerms.id, entity).then(function () {
           $scope.processing = false;
           $state.go('index.terms.list');
