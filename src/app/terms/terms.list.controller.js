@@ -3,14 +3,14 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
-  'TermsService', 'Alert', '$timeout',
-    function ($scope, $rootScope, $log, TermsService, $alert, $timeout) {
+  'TermsService', 'Alert', '$timeout', '$uibModal',
+    function ($scope, $rootScope, $log, TermsService, $alert, $timeout, $modal) {
 
       // search
       $scope.formSearch = {
         isLoading: false,
         criteria: {
-          legacyId: ""
+          title: ""
         },
         setLoading: function(loading) {
           this.isLoading = loading;
@@ -30,7 +30,7 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
        */
       $scope.search = function (pageReset) {
         $alert.clear();
-        var legacyId = $scope.formSearch.criteria.legacyId;
+        var title = $scope.formSearch.criteria.title;
 
         if(pageReset == true){
           $scope.pageNumber = 1;
@@ -38,8 +38,8 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
         var filter = '';
         filter += "page="+$scope.pageNumber;
         filter += "&perPage="+25;
-        if(legacyId) {
-          filter += "&legacyId="+legacyId;
+        if(title) {
+          filter += "&title="+title;
         }
 
         $scope.formSearch.setLoading(true);
@@ -96,6 +96,26 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
         .catch(function (error) {
             $alert.error(error.error, $rootScope);
             $scope.formSearch.setLoading(false);
+        });
+      };
+
+      /**
+       * handles add user click.
+       * @param {Object} term the selected term.
+       */
+      $scope.openAddUserDialog = function (term) {
+        var modalInstance = $modal.open({
+          size: 'sm',
+          templateUrl: 'app/terms/sign-terms-dialog.html',
+          controller: 'terms.SignTermsController',
+          resolve: {
+            parentScope: function() {
+              return $scope;
+            },
+            term:function () {
+              return term
+            }
+          }
         });
       };
 

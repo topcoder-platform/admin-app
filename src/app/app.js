@@ -457,6 +457,16 @@ angular.module('supportAdminApp', [
         controller: 'terms.EditTermsController',
         data: { pageTitle: 'Edit Terms of Use' },
         resolve: { auth: authenticate }
+      })
+      .state('index.terms.users', {
+        url: '/termsusers/:termsId/list',
+        templateUrl: 'app/terms/terms.users.list.html',
+        controller: 'terms.ListTermsUsersController',
+        data: { pageTitle: 'Term Users' },
+        params:{
+          title: null
+        },
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');
