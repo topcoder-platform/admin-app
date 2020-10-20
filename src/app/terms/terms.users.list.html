@@ -9,7 +9,7 @@
                     <strong>Back</strong>
                 </a>
                 <a class="btn btn-info pull-right m-b" href="javascript:;" ng-click="openAddUserDialog()">
-                    <strong><i class="fa fa-plus"></i> Add Terms</strong>
+                    <strong><i class="fa fa-plus"></i> Add User</strong>
                 </a>
             </div>
         </div>
@@ -25,12 +25,17 @@
                             <div class="col col-md-12 col-lg-12">
                                 <form role="form" name="filterForm" novalidate="novalidate">
                                     <div class="row">
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="userId">User Id</label>
-                                            <input id="userId" type="text" class="form-control"
+                                            <input id="userId" type="number" class="form-control"
                                                 ng-model="filterCriteria.userId" name="userId" ng-disabled="isLoading">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
+                                            <label for="handle">Handle</label>
+                                            <input id="handle" type="text" class="form-control"
+                                                ng-model="filterCriteria.handle" name="handle" ng-disabled="isLoading">
+                                        </div>
+                                        <div class="form-group col-md-3">
                                             <label for="sign-terms-from">Signed From</label>
                                             <input id="sign-terms-from" type="text" class="form-control"
                                                    datetime-picker="yyyy-MM-dd" is-open="calender.signTermsFromOpen" close-on-date-selection="true"
@@ -39,7 +44,7 @@
                                                    ng-model="filterCriteria.signTermsFrom" name="sign-terms-from"
                                                    ng-disabled="isLoading">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="sign-terms-to">Signed To</label>
                                             <input id="signTermsTo" type="text" class="form-control"
                                                    datetime-picker="yyyy-MM-dd" is-open="calender.signTermsToOpen" close-on-date-selection="true"

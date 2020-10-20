@@ -7,6 +7,7 @@ module.controller('users.TermsDialogController', [
 
     // true if list is being loaded
     $scope.isLoading = false;
+    $scope.isSigning = false;
     $scope.isLoadingNotAdded = false;
 
     // true if are removing a role
@@ -63,6 +64,7 @@ module.controller('users.TermsDialogController', [
       if ($scope.notAdded.title && $scope.notAdded.title.trim()) {
         filter += "&title=" + $scope.notAdded.title;
       }
+      $scope.notAdded.data = [];
       TermsService.getAllTerms(filter).then(function (data) {
         $scope.notAdded.data = data.result;
         $scope.notAdded.totalCount = data.totalCount;
@@ -186,6 +188,7 @@ module.controller('users.TermsDialogController', [
     $scope.sign = function (item) {
       $scope.adding = true;
       item.adding = true;
+      $scope.isSigning = true;
       $alert.clear();
 
       TermsService.addUserTerms({ termsOfUseId: item.id, userId: $scope.user.id }).then(function () {
@@ -197,6 +200,7 @@ module.controller('users.TermsDialogController', [
       }).finally(function () {
         $scope.adding = false;
         item.adding = false;
+        $scope.isSigning = false;
       });
     };
 
@@ -204,6 +208,7 @@ module.controller('users.TermsDialogController', [
      * handles filter of added terms.
      */
     $scope.filterAddedTerms = function () {
+      $scope.added.pageNumber = 1;
       $scope.fetch();
     };
 
@@ -211,6 +216,7 @@ module.controller('users.TermsDialogController', [
      * handles filter of not added terms.
      */
     $scope.filterNotAddedTerms = function () {
+      $scope.notAdded.pageNumber = 1;
       $scope.fetchNotAddedData();
     };
 
