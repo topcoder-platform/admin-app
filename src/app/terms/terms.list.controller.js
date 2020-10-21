@@ -3,7 +3,7 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
-  'TermsService', 'Alert', '$timeout', '$uibModal','ELECTRONICALLY_AGREEABLE_TEMPLATE', 
+  'TermsService', 'Alert', '$timeout', '$uibModal','AGREE_ELECTRONICALLY', 
   'AGREE_FOR_DOCUSIGN_TEMPLATE',
     function ($scope, $rootScope, $log, TermsService, $alert, $timeout, $modal, 
       electronicallyAgreeableId, agreeForDocuSignTemplateId) {

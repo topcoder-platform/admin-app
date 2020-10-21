@@ -34,7 +34,7 @@
       }
     ],
     "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7",
-    "ELECTRONICALLY_AGREEABLE_TEMPLATE" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
+    "AGREE_ELECTRONICALLY" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   },
   "dev": {
     "API_URL": "https://api.topcoder-dev.com",
@@ -71,7 +71,7 @@
       }
     ],
     "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7",
-    "ELECTRONICALLY_AGREEABLE_TEMPLATE" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
+    "AGREE_ELECTRONICALLY" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   },
   "qa": {
     "API_URL": "https://api.topcoder-qa.com",
@@ -108,7 +108,7 @@
       }
     ],
     "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7",
-    "ELECTRONICALLY_AGREEABLE_TEMPLATE" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
+    "AGREE_ELECTRONICALLY" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   },
   "prod": {
     "API_URL": "https://api.topcoder.com",
@@ -145,6 +145,6 @@
       }
     ],
     "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7",
-    "ELECTRONICALLY_AGREEABLE_TEMPLATE" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
+    "AGREE_ELECTRONICALLY" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   }
 }
