@@ -42,8 +42,8 @@ The following configuration parameters are available:
 | LOOKUP_V5_API_URL            | URL of the v5 Devices API      |
 | TERMS_V5_API_URL            | URL of the v5 Terms API      |
 | AGREEABILITY_TYPES            | List of Agreeable types and its UUID from Database     |
-| AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID of the `"DocuSign Template"` Agreeable type      |
-| AGREE_ELECTRONICALLY | UUID of the `Electronically Agreeable Template`   |
+| AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID from Database of the `"DocuSign Template"` Agreeable type      |
+| AGREE_ELECTRONICALLY | UUID from Database of the `Electronically` Agreeable Type  |
 
 
 ## Start the Application
