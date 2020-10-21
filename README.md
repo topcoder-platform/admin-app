@@ -43,6 +43,7 @@ The following configuration parameters are available:
 | TERMS_V5_API_URL            | URL of the v5 Terms API      |
 | AGREEABILITY_TYPES            | List of Agreeable types and its UUID from Database     |
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID of the `"DocuSign Template"` Agreeable type      |
+| ELECTRONICALLY_AGREEABLE_TEMPLATE | UUID of the `Electronically Agreeable Template`   |
 
 
 ## Start the Application

@@ -58,7 +58,7 @@
                     <a ui-sref="index.terms.edit({termsId: terms.id})">{{terms.title}}</a>
                   </td>
                   <td>{{terms.agreeabilityType}}</td>
-                  <td>{{terms.agreeabilityType==='Electronically-agreeable'?terms.url:terms.agreeabilityType==='DocuSignable'?terms.docusignTemplateId:''}}</td>
+                  <td>{{terms.agreeabilityTypeId===electronicallyAgreeableId?terms.url:terms.agreeabilityTypeId===agreeForDocuSignTemplateId?terms.agreeabilityTypeId:''}}</td>
                   <td class="btn-toolbar">
                     <a href="javascript:;" data-ng-click='deleteTerms(terms.id)' class="btn btn-sm btn-danger">Delete Terms</a>
                     <a ui-sref="index.terms.users({termsId: terms.id,title:terms.title})" class="btn btn-sm btn-info">View Users</a>

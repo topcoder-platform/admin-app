@@ -64,7 +64,6 @@ module.controller('users.TermsDialogController', [
       if ($scope.notAdded.title && $scope.notAdded.title.trim()) {
         filter += "&title=" + $scope.notAdded.title;
       }
-      $scope.notAdded.data = [];
       TermsService.getAllTerms(filter).then(function (data) {
         $scope.notAdded.data = data.result;
         $scope.notAdded.totalCount = data.totalCount;
