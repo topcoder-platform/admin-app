@@ -5,9 +5,9 @@
         <label for="terms-title">Title</label>
         <input id="terms-title" type="text" class="form-control" ng-model="newTerms.title" name="title" required>
       </div>
-      <div class="form-group col-md-6">
-        <label for="terms-url">URL</label>
-        <input id="terms-url" type="text" class="form-control" ng-model="newTerms.url">
+      <div class="form-group col-md-6" ng-class="{'has-error': addForm.typeId.$touched && addForm.typeId.$invalid}">
+        <label for="terms-type-id">Type ID</label>
+        <input id="terms-type-id" type="number" class="form-control" ng-model="newTerms.typeId" name="typeId" required>
       </div>
     </div>
     <div class="row">
@@ -18,33 +18,34 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-md-6"
+      <div class="form-group col-md-4"
         ng-class="{'has-error': addForm.agreeabilityType.$touched && addForm.agreeabilityType.$invalid}">
         <label for="terms-agreeability-type">Agreeability Type</label>
         <select id="terms-agreeability-type" class="form-control m-b"
-          ng-change="agreeabilityTypeChange(newTerms.agreeabilityTypeId)"
+          ng-change="agreeabilityTypeChange(newTerms)"
           ng-options="agreeabilityType.id as agreeabilityType.name for agreeabilityType in agreeabilityTypes"
           ng-model="newTerms.agreeabilityTypeId" name="agreeabilityType" required>
         </select>
       </div>
-      <div class="form-group col-md-6"
-        ng-class="{'has-error': addForm.docusignTemplateId.$touched && addForm.docusignTemplateId.$invalid}">
+      <div class="form-group col-md-4"
+        ng-class="{'has-error': addForm.docusignTemplateId.$touched && addForm.docusignTemplateId.$invalid}"
+        ng-hide="isChanged && !isDocuSignFieldEnabled">
         <label for="terms-docusign-template-Id">Docusign Template ID</label>
         <input id="terms-docusign-template-Id" type="text" name="docusignTemplateId" class="form-control"
           ng-disabled="!isDocuSignFieldEnabled" ng-required="isDocuSignFieldEnabled"
           ng-model="newTerms.docusignTemplateId">
       </div>
+      <div class="form-group col-md-4" ng-hide="isChanged && !isUrlEnabled">
+        <label for="terms-url">URL</label>
+        <input id="terms-url" type="text" class="form-control" ng-model="newTerms.url">
+      </div>
     </div>
-    <div class="row">
-      <div class="form-group col-md-6">
+    <!-- <div class="row"> -->
+      <!-- <div class="form-group col-md-6">
         <label for="terms-legacy-Id">Legacy ID</label>
         <input id="terms-legacy-Id" type="number" class="form-control" ng-model="newTerms.legacyId">
-      </div>
-      <div class="form-group col-md-6" ng-class="{'has-error': addForm.typeId.$touched && addForm.typeId.$invalid}">
-        <label for="terms-type-id">Type ID</label>
-        <input id="terms-type-id" type="number" class="form-control" ng-model="newTerms.typeId" name="typeId" required>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
     <div class="row ">
       <div class="form-group col-md-12">
         <button ui-sref="index.terms.list" type="button" class="btn btn-sm btn-warning pull-right"
