@@ -75,7 +75,7 @@
             <!-- table-responsive -->
         </div>
         <div class="row">
-            <div class="text-center" ng-show="isLoadingNotAdded">
+            <div class="text-center" ng-show="isLoadingNotAdded || isSigning">
                 <img src="assets/images/loading.gif" />
             </div>
             <div class="row">
@@ -106,9 +106,9 @@
                             ng-class="{'footable-odd': $index % 2}">
                             <td>{{data.title}}</td>
                             <td>
-                                <button data-ng-click='sign(data)' class="btn btn-sm btn-danger"
+                                <button data-ng-click='sign(data)' class="btn btn-sm btn-primary"
                                     ng-disabled="data.adding" ng-if="!isNotAdded(data)">
-                                    <strong>Sign</strong>
+                                    <strong>Sing Terms</strong>
                                 </button>
                             </td>
                         </tr>

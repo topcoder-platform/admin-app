@@ -5,9 +5,9 @@ var module = angular.module('supportAdminApp');
 /**
  * Controller for list user for the terms
  */
-module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', 'TermsService', 'IdResolverService',
+module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', 'TermsService', 'IdResolverService', 'UserService',
     '$uibModal', 'Alert', '$q',
-    function ($scope, $stateParams, TermsService, IdResolverService, $modal, $alert, $q) {
+    function ($scope, $stateParams, TermsService, IdResolverService, UserService, $modal, $alert, $q) {
         $scope.users = {}
         $scope.refresh = true;
 
@@ -16,6 +16,7 @@ module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', '
         $scope.filterCriteria.signTermsFrom = '';
         $scope.filterCriteria.signTermsTo = '';
         $scope.filterCriteria.userId = '';
+        $scope.filterCriteria.handle = '';
 
         // the current page number
         $scope.pageNumber = 1;
@@ -36,11 +37,12 @@ module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', '
          * fetches the data according to criteria.
          */
         $scope.fetch = function () {
+            $alert.clear();
             var filter = '';
             filter += "page=" + $scope.pageNumber;
             filter += "&perPage=" + 25;
 
-            if ($scope.filterCriteria.userId.trim()) {
+            if ($scope.filterCriteria.userId && $scope.filterCriteria.userId.toString().trim()) {
                 filter += "&userId=" + $scope.filterCriteria.userId;
             }
 
@@ -52,18 +54,62 @@ module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', '
                 filter += "&signedAtTo=" + $scope.filterCriteria.signTermsTo;
             }
 
-            TermsService.getTermUser($stateParams.termsId, filter).then(function (data) {
-                // list data
-                $scope.data = data.result.map(function (param) {
-                    return { id: param, isSelected: false }
+            if ($scope.filterCriteria.handle && $scope.filterCriteria.handle.trim()) {
+                if ($scope.filterCriteria.userId && $scope.filterCriteria.userId.toString().trim()) {
+                    UserService.getProfile($scope.filterCriteria.handle).then(function (profileData) {
+                        if (profileData.userId !== $scope.filterCriteria.userId) {
+                            $scope.totalTerms = 0;
+                            $scope.data = [];
+                        } else {
+                            TermsService.getTermUser($stateParams.termsId, filter).then(function (data) {
+                                // list data
+                                $scope.data = data.result.map(function (param) {
+                                    return { id: param, isSelected: false }
+                                });
+                                $scope.totalTerms = data.totalCount;
+                                $scope.data.forEach(function (element) {
+                                    loadUser(element.id);
+                                });
+                            }).catch(function (error) {
+                                $alert.error(error.error, $scope);
+                            });
+                        }
+                    }).catch(function (error) {
+                        $alert.error(error.error, $scope);
+                    });
+                } else {
+                    UserService.getProfile($scope.filterCriteria.handle).then(function (profileData) {
+                        filter += "&userId=" + profileData.userId;
+                        TermsService.getTermUser($stateParams.termsId, filter).then(function (data) {
+                            // list data
+                            $scope.data = data.result.map(function (param) {
+                                return { id: param, isSelected: false }
+                            });
+                            $scope.totalTerms = data.totalCount;
+                            $scope.data.forEach(function (element) {
+                                loadUser(element.id);
+                            });
+                        }).catch(function (error) {
+                            $alert.error(error.error, $scope);
+                        });
+                    }).catch(function (error) {
+                        $alert.error(error.error, $scope);
+                    });
+                }
+            } else {
+                TermsService.getTermUser($stateParams.termsId, filter).then(function (data) {
+                    // list data
+                    $scope.data = data.result.map(function (param) {
+                        return { id: param, isSelected: false }
+                    });
+                    $scope.totalTerms = data.totalCount;
+                    $scope.data.forEach(function (element) {
+                        loadUser(element.id);
+                    });
+                }).catch(function (error) {
+                    $alert.error(error.error, $scope);
                 });
-                $scope.totalTerms = data.totalCount;
-                $scope.data.forEach(function (element) {
-                    loadUser(element.id);
-                });
-            }).catch(function (error) {
-                $alert.error(error.error, $scope);
-            })
+            }
         }
 
         /**
