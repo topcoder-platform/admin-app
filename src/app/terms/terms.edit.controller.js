@@ -15,7 +15,7 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
       $scope.isDocuSignFieldEnabled = false;
       $scope.isUrlEnabled = false;
       $scope.termTypes = [];
-      
+
       /**
        * handles the agreebility type change.
        * @param {string} agreeabilityTypeId the agreebility type id.
@@ -27,6 +27,24 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
           $scope.editTerms.docusignTemplateId = '';
         }
       }
+
+      // enable or desable the editor
+      $scope.showEditor = false;
+      $scope.toggleEditor = function () {
+        $scope.showEditor = !$scope.showEditor
+      }
+
+      // configs of the wysiwyg editor
+      $scope.tinyMceSettings = {
+        skin_url: '/node_modules/tinymce/skins/lightgray',
+        statusbar: false,
+        menubar: false,
+        browser_spellcheck: true,
+        source_view: true,
+        height: 400,
+        toolbar: ['undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | table | removeformat'],
+        plugins: ['table link textcolor contextmenu'],
+      };
 
       // clear the alert
       $alert.clear();

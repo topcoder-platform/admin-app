@@ -32,6 +32,24 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
       }
     }
 
+    // enable or desable the editor
+    $scope.showEditor = false;
+    $scope.toggleEditor = function() {
+      $scope.showEditor = !$scope.showEditor
+    }
+
+    // configs of the wysiwyg editor
+    $scope.tinyMceSettings = {
+      skin_url: '/node_modules/tinymce/skins/lightgray',
+      statusbar: false,
+      menubar: false,
+      browser_spellcheck: true,
+      source_view: true,
+      height: 400,
+      toolbar: ['undo redo | formatselect | bold italic underline strikethrough | forecolor backcolor | link | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | table | removeformat'],
+      plugins: ['table link textcolor contextmenu'],
+    };
+
     // create new terms of use
     $scope.createTermsOfUse = function () {
       // clear the alert

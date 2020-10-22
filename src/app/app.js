@@ -18,7 +18,8 @@ angular.module('supportAdminApp', [
     'btorfs.multiselect',
     'ui.bootstrap.datetimepicker',
     'angularMoment',
-    'angular-jwt'])
+    'angular-jwt',
+    'ui.tinymce'])
   // In the run phase of your Angular application
   .run(function (AuthService) {
     // init AuthService, it has to be done once, when app starts
