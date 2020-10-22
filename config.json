@@ -15,25 +15,26 @@
     "GROUP_V5_API_URL": "http://localhost:3000/v5",
     "LOOKUP_V5_API_URL": "http://localhost:3000/v5",
     "TERMS_V5_API_URL": "http://localhost:3000/v5",
-    "AGREEABILITY_TYPES" : [
+    "AGREEABILITY_TYPES": [
       {
-        "id" : "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
+        "id": "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
         "name": "Non-agreeable"
       },
       {
-        "id" : "208779bf-72ce-4e97-a398-13fa62c0414a",
+        "id": "208779bf-72ce-4e97-a398-13fa62c0414a",
         "name": "Non-electronically-agreeable"
       },
       {
-        "id" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
+        "id": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
         "name": "Electronically-agreeable"
       },
       {
-        "id" : "999a26ad-b334-453c-8425-165d4cf496d7",
+        "id": "999a26ad-b334-453c-8425-165d4cf496d7",
         "name": "Docusign-template"
       }
     ],
-    "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7"
+    "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
+    "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   },
   "dev": {
     "API_URL": "https://api.topcoder-dev.com",
@@ -51,25 +52,26 @@
     "GROUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "LOOKUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "TERMS_V5_API_URL": "https://api.topcoder-dev.com/v5",
-    "AGREEABILITY_TYPES" : [
+    "AGREEABILITY_TYPES": [
       {
-        "id" : "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
+        "id": "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
         "name": "Non-agreeable"
       },
       {
-        "id" : "208779bf-72ce-4e97-a398-13fa62c0414a",
+        "id": "208779bf-72ce-4e97-a398-13fa62c0414a",
         "name": "Non-electronically-agreeable"
       },
       {
-        "id" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
+        "id": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
         "name": "Electronically-agreeable"
       },
       {
-        "id" : "999a26ad-b334-453c-8425-165d4cf496d7",
+        "id": "999a26ad-b334-453c-8425-165d4cf496d7",
         "name": "Docusign-template"
       }
     ],
-    "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7"
+    "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
+    "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   },
   "qa": {
     "API_URL": "https://api.topcoder-qa.com",
@@ -87,25 +89,26 @@
     "GROUP_V5_API_URL": "http://localhost:9000",
     "LOOKUP_V5_API_URL": "http://localhost:3000/v5",
     "TERMS_V5_API_URL": "http://localhost:3000/v5",
-    "AGREEABILITY_TYPES" : [
+    "AGREEABILITY_TYPES": [
       {
-        "id" : "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
+        "id": "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
         "name": "Non-agreeable"
       },
       {
-        "id" : "208779bf-72ce-4e97-a398-13fa62c0414a",
+        "id": "208779bf-72ce-4e97-a398-13fa62c0414a",
         "name": "Non-electronically-agreeable"
       },
       {
-        "id" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
+        "id": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
         "name": "Electronically-agreeable"
       },
       {
-        "id" : "999a26ad-b334-453c-8425-165d4cf496d7",
+        "id": "999a26ad-b334-453c-8425-165d4cf496d7",
         "name": "Docusign-template"
       }
     ],
-    "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7"
+    "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
+    "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   },
   "prod": {
     "API_URL": "https://api.topcoder.com",
@@ -123,24 +126,25 @@
     "GROUP_V5_API_URL": "https://api.topcoder.com/v5",
     "LOOKUP_V5_API_URL": "https://api.topcoder.com/v5",
     "TERMS_V5_API_URL": "https://api.topcoder.com/v5",
-    "AGREEABILITY_TYPES" : [
+    "AGREEABILITY_TYPES": [
       {
-        "id" : "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
+        "id": "f3cb81fa-d1ed-4231-b6c6-770f4f1ce8a4",
         "name": "Non-agreeable"
       },
       {
-        "id" : "208779bf-72ce-4e97-a398-13fa62c0414a",
+        "id": "208779bf-72ce-4e97-a398-13fa62c0414a",
         "name": "Non-electronically-agreeable"
       },
       {
-        "id" : "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
+        "id": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
         "name": "Electronically-agreeable"
       },
       {
-        "id" : "999a26ad-b334-453c-8425-165d4cf496d7",
+        "id": "999a26ad-b334-453c-8425-165d4cf496d7",
         "name": "Docusign-template"
       }
     ],
-    "AGREE_FOR_DOCUSIGN_TEMPLATE" : "999a26ad-b334-453c-8425-165d4cf496d7"
+    "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
+    "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb"
   }
 }

@@ -123,6 +123,21 @@ angular.module('supportAdminApp')
       };
 
       /**
+       * gets the terms type.
+       */
+      TermsService.getTypes = function () {
+        var deferred = $q.defer();
+        $http({
+          url: TermsService.getBasePath() + '/terms/type',
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          TermsService.handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
        * Delete the terms of use by Id
        * @param {String}  id  the uuid of the terms entity to delete
        */
