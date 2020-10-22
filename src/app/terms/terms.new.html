@@ -14,7 +14,9 @@
       <div class="form-group col-md-12"
         ng-class="{'has-error': addForm.termsText$touched && addForm.termsText.$invalid}">
         <label for="terms-text">Text</label>
-        <textarea rows="5" id="terms-text" ng-model="newTerms.text" name="termsText" class="form-control"></textarea>
+        <button ng-click="toggleEditor()">{{ showEditor ? 'Hide' : 'Show'}} HTML Editor</button>
+        <textarea ui-tinymce="tinyMceSettings" ng-if="showEditor" ng-model="newTerms.text" name="termsText" class="form-control"></textarea>
+        <textarea id="terms-text" ng-model="newTerms.text" ng-if="!showEditor" name="termsText" class="form-control text-editor"></textarea>
       </div>
     </div>
     <div class="row">
