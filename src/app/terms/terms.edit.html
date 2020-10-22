@@ -31,7 +31,7 @@
           ng-model="editTerms.agreeabilityTypeId" name="agreeabilityType" required>
         </select>
       </div>
-      <div class="form-group col-md-4"
+      <div class="form-group col-md-8"
         ng-class="{'has-error': editForm.docusignTemplateId.$touched && editForm.docusignTemplateId.$invalid}"
         ng-hide="!isDocuSignFieldEnabled">
         <label for="terms-docusign-template-Id">Docusign Template ID</label>
@@ -39,7 +39,7 @@
           ng-disabled="!isDocuSignFieldEnabled" ng-required="isDocuSignFieldEnabled"
           ng-model="editTerms.docusignTemplateId">
       </div>
-      <div class="form-group col-md-4" ng-hide="!isUrlEnabled">
+      <div class="form-group col-md-8" ng-hide="!isUrlEnabled">
         <label for="terms-url">URL</label>
         <input id="terms-url" type="text" class="form-control" ng-model="editTerms.url">
       </div>
