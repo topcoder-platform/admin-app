@@ -10,7 +10,6 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
     $scope.processing = false;
     $scope.agreeabilityTypes = agreeabilityTypeList;
     $scope.isDocuSignFieldEnabled = false;
-    $scope.isChanged = false;
     $scope.isUrlEnabled = false;
     $scope.termTypes = [];
 
@@ -26,7 +25,6 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
 
     // enable/disable the docu sign template id field
     $scope.agreeabilityTypeChange = function (term) {
-      $scope.isChanged = true;
       $scope.isDocuSignFieldEnabled = docusignTypeId == term.agreeabilityTypeId;
       $scope.isUrlEnabled = electronicallyAgreeableId == term.agreeabilityTypeId;
       if (!$scope.isDocuSignFieldEnabled) {

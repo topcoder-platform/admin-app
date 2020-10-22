@@ -33,13 +33,13 @@
       </div>
       <div class="form-group col-md-4"
         ng-class="{'has-error': addForm.docusignTemplateId.$touched && addForm.docusignTemplateId.$invalid}"
-        ng-hide="isChanged && !isDocuSignFieldEnabled">
+        ng-hide="!isDocuSignFieldEnabled">
         <label for="terms-docusign-template-Id">Docusign Template ID</label>
         <input id="terms-docusign-template-Id" type="text" name="docusignTemplateId" class="form-control"
           ng-disabled="!isDocuSignFieldEnabled" ng-required="isDocuSignFieldEnabled"
           ng-model="newTerms.docusignTemplateId">
       </div>
-      <div class="form-group col-md-4" ng-hide="isChanged && !isUrlEnabled">
+      <div class="form-group col-md-4" ng-hide="!isUrlEnabled">
         <label for="terms-url">URL</label>
         <input id="terms-url" type="text" class="form-control" ng-model="newTerms.url">
       </div>
