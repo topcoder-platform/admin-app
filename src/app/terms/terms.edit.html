@@ -5,9 +5,13 @@
         <label for="terms-title">Title</label>
         <input id="terms-title" type="text" class="form-control" ng-model="editTerms.title" name="title" required>
       </div>
-      <div class="form-group col-md-6">
-        <label for="terms-url">URL</label>
-        <input id="terms-url" type="text" class="form-control" ng-model="editTerms.url">
+      <div class="form-group col-md-6"
+        ng-class="{'has-error': editForm.termType.$touched && editForm.termType.$invalid}">
+        <label for="terms-type">Type Id</label>
+        <select id="terms-type" class="form-control m-b"
+          ng-options="termType.id as termType.name for termType in termTypes"
+          ng-model="editTerms.typeId" name="termType" required>
+        </select>
       </div>
     </div>
     <div class="row">
@@ -18,7 +22,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="form-group col-md-6"
+      <div class="form-group col-md-4"
         ng-class="{'has-error': editForm.agreeabilityType.$touched && editForm.agreeabilityType.$invalid}">
         <label for="terms-agreeability-type">Agreeability Type</label>
         <select id="terms-agreeability-type" class="form-control m-b"
@@ -27,22 +31,17 @@
           ng-model="editTerms.agreeabilityTypeId" name="agreeabilityType" required>
         </select>
       </div>
-      <div class="form-group col-md-6"
-        ng-class="{'has-error': editForm.docusignTemplateId.$touched && editForm.docusignTemplateId.$invalid}">
+      <div class="form-group col-md-4"
+        ng-class="{'has-error': editForm.docusignTemplateId.$touched && editForm.docusignTemplateId.$invalid}"
+        ng-hide="!isDocuSignFieldEnabled">
         <label for="terms-docusign-template-Id">Docusign Template ID</label>
         <input id="terms-docusign-template-Id" type="text" name="docusignTemplateId" class="form-control"
           ng-disabled="!isDocuSignFieldEnabled" ng-required="isDocuSignFieldEnabled"
           ng-model="editTerms.docusignTemplateId">
       </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label for="terms-legacy-Id">Legacy ID</label>
-        <input id="terms-legacy-Id" type="number" class="form-control" ng-model="editTerms.legacyId">
-      </div>
-      <div class="form-group col-md-6" ng-class="{'has-error': editForm.typeId.$touched && editForm.typeId.$invalid}">
-        <label for="terms-type-id">Type ID</label>
-        <input id="terms-type-id" type="number" class="form-control" ng-model="editTerms.typeId" name="typeId" required>
+      <div class="form-group col-md-4" ng-hide="!isUrlEnabled">
+        <label for="terms-url">URL</label>
+        <input id="terms-url" type="text" class="form-control" ng-model="editTerms.url">
       </div>
     </div>
     <div class="row ">

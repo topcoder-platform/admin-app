@@ -130,7 +130,6 @@ angular.module('supportAdminApp')
         $http({
           url: TermsService.getBasePath() + '/terms/type',
         }).then(function (response) {
-          console.log(response)
           deferred.resolve(response.data);
         }).catch(function (error) {
           TermsService.handleError(error, deferred);

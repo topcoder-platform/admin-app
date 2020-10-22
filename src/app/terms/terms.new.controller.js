@@ -3,7 +3,7 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsService', 'Alert',
-  'AGREEABILITY_TYPES', 'AGREE_FOR_DOCUSIGN_TEMPLATE', 'ELECTRONICALLY_AGREEABLE_TEMPLATE', '$state',
+  'AGREEABILITY_TYPES', 'AGREE_FOR_DOCUSIGN_TEMPLATE', 'AGREE_ELECTRONICALLY', '$state',
   function ($rootScope, $scope, TermsService, $alert, agreeabilityTypeList, docusignTypeId, electronicallyAgreeableId, $state) {
     // init variables
     $scope.newTerms = {};
@@ -12,12 +12,16 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
     $scope.isDocuSignFieldEnabled = false;
     $scope.isChanged = false;
     $scope.isUrlEnabled = false;
+    $scope.termTypes = [];
 
     // clear the alert
     $alert.clear();
 
-    TermsService.getTypes().then(function () {
-      
+    // get term types
+    TermsService.getTypes().then(function (response) {
+      $scope.termTypes = response;
+    }).catch(function (error) {
+      $alert.error(error.error, $rootScope);
     });
 
     // enable/disable the docu sign template id field
@@ -32,6 +36,8 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
 
     // create new terms of use
     $scope.createTermsOfUse = function () {
+      // clear the alert
+      $alert.clear();
       $scope.processing = true;
       var entity = Object.assign({}, $scope.newTerms);
 
