@@ -33,4 +33,11 @@ require('moment-timezone');
 require('ng-file-model');
 require('pace-js');
 require('footable');
+require('tinymce');
+require('tinymce/themes/modern/theme');
+require('tinymce/plugins/table');
+require('tinymce/plugins/link');
+require('tinymce/plugins/textcolor');
+require('tinymce/plugins/contextmenu');
+require('angular-ui-tinymce');
 window.shortid = require('shortid')

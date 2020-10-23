@@ -43,6 +43,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.rev())
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
+    .pipe($.replace(/\.?\.?\/node_modules\/tinymce\/?/g, '/styles/tinymce/'))
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
@@ -84,6 +85,11 @@ gulp.task('fontawesome', function () {
      .pipe(gulp.dest(paths.dist + '/fonts/'));
 });
 
+gulp.task('tinymce', function () {
+    return gulp.src('node_modules/tinymce/skins/**/*')
+     .pipe(gulp.dest(paths.dist + '/styles/tinymce/skins/'));
+});
+
 gulp.task('misc', function () {
   return gulp.src(paths.src + '/**/*.ico')
     .pipe(gulp.dest(paths.dist + '/'));
@@ -93,4 +99,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['ng-config', 'html', 'images', 'fonts', 'fontawesome', 'misc']);
+gulp.task('build', ['ng-config', 'html', 'images', 'fonts', 'fontawesome', 'tinymce', 'misc']);

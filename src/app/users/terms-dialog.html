@@ -1,0 +1,155 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" ng-click="close()"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="reg-dialog-label">Terms of {{user.handle}}</h4>
+    </div>
+    <div class="modal-body" style="background-color: #fff;">
+        <div class="row">
+            <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+            <div class="text-center" ng-show="isLoading">
+                <img src="assets/images/loading.gif" />
+            </div>
+            <div class="row">
+                <h2 style="margin-left: 2%;">Added Terms</h2>
+                <div class="form-group col-md-12">
+                    <label for="title"></label>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <input type="text" name="title" id="tile" class="form-control" placeholder="Title" ng-model="added.title">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <button class="btn btn-sm btn-primary pull-left" ng-click="filterAddedTerms()">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="!isLoading" class="table-responsive">
+                <table class="table table-stripped" ng-show="added.data.length">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="animate-repeat" ng-repeat="data in added.data"
+                            ng-class="{'footable-odd': $index % 2}">
+                            <td>{{data.title}}</td>
+                            <td>
+                                <button data-ng-click='unSign(data)' class="btn btn-sm btn-danger"
+                                    ng-disabled="data.isRemoving">
+                                    <strong>UnSign</strong>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                        <td colspan="6">
+                            <ul class="pagination pull-right">
+                            <li class="footable-page-arrow" ng-class="{'disabled': added.pageNumber === 1}"><a
+                                ng-click="changePage(1,'added')">«</a></li>
+                            <li class="footable-page-arrow" ng-class="{'disabled': added.pageNumber === 1}">
+                                <a ng-click="changePage(added.pageNumber - 1,'added')">‹</a>
+                            </li>
+                            <li class="footable-page" ng-class="{'active' : item === added.pageNumber}"
+                                ng-repeat="item in getPageArray('added')">
+                                <a ng-click="changePage(item,'added')">{{item}}</a></li>
+                            <li class="footable-page-arrow" ng-class="{'disabled': added.pageNumber === getLastPage('added')}">
+                                <a ng-click="changePage(added.pageNumber + 1,'added')">›</a>
+                            </li>
+                            <li class="footable-page-arrow" ng-class="{'disabled': added.pageNumber === getLastPage('added')}">
+                                <a ng-click="changePage(getLastPage('added'))">»</a>
+                            </li>
+                            </ul>
+                        </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+                <div ng-show="!added.data.length">No terms<br /><br /></div>
+            </div>
+            <!-- table-responsive -->
+        </div>
+        <div class="row">
+            <div class="text-center" ng-show="isLoadingNotAdded || isSigning">
+                <img src="assets/images/loading.gif" />
+            </div>
+            <div class="row">
+                <h2 style="margin-left: 2%;">Not Added Terms</h2>
+                <div class="form-group col-md-12">
+                    <label for="not-added-tile"></label>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <input type="text" name="not-added-tile" id="not-added-tile" class="form-control" placeholder="Title" ng-model="notAdded.title">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <button class="btn btn-sm btn-primary pull-left" ng-click="filterNotAddedTerms()">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="!isLoadingNotAdded" class="table-responsive">
+                <table class="table table-stripped" ng-show="notAdded.data.length">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="animate-repeat" ng-repeat="data in notAdded.data"
+                            ng-class="{'footable-odd': $index % 2}">
+                            <td>{{data.title}}</td>
+                            <td>
+                                <button data-ng-click='sign(data)' class="btn btn-sm btn-primary"
+                                    ng-disabled="data.adding" ng-if="!isNotAdded(data)">
+                                    <strong>Sing Terms</strong>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                        <td colspan="6">
+                            <ul class="pagination pull-right">
+                            <li class="footable-page-arrow" ng-class="{'disabled': notAdded.pageNumber === 1}"><a
+                                ng-click="changePage(1,'notAdded')">«</a></li>
+                            <li class="footable-page-arrow" ng-class="{'disabled': notAdded.pageNumber === 1}">
+                                <a ng-click="changePage(notAdded.pageNumber - 1,'notAdded')">‹</a>
+                            </li>
+                            <li class="footable-page" ng-class="{'active' : item === notAdded.pageNumber}"
+                                ng-repeat="item in getPageArray('notAdded')">
+                                <a ng-click="changePage(item,'notAdded')">{{item}}</a></li>
+                            <li class="footable-page-arrow" ng-class="{'disabled': added.pageNumber === getLastPage('notAdded')}">
+                                <a ng-click="changePage(notAdded.pageNumber + 1,'added')">›</a>
+                            </li>
+                            <li class="footable-page-arrow" ng-class="{'disabled': added.pageNumber === getLastPage('notAdded')}">
+                                <a ng-click="changePage(getLastPage('notAdded'))">»</a>
+                            </li>
+                            </ul>
+                        </td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+                <div ng-show="!notAdded.data.length">No Available terms<br /><br /></div>
+            </div>
+            <!-- table-responsive -->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="close()" ng-disabed="form.isLoading">
+            Close
+        </button>
+    </div>
+    <div style="text-align: center; position: absolute; top: 63px; left: 0; width: 100%; z-Index: 1;"
+        ng-show="isRemoving || isAdding">
+        <img src="assets/images/loading.gif" />
+    </div>
+</div>
