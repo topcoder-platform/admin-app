@@ -30,6 +30,7 @@ module.controller('users.UserSearchController', [
         handle   : "",
         email    : "",
         status   : "",
+        userId   : "",
         isLoading: false,
         getActive: function() {
           return this.status === "active" ? true :
@@ -48,7 +49,8 @@ module.controller('users.UserSearchController', [
         var handle = $scope.formSearch.handle,
             email  = $scope.formSearch.email,
             active = $scope.formSearch.getActive(),
-            like = false;
+            like = false,
+            userId = $scope.formSearch.userId;
 
         var filter = '';
         if(handle) {
@@ -68,6 +70,11 @@ module.controller('users.UserSearchController', [
         }
         if(like) {
           filter += "&like="+like;
+        }
+        if (userId) {
+          if(filter.length>0)
+            filter += '&';
+          filter += "id="+userId;
         }
 
         $scope.formSearch.setLoading(true);
@@ -182,6 +189,21 @@ module.controller('users.UserSearchController', [
           size: 'md',
           templateUrl: 'app/users/roles-edit-dialog.html',
           controller: 'users.RolesEditDialogController',
+          resolve: {
+            user: function(){ return $scope.users[index]; }
+          }
+        });
+      };
+
+      /**
+       * handles the term menu click.
+       * @param {number} index the selected row index.
+       */
+      $scope.openTermsDialog = function(index) {
+        var modalInstance = $modal.open({
+          size: 'lg',
+          templateUrl: 'app/users/terms-dialog.html',
+          controller: 'users.TermsDialogController',
           resolve: {
             user: function(){ return $scope.users[index]; }
           }

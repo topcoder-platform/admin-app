@@ -13,7 +13,10 @@ angular.module('supportAdminApp')
         if (this.type == 'error')
 					return 'danger';
 				if (this.type == 'debug')
-					return 'info';
+          return 'info';
+        if (this.type == 'success') {
+          return 'success';
+        }
 				return this.type;
       };
       
@@ -33,6 +36,10 @@ angular.module('supportAdminApp')
       
       Alert.error = function(message, $scope) {
         Alert.issue(new Alert('error', message), $scope);
+      };
+
+      Alert.success = function(message, $scope) {
+        Alert.issue(new Alert('success', message), $scope);
       };
 
       Alert.clear = function($scope) {
