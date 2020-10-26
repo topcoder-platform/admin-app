@@ -7,6 +7,7 @@ install_dependency: &install_dependency
   command: |
     sudo apt update
     sudo apt install jq python-pip
+    sudo pip install "pytest<5"
     sudo pip install awscli --upgrade
     sudo pip install docker-compose
 install_deploysuite: &install_deploysuite
