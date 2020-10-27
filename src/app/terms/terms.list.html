@@ -47,6 +47,7 @@
               <thead>
                 <tr>
                   <th>Title</th>
+                  <th>Type</th>
                   <th>Agreeability Type</th>
                   <th>Info</th>
                 </tr>
@@ -57,6 +58,7 @@
                   <td>
                     <a ui-sref="index.terms.edit({termsId: terms.id})">{{terms.title}}</a>
                   </td>
+                  <td>{{terms.type}}</td>
                   <td>{{terms.agreeabilityType}}</td>
                   <td>{{terms.agreeabilityTypeId===electronicallyAgreeableId?terms.url:terms.agreeabilityTypeId===agreeForDocuSignTemplateId?terms.agreeabilityTypeId:''}}</td>
                   <td class="btn-toolbar">

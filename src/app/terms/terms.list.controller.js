@@ -58,8 +58,18 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
             return params;
           });
 
-          var users = [];
+          // get terms type
+          TermsService.getTypes().then(function (response) {
+            $scope.termTypes = response;
 
+            for (let index = 0; index < $scope.termsList.length; index++) {
+              $scope.termsList[index].type = $scope.termTypes[index % 5].name;
+            }
+          }).catch(function (error) {
+            $alert.error(error.error, $rootScope);
+          });
+
+          var users = [];
            $scope.termsList.forEach(function (element) {
             users.push(TermsService.getTermUser(element.id,null))
           });
@@ -68,7 +78,7 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
             for (let index = 0; index < res.length; index++) {
               const element = res[index];
               $scope.termsList[index].canDelete = element.totalCount === '0';
-              $scope.$apply()
+              $scope.$apply();
             }
           }).catch(function (fetchError) {
             $alert.error(fetchError.error, $rootScope);
