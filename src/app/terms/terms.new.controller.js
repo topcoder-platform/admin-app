@@ -19,11 +19,7 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
     // get term types
     TermsService.getTypes().then(function (response) {
       $scope.termTypes = response;
-      response.filter(function (x) {
-        if (x.id == defaultTermTypeId) {
-          $scope.newTerms.typeId = x.id;
-        }
-      });
+      $scope.newTerms.typeId = defaultTermTypeId;
     }).catch(function (error) {
       $alert.error(error.error, $rootScope);
     });
