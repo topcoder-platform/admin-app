@@ -3,9 +3,9 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
-  'TermsService', 'Alert', '$timeout', '$uibModal','AGREE_ELECTRONICALLY', 
+  'TermsService', 'Alert', '$timeout', '$uibModal','AGREE_ELECTRONICALLY',
   'AGREE_FOR_DOCUSIGN_TEMPLATE',
-    function ($scope, $rootScope, $log, TermsService, $alert, $timeout, $modal, 
+    function ($scope, $rootScope, $log, TermsService, $alert, $timeout, $modal,
       electronicallyAgreeableId, agreeForDocuSignTemplateId) {
 
       $scope.electronicallyAgreeableId = electronicallyAgreeableId;
@@ -25,7 +25,7 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
       $scope.pageNumber = 1;
       // the total terms of use count in DB
       $scope.totalTerms = 0;
-      
+
       // clear the alert
       $alert.clear();
 
@@ -53,17 +53,6 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
           $scope.termsList = response.result;
           $scope.totalTerms = response.totalCount;
           $scope.formSearch.setLoading(false);
-
-          // get terms type
-          TermsService.getTypes().then(function (response) {
-            $scope.termTypes = response;
-
-            for (let index = 0; index < $scope.termsList.length; index++) {
-              $scope.termsList[index].type = $scope.termTypes[index % 5].name;
-            }
-          }).catch(function (error) {
-            $alert.error(error.error, $rootScope);
-          });
         }).catch(function (error) {
           $alert.error(error.error, $rootScope);
           $scope.formSearch.setLoading(false);
