@@ -53,6 +53,17 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
           $scope.termsList = response.result;
           $scope.totalTerms = response.totalCount;
           $scope.formSearch.setLoading(false);
+
+          // get terms type
+          TermsService.getTypes().then(function (response) {
+            $scope.termTypes = response;
+
+            for (let index = 0; index < $scope.termsList.length; index++) {
+              $scope.termsList[index].type = $scope.termTypes[index % 5].name;
+            }
+          }).catch(function (error) {
+            $alert.error(error.error, $rootScope);
+          });
         }).catch(function (error) {
           $alert.error(error.error, $rootScope);
           $scope.formSearch.setLoading(false);
@@ -86,43 +97,6 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
       $scope.getLastPage = function () {
         return parseInt($scope.totalTerms / 25) + 1;
       };
-
-       /**
-       * Delete the terms of use by id
-       */
-      $scope.deleteTerms = function (termsId) {
-        if (!confirm('Are you sure want to delete this terms of use?')) {
-          return;
-        }
-        TermsService.deleteTerms(termsId).then(function () {
-          $scope.search(true);
-        })
-        .catch(function (error) {
-            $alert.error(error.error, $rootScope);
-            $scope.formSearch.setLoading(false);
-        });
-      };
-
-      /**
-       * handles add user click.
-       * @param {Object} term the selected term.
-       */
-      $scope.openAddUserDialog = function (term) {
-        var modalInstance = $modal.open({
-          size: 'sm',
-          templateUrl: 'app/terms/sign-terms-dialog.html',
-          controller: 'terms.SignTermsController',
-          resolve: {
-            parentScope: function() {
-              return $scope;
-            },
-            term:function () {
-              return term
-            }
-          }
-        });
-      };
-
 
       // load the terms list on controller init
       $scope.search();
