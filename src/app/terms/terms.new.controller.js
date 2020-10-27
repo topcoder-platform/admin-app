@@ -3,8 +3,8 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsService', 'Alert',
-  'AGREEABILITY_TYPES', 'AGREE_FOR_DOCUSIGN_TEMPLATE', 'AGREE_ELECTRONICALLY', '$state',
-  function ($rootScope, $scope, TermsService, $alert, agreeabilityTypeList, docusignTypeId, electronicallyAgreeableId, $state) {
+  'AGREEABILITY_TYPES', 'AGREE_FOR_DOCUSIGN_TEMPLATE', 'AGREE_ELECTRONICALLY', '$state', 'DEFAULT_TERMS_TYPE_ID',
+  function ($rootScope, $scope, TermsService, $alert, agreeabilityTypeList, docusignTypeId, electronicallyAgreeableId, $state, defaultTermTypeId) {
     // init variables
     $scope.newTerms = {};
     $scope.processing = false;
@@ -20,7 +20,7 @@ module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsSer
     TermsService.getTypes().then(function (response) {
       $scope.termTypes = response;
       response.filter(function (x) {
-        if (x.name == 'Contest') {
+        if (x.id == defaultTermTypeId) {
           $scope.newTerms.typeId = x.id;
         }
       });

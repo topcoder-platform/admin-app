@@ -44,6 +44,7 @@ The following configuration parameters are available:
 | AGREEABILITY_TYPES            | List of Agreeable types and its UUID from Database     |
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID from Database of the `"DocuSign Template"` Agreeable type      |
 | AGREE_ELECTRONICALLY | UUID from Database of the `Electronically` Agreeable Type  |
+| DEFAULT_TERMS_TYPE_ID | The default terms type id    |
 
 
 ## Start the Application

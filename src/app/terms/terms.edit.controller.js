@@ -15,7 +15,7 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
       $scope.isDocuSignFieldEnabled = false;
       $scope.isUrlEnabled = false;
       $scope.termTypes = [];
-      $scope.signedUsersTotal = 0;
+      $scope.signedUsers = { total: 0, deleteDisabled: true };
 
       /**
        * handles the agreebility type change.
@@ -58,7 +58,7 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
           $scope.isUrlEnabled = electronicallyAgreeableId == $scope.editTerms.agreeabilityTypeId;
 
           TermsService.getTermUser($stateParams.termsId,null).then(function (users) {
-            $scope.signedUsersTotal = users.totalCount;
+            $scope.signedUsers = { total:users.totalCount, deleteDisabled:users.totalCount.toString() != '0' };
           }).catch(function (userError) {
             $alert.error(userError.error, $rootScope);
           });

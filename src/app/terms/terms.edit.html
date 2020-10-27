@@ -48,8 +48,8 @@
     </div>
     <div class="row">
       <div class="form-group col-md-12">
-        <b ng-show="signedUsersTotal!=0">{{signedUsersTotal}} Users have Signed</b>
-        <button class="btn btn-sm btn-danger" ng-click="delete()" ng-disabled="signedUsersTotal!=0">Delete</button>
+        <button class="btn btn-sm btn-danger" ng-click="delete()" ng-disabled="signedUsers.deleteDisabled">Delete</button>
+        <b ng-show="signedUsers.total!=0">{{signedUsers.total}} Users have Signed</b>
         <button ui-sref="index.terms.list" type="button" class="btn btn-sm btn-warning pull-right"
           style="margin-left: 4px">
           <strong>Cancel</strong>
