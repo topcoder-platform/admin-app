@@ -78,6 +78,9 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
        * handles delete button click.
        */
       $scope.delete = function () {
+        if (!confirm('Are you sure want to delete this terms of use?')) {
+          return;
+        }
         TermsService.deleteTerms($stateParams.termsId).then(function () {
           $state.go('index.terms.list');
         })
