@@ -7,20 +7,11 @@
       </div>
       <div class="form-group col-md-6"
         ng-class="{'has-error': editForm.termType.$touched && editForm.termType.$invalid}">
-        <label for="terms-type">Type Id</label>
+        <label for="terms-type">Type</label>
         <select id="terms-type" class="form-control m-b"
           ng-options="termType.id as termType.name for termType in termTypes"
           ng-model="editTerms.typeId" name="termType" required>
         </select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-group col-md-12"
-        ng-class="{'has-error': editForm.termsText$touched && editForm.termsText.$invalid}">
-        <label for="terms-text">Text</label>
-        <button ng-click="toggleEditor()">{{ showEditor ? 'Hide' : 'Show'}} HTML Editor</button>
-        <textarea ui-tinymce="tinyMceSettings" ng-if="showEditor" ng-model="editTerms.text" name="termsText" class="form-control"></textarea>
-        <textarea id="terms-text" ng-model="editTerms.text" ng-if="!showEditor" name="termsText" class="form-control text-editor"></textarea>
       </div>
     </div>
     <div class="row">
@@ -46,8 +37,19 @@
         <input id="terms-url" type="text" class="form-control" ng-model="editTerms.url">
       </div>
     </div>
-    <div class="row ">
+    <div class="row">
+      <div class="form-group col-md-12"
+        ng-class="{'has-error': editForm.termsText$touched && editForm.termsText.$invalid}">
+        <label for="terms-text">Text</label>
+        <button ng-click="toggleEditor()">{{ showEditor ? 'Hide' : 'Show'}} HTML Editor</button>
+        <textarea ui-tinymce="tinyMceSettings" ng-if="showEditor" ng-model="editTerms.text" name="termsText" class="form-control"></textarea>
+        <textarea id="terms-text" ng-model="editTerms.text" ng-if="!showEditor" name="termsText" class="form-control text-editor"></textarea>
+      </div>
+    </div>
+    <div class="row">
       <div class="form-group col-md-12">
+        <b ng-show="signedUsersTotal!=0">{{signedUsersTotal}} Users have Signed</b>
+        <button class="btn btn-sm btn-danger" ng-show="signedUsersTotal==0" ng-click="delete()">Delete</button>
         <button ui-sref="index.terms.list" type="button" class="btn btn-sm btn-warning pull-right"
           style="margin-left: 4px">
           <strong>Cancel</strong>

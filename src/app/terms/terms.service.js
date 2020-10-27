@@ -189,9 +189,15 @@ angular.module('supportAdminApp')
        */
       TermsService.getTermUser = function (termsOfUseId, filter) {
         var deferred = $q.defer();
+        var url = '';
+        if (filter == null) {
+          url = TermsService.getBasePath() + '/terms/' + termsOfUseId + '/users';
+        } else {
+          url = TermsService.getBasePath() + '/terms/' + termsOfUseId + '/users?' + filter;
+        }
         var request = $http({
           method: 'GET',
-          url: TermsService.getBasePath() + '/terms/' + termsOfUseId + '/users?' + filter
+          url: url
         });
         request.then(function (response) {
           var data = {

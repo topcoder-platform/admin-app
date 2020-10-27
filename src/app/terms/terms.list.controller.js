@@ -53,6 +53,27 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
           $scope.termsList = response.result;
           $scope.totalTerms = response.totalCount;
           $scope.formSearch.setLoading(false);
+          $scope.termsList.map(function (params) {
+            params.canDelete = false;
+            return params;
+          });
+
+          var users = [];
+
+           $scope.termsList.forEach(function (element) {
+            users.push(TermsService.getTermUser(element.id,null))
+          });
+
+          Promise.all(users).then(function (res) {
+            for (let index = 0; index < res.length; index++) {
+              const element = res[index];
+              $scope.termsList[index].canDelete = element.totalCount === '0';
+              $scope.$apply()
+            }
+          }).catch(function (fetchError) {
+            $alert.error(fetchError.error, $rootScope);
+          });
+
         }).catch(function (error) {
           $alert.error(error.error, $rootScope);
           $scope.formSearch.setLoading(false);
@@ -90,39 +111,20 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
        /**
        * Delete the terms of use by id
        */
-      $scope.deleteTerms = function (termsId) {
-        if (!confirm('Are you sure want to delete this terms of use?')) {
-          return;
-        }
-        TermsService.deleteTerms(termsId).then(function () {
-          $scope.search(true);
-        })
-        .catch(function (error) {
-            $alert.error(error.error, $rootScope);
-            $scope.formSearch.setLoading(false);
-        });
-      };
-
-      /**
-       * handles add user click.
-       * @param {Object} term the selected term.
-       */
-      $scope.openAddUserDialog = function (term) {
-        var modalInstance = $modal.open({
-          size: 'sm',
-          templateUrl: 'app/terms/sign-terms-dialog.html',
-          controller: 'terms.SignTermsController',
-          resolve: {
-            parentScope: function() {
-              return $scope;
-            },
-            term:function () {
-              return term
-            }
+      $scope.deleteTerms = function (term) {
+        if(term.canDelete) {
+          if (!confirm('Are you sure want to delete this terms of use?')) {
+            return;
           }
-        });
+          TermsService.deleteTerms(term.id).then(function () {
+            $scope.search(true);
+          })
+          .catch(function (error) {
+              $alert.error(error.error, $rootScope);
+              $scope.formSearch.setLoading(false);
+          });
+        }
       };
-
 
       // load the terms list on controller init
       $scope.search();

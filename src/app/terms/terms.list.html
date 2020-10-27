@@ -60,9 +60,8 @@
                   <td>{{terms.agreeabilityType}}</td>
                   <td>{{terms.agreeabilityTypeId===electronicallyAgreeableId?terms.url:terms.agreeabilityTypeId===agreeForDocuSignTemplateId?terms.agreeabilityTypeId:''}}</td>
                   <td class="btn-toolbar">
-                    <a href="javascript:;" data-ng-click='deleteTerms(terms.id)' class="btn btn-sm btn-danger">Delete Terms</a>
+                    <a href="javascript:;" data-ng-click='deleteTerms(terms)' class="btn btn-sm btn-danger" ng-disabled="!terms.canDelete">Delete Terms</a>
                     <a ui-sref="index.terms.users({termsId: terms.id,title:terms.title})" class="btn btn-sm btn-info">View Users</a>
-                    <a href="javascript:;" ng-click='openAddUserDialog(terms)' class="btn btn-sm btn-info">Add User</a>
                   </td>
                 </tr>
               </tbody>
