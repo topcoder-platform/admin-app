@@ -42,8 +42,8 @@
         ng-class="{'has-error': editForm.termsText$touched && editForm.termsText.$invalid}">
         <label for="terms-text">Text</label>
         <button ng-click="toggleEditor()">{{ showEditor ? 'Hide' : 'Show'}} HTML Editor</button>
-        <textarea ui-tinymce="tinyMceSettings" ng-if="showEditor" ng-model="editTerms.text" name="termsText" class="form-control"></textarea>
-        <textarea id="terms-text" ng-model="editTerms.text" ng-if="!showEditor" name="termsText" class="form-control text-editor"></textarea>
+        <textarea style="height: 200px !important;" ui-tinymce="tinyMceSettings" ng-if="showEditor" ng-model="editTerms.text" name="termsText" class="form-control"></textarea>
+        <textarea style="height: 200px !important;" id="terms-text" ng-model="editTerms.text" ng-if="!showEditor" name="termsText" class="form-control text-editor"></textarea>
       </div>
     </div>
     <div class="row">
