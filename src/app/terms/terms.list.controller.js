@@ -3,9 +3,9 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
-  'TermsService', 'Alert', '$timeout', '$uibModal','AGREE_ELECTRONICALLY', 
+  'TermsService', 'Alert', '$timeout', '$uibModal','AGREE_ELECTRONICALLY',
   'AGREE_FOR_DOCUSIGN_TEMPLATE',
-    function ($scope, $rootScope, $log, TermsService, $alert, $timeout, $modal, 
+    function ($scope, $rootScope, $log, TermsService, $alert, $timeout, $modal,
       electronicallyAgreeableId, agreeForDocuSignTemplateId) {
 
       $scope.electronicallyAgreeableId = electronicallyAgreeableId;
@@ -25,7 +25,7 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
       $scope.pageNumber = 1;
       // the total terms of use count in DB
       $scope.totalTerms = 0;
-      
+
       // clear the alert
       $alert.clear();
 
@@ -86,43 +86,6 @@ module.controller('terms.TermsListController', ['$scope', '$rootScope', '$log',
       $scope.getLastPage = function () {
         return parseInt($scope.totalTerms / 25) + 1;
       };
-
-       /**
-       * Delete the terms of use by id
-       */
-      $scope.deleteTerms = function (termsId) {
-        if (!confirm('Are you sure want to delete this terms of use?')) {
-          return;
-        }
-        TermsService.deleteTerms(termsId).then(function () {
-          $scope.search(true);
-        })
-        .catch(function (error) {
-            $alert.error(error.error, $rootScope);
-            $scope.formSearch.setLoading(false);
-        });
-      };
-
-      /**
-       * handles add user click.
-       * @param {Object} term the selected term.
-       */
-      $scope.openAddUserDialog = function (term) {
-        var modalInstance = $modal.open({
-          size: 'sm',
-          templateUrl: 'app/terms/sign-terms-dialog.html',
-          controller: 'terms.SignTermsController',
-          resolve: {
-            parentScope: function() {
-              return $scope;
-            },
-            term:function () {
-              return term
-            }
-          }
-        });
-      };
-
 
       // load the terms list on controller init
       $scope.search();

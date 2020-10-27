@@ -28,10 +28,17 @@ module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', '
         $scope.calender = {};
         $scope.calender.signTermsFromOpen = false;
         $scope.calender.signTermsToOpen = false;
+        $scope.title = '';
 
         // list data
         $scope.data = [];
         var loadUser = IdResolverService.getUserResolverFunction($scope.users);
+
+        TermsService.findTermsById($stateParams.termsId).then(function (data) {
+            $scope.title = data.title;
+        }).catch(function (error) {
+            $alert.error(error.error, $scope);
+        });
 
         /**
          * fetches the data according to criteria.

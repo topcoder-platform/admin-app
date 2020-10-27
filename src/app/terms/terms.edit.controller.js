@@ -15,6 +15,7 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
       $scope.isDocuSignFieldEnabled = false;
       $scope.isUrlEnabled = false;
       $scope.termTypes = [];
+      $scope.signedUsers = { total: 0, deleteDisabled: true };
 
       /**
        * handles the agreebility type change.
@@ -55,6 +56,12 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
           $scope.editTerms = data;
           $scope.isDocuSignFieldEnabled = docusignTypeId == $scope.editTerms.agreeabilityTypeId;
           $scope.isUrlEnabled = electronicallyAgreeableId == $scope.editTerms.agreeabilityTypeId;
+
+          TermsService.getTermUser($stateParams.termsId,null).then(function (users) {
+            $scope.signedUsers = { total:users.totalCount, deleteDisabled:users.totalCount.toString() != '0' };
+          }).catch(function (userError) {
+            $alert.error(userError.error, $rootScope);
+          });
         }).catch(function (error) {
           $alert.error(error.error, $rootScope);
         });
@@ -66,6 +73,21 @@ module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEAB
           $alert.error(error.error, $rootScope);
         });
       }
+
+      /**
+       * handles delete button click.
+       */
+      $scope.delete = function () {
+        if (!confirm('Are you sure want to delete this terms of use?')) {
+          return;
+        }
+        TermsService.deleteTerms($stateParams.termsId).then(function () {
+          $state.go('index.terms.list');
+        })
+        .catch(function (error) {
+            $alert.error(error.error, $rootScope);
+        });
+      };
 
       // save the terms of use changes
       $scope.saveTermsOfUse = function () {
