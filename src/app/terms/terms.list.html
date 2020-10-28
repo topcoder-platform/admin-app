@@ -60,7 +60,7 @@
                   </td>
                   <td>{{terms.type}}</td>
                   <td>{{terms.agreeabilityType}}</td>
-                  <td>{{terms.agreeabilityTypeId===electronicallyAgreeableId?terms.url:terms.agreeabilityTypeId===agreeForDocuSignTemplateId?terms.agreeabilityTypeId:''}}</td>
+                  <td>{{terms.agreeabilityTypeId===electronicallyAgreeableId?terms.url:terms.agreeabilityTypeId===agreeForDocuSignTemplateId?terms.docusignTemplateId:''}}</td>
                   <td class="btn-toolbar">
                     <a ui-sref="index.terms.users({termsId: terms.id,title:terms.title})" class="btn btn-sm btn-info">View Users</a>
                   </td>
