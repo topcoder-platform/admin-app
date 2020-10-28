@@ -128,7 +128,7 @@ angular.module('supportAdminApp')
       TermsService.getTypes = function () {
         var deferred = $q.defer();
         $http({
-          url: TermsService.getBasePath() + '/terms/type',
+          url: TermsService.getBasePath() + '/terms/types',
         }).then(function (response) {
           deferred.resolve(response.data);
         }).catch(function (error) {
