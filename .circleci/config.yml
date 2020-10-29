@@ -6,9 +6,9 @@ install_dependency: &install_dependency
   name: Installation of build and deployment dependencies.
   command: |
     sudo apt update
-    sudo apt install jq python-pip
-    sudo pip install awscli --upgrade
-    sudo pip install docker-compose
+    sudo apt install jq python3-pip
+    sudo pip3 install awscli --upgrade
+    sudo pip3 install docker-compose
 install_deploysuite: &install_deploysuite
   name: Installation of install_deploysuite.
   command: |
