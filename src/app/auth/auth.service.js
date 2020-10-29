@@ -148,7 +148,9 @@ angular.module('supportAdminApp')
        *
        * @return {Promise} promise which is resolved when user is logged out on the server
        */
-      AuthService.logout = function() {
+
+      /* // New auth flow, not needed.
+	    AuthService.logout = function() {
         // send request to the server that we want to log out
         // save logginOut promise to be accessed any time
         AuthService.logginOut = proxyCall(LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE).then(function() {
@@ -159,6 +161,10 @@ angular.module('supportAdminApp')
         $cookies.remove(JWT_V3_NAME);
 
         return AuthService.logginOut;
+      }*/
+
+      AuthService.logout = function () {
+        $window.location.href = AUTH_URL + '?logout=true&retUrl=' + encodeURIComponent($window.location.href);
       }
 
       AuthService.login = function() {
@@ -229,7 +235,7 @@ angular.module('supportAdminApp')
        * @return {Boolean} true if token V3 is expired
        */
       AuthService.isTokenV3Expired = function() {
-        return !AuthService.getTokenV3() || jwtHelper.isTokenExpired(AuthService.getTokenV3(), 300);
+        return !AuthService.getTokenV3() || jwtHelper.isTokenExpired(AuthService.getTokenV3(), 10);
       }
 
       /**

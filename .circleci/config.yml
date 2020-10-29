@@ -85,7 +85,7 @@ workflows:
       - build_and_test:
           filters:
             branches:
-              only: dev      
+              only: [dev, 'feature/AUTH0-RS256ID-TOKEN']
       - build_and_prod:
           filters:
             branches:
@@ -94,7 +94,7 @@ workflows:
           context : org-global
           filters:
             branches:
-              only: dev
+              only: [dev, 'feature/AUTH0-RS256ID-TOKEN']
           requires:
             - build_and_test
       - deploy_prod:
