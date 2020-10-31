@@ -25,7 +25,7 @@ angular
       /** find user by ID */
       UserService.findById = function (userId) {
         if (!userId) {
-          return $q.reject({error: 'userId must be specified.'});
+          return $q.reject({ error: 'userId must be specified.' });
         }
 
         var request = $http({
@@ -46,7 +46,7 @@ angular
         var query = "";
         angular.forEach({
           "fields": opts.fields || "id,handle,email,active,emailActive,status,credential,firstName,lastName,createdA" +
-              "t,modifiedAt",
+            "t,modifiedAt",
           "filter": opts.filter,
           "limit": opts.limit,
           //"offset": null, "orderBy": null,
@@ -143,36 +143,36 @@ angular
         }, helper.handleError);
       }, // updateEmail()
 
-      /**
-       *  updates a user status
-       */
-      UserService.updateStatus = function (userId, status, comment) {
+        /**
+         *  updates a user status
+         */
+        UserService.updateStatus = function (userId, status, comment) {
 
-        var payload = JSON.stringify({
+          var payload = JSON.stringify({
             param: {
               status: status
             }
           }),
-          param = comment
-            ? '?comment=' + encodeURIComponent(comment)
-            : '',
-          request = $http({
-            method: 'PATCH',
-            url: API_URL + '/v3/users/' + userId + '/status' + param,
-            headers: defaultHeaders,
-            data: payload
-          });
+            param = comment
+              ? '?comment=' + encodeURIComponent(comment)
+              : '',
+            request = $http({
+              method: 'PATCH',
+              url: API_URL + '/v3/users/' + userId + '/status' + param,
+              headers: defaultHeaders,
+              data: payload
+            });
 
-        return request.then(function (response) {
-          $log.debug(response);
-          return UserService.createUser(response.data.result.content);
-        }, helper.handleError);
-      }; // updateStatus()
+          return request.then(function (response) {
+            $log.debug(response);
+            return UserService.createUser(response.data.result.content);
+          }, helper.handleError);
+        }; // updateStatus()
 
       /** get achievements for the specified user id */
       UserService.getAchievements = function (userId) {
         if (!userId) {
-          return $q.reject({error: 'userId must be specified.'});
+          return $q.reject({ error: 'userId must be specified.' });
         }
 
         var request = $http({
@@ -221,7 +221,7 @@ angular
       /** get profile by handle */
       UserService.getProfile = function (handle) {
         if (!handle) {
-          return $q.reject({error: 'handle must be specified.'});
+          return $q.reject({ error: 'handle must be specified.' });
         }
 
         var request = $http({
@@ -262,7 +262,7 @@ angular
        * @param {Object} profile The user SSO profile.
        */
       UserService.createOrUpdateSSOUserLogin = function (userId, profile) {
-        var payload = JSON.stringify({param: profile});
+        var payload = JSON.stringify({ param: profile });
         var request = $http({
           method: 'POST',
           url: API_URL + '/v3/users/' + userId + '/createOrUpdateSSOUserLogin',
@@ -319,7 +319,7 @@ angular
        */
       UserService.createSsoUserLogin = function (userId, userLogin) {
 
-        var payload = JSON.stringify({param: userLogin});
+        var payload = JSON.stringify({ param: userLogin });
 
         var request = $http({
           method: 'POST',
@@ -342,7 +342,7 @@ angular
        */
       UserService.updateSsoUserLogin = function (userId, userLogin) {
 
-        var payload = JSON.stringify({param: userLogin});
+        var payload = JSON.stringify({ param: userLogin });
 
         var request = $http({
           method: 'PUT',
@@ -384,12 +384,26 @@ angular
       UserService.getUserByHandleFilter = function (handle) {
         var request = $http({
           method: 'GET',
-          url : basePath  +'/users?fields=id,handle&filter=handle=' + handle
+          url: basePath + '/users?fields=id,handle&filter=handle=' + handle
         });
         return request.then(function (response) {
           return response.data.result.content
         }, helper.handleError)
-      } 
+      }
+
+      /**
+       * gets the member suggest by handle.
+       * @param {string} handle the handle.
+       */
+      UserService.getMemberSuggestByHandle = function (handle) {
+        var request = $http({
+          method: 'GET',
+          url: basePath + '/members/_suggest/' + handle
+        });
+        return request.then(function (response) {
+          return response.data.result.content
+        }, helper.handleError)
+      };
 
       return UserService;
     }
