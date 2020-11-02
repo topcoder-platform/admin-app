@@ -3,18 +3,25 @@
 var module = angular.module('supportAdminApp');
 
 module.controller('terms.NewTermsController', ['$rootScope', '$scope', 'TermsService', 'Alert',
-  'AGREEABILITY_TYPES', 'AGREE_FOR_DOCUSIGN_TEMPLATE', 'AGREE_ELECTRONICALLY', '$state', 'DEFAULT_TERMS_TYPE_ID',
-  function ($rootScope, $scope, TermsService, $alert, agreeabilityTypeList, docusignTypeId, electronicallyAgreeableId, $state, defaultTermTypeId) {
+  'AGREE_FOR_DOCUSIGN_TEMPLATE', 'AGREE_ELECTRONICALLY', '$state', 'DEFAULT_TERMS_TYPE_ID',
+  function ($rootScope, $scope, TermsService, $alert, docusignTypeId, electronicallyAgreeableId, $state, defaultTermTypeId) {
     // init variables
     $scope.newTerms = {};
     $scope.processing = false;
-    $scope.agreeabilityTypes = agreeabilityTypeList;
+    $scope.agreeabilityTypes = [];
     $scope.isDocuSignFieldEnabled = false;
     $scope.isUrlEnabled = false;
     $scope.termTypes = [];
 
     // clear the alert
     $alert.clear();
+
+    // gets the agreeability types
+    TermsService.getAgreeabilityTypes().then(function (data) {
+      $scope.agreeabilityTypes = data;
+    }).catch(function (error) {
+      $alert.error(error.error, $rootScope);
+    });
 
     // get term types
     TermsService.getTypes().then(function (response) {

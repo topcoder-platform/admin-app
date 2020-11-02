@@ -5,17 +5,24 @@ var module = angular.module('supportAdminApp');
 /**
  * Controller for edit terms of use view
  */
-module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREEABILITY_TYPES', 'AGREE_FOR_DOCUSIGN_TEMPLATE', '$log',
+module.controller('terms.EditTermsController', ['$scope', '$rootScope', 'AGREE_FOR_DOCUSIGN_TEMPLATE', '$log',
   'TermsService', 'Alert', '$state', '$stateParams', 'AGREE_ELECTRONICALLY',
-    function ($scope, $rootScope, agreeabilityTypeList, docusignTypeId, $log, TermsService, $alert, $state, $stateParams, electronicallyAgreeableId) {
+    function ($scope, $rootScope, docusignTypeId, $log, TermsService, $alert, $state, $stateParams, electronicallyAgreeableId) {
       // init variables
       $scope.processing = false;
       $scope.editTerms = { };
-      $scope.agreeabilityTypes = agreeabilityTypeList;
+      $scope.agreeabilityTypes = [];
       $scope.isDocuSignFieldEnabled = false;
       $scope.isUrlEnabled = false;
       $scope.termTypes = [];
       $scope.signedUsers = { total: 0, deleteDisabled: true };
+
+      // gets the agreeability types
+      TermsService.getAgreeabilityTypes().then(function (data) {
+        $scope.agreeabilityTypes = data;
+      }).catch(function (error) {
+        $alert.error(error.error, $rootScope);
+      });
 
       /**
        * handles the agreebility type change.
