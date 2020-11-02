@@ -279,5 +279,23 @@ angular.module('supportAdminApp')
         return deferred.promise;
       };
 
+      /**
+       * gets all agreeability types.
+       * @returns {Promise} the agreeability types.
+       */
+      TermsService.getAgreeabilityTypes = function () {
+        var deferred = $q.defer();
+        var request = $http({
+          method: 'GET',
+          url: TermsService.getBasePath() + '/terms/agreeability-types'
+        });
+        request.then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          TermsService.handleError(error, deferred);
+        })
+        return deferred.promise;
+      };
+
       return TermsService;
     }]);
