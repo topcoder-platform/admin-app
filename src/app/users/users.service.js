@@ -376,6 +376,21 @@ angular
         }, helper.handleError);
       };
 
+      /**
+       * Gets the user by handle filter.
+       * @param {string} handle the handle.
+       * @returns {Array} the handle info array.
+       */
+      UserService.getUserByHandleFilter = function (handle) {
+        var request = $http({
+          method: 'GET',
+          url : basePath  +'/users?fields=id,handle&filter=handle=' + handle
+        });
+        return request.then(function (response) {
+          return response.data.result.content
+        }, helper.handleError)
+      } 
+
       return UserService;
     }
   ]);

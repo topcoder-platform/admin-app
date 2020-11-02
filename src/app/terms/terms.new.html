@@ -1,0 +1,62 @@
+<div class="ibox-title" style="margin-top: 10px">
+  <form role="form" name="addForm" data-toggle="validator" novalidate>
+    <div class="row">
+      <div class="form-group col-md-6" ng-class="{'has-error': addForm.title.$touched && addForm.title.$invalid}">
+        <label for="terms-title">Title</label>
+        <input id="terms-title" type="text" class="form-control" ng-model="newTerms.title" name="title" required>
+      </div>
+      <div class="form-group col-md-6"
+        ng-class="{'has-error': addForm.termType.$touched && addForm.termType.$invalid}">
+        <label for="terms-type">Type</label>
+        <select id="terms-type" class="form-control m-b"
+          ng-options="termType.id as termType.name for termType in termTypes"
+          ng-model="newTerms.typeId" name="termType" required>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-4"
+        ng-class="{'has-error': addForm.agreeabilityType.$touched && addForm.agreeabilityType.$invalid}">
+        <label for="terms-agreeability-type">Agreeability Type</label>
+        <select id="terms-agreeability-type" class="form-control m-b"
+          ng-change="agreeabilityTypeChange(newTerms)"
+          ng-options="agreeabilityType.id as agreeabilityType.name for agreeabilityType in agreeabilityTypes"
+          ng-model="newTerms.agreeabilityTypeId" name="agreeabilityType" required>
+        </select>
+      </div>
+      <div class="form-group col-md-4"
+        ng-class="{'has-error': addForm.docusignTemplateId.$touched && addForm.docusignTemplateId.$invalid}"
+        ng-hide="!isDocuSignFieldEnabled">
+        <label for="terms-docusign-template-Id">Docusign Template ID</label>
+        <input id="terms-docusign-template-Id" type="text" name="docusignTemplateId" class="form-control"
+          ng-disabled="!isDocuSignFieldEnabled" ng-required="isDocuSignFieldEnabled"
+          ng-model="newTerms.docusignTemplateId">
+      </div>
+      <div class="form-group col-md-4" ng-hide="!isUrlEnabled">
+        <label for="terms-url">URL</label>
+        <input id="terms-url" type="text" class="form-control" ng-model="newTerms.url">
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12"
+        ng-class="{'has-error': addForm.termsText$touched && addForm.termsText.$invalid}">
+        <label for="terms-text">Text</label>
+        <button ng-click="toggleEditor()">{{ showEditor ? 'Hide' : 'Show'}} HTML Editor</button>
+        <textarea style="height: 200px !important;" ui-tinymce="tinyMceSettings" ng-if="showEditor" ng-model="newTerms.text" name="termsText" class="form-control"></textarea>
+        <textarea style="height: 200px !important;" id="terms-text" ng-model="newTerms.text" ng-if="!showEditor" name="termsText" class="form-control text-editor"></textarea>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="form-group col-md-12">
+        <button ui-sref="index.terms.list" type="button" class="btn btn-sm btn-warning pull-right"
+          style="margin-left: 4px">
+          <strong>Cancel</strong>
+        </button>
+        <button ng-click="createTermsOfUse() " type="submit" class="btn btn-sm btn-success pull-right"
+          ng-disabled="addForm.$invalid || processing">
+          <strong>Save Changes</strong>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

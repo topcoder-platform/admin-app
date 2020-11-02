@@ -1,0 +1,99 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+  <!-- add device button row -->
+  <div class="row">
+    <div class="col col-md-12 col-lg-12">
+      <a class="btn btn-info pull-right m-b" ui-sref="index.terms.new">
+        <strong><i class="fa fa-plus"></i> Add Terms</strong>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <div class="row">
+            <div class="col col-md-12 col-lg-12">
+              <form role="form" name="searchFrom" novalidate="novalidate" autocomplete="off">
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="search-condition-handle">Title</label>
+                    <div class="row">
+                      <div class="col-md-4 ">
+                        <input id="search-condition-handle" type="text" class="form-control"
+                          ng-model="formSearch.criteria.title" ng-disabled="isLoading" ng-trim="true">
+                      </div>
+                      <div class="col-md-4 no-padding-left">
+                        <button ng-click="search(true)" ng-disabled="isLoading" type="submit"
+                          class="btn btn-sm btn-primary pull-left">
+                          <strong>Filter</strong>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <div class="text-center" ng-show="formSearch.isLoading">
+            <img src="assets/images/loading.gif" />
+          </div>
+          <div ng-show="!formSearch.isLoading &&  !termsList.length" class="table-responsive">
+            <p> No record found. </p>
+          </div>
+          <div ng-show="!formSearch.isLoading && termsList.length > 0" class="table-responsive">
+            <table class="footable table table-stripped toggle-arrow-tiny">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Agreeability Type</th>
+                  <th>Info</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr class="animate-repeat" ng-repeat="terms in termsList">
+                  <td>
+                    <a ui-sref="index.terms.edit({termsId: terms.id})">{{terms.title}}</a>
+                  </td>
+                  <td>{{terms.type}}</td>
+                  <td>{{terms.agreeabilityType}}</td>
+                  <td>{{terms.agreeabilityTypeId===electronicallyAgreeableId?terms.url:terms.agreeabilityTypeId===agreeForDocuSignTemplateId?terms.docusignTemplateId:''}}</td>
+                  <td class="btn-toolbar">
+                    <a ui-sref="index.terms.users({termsId: terms.id,title:terms.title})" class="btn btn-sm btn-info">View Users</a>
+                  </td>
+                </tr>
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <td colspan="6">
+                    <ul class="pagination pull-right">
+                      <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}"><a
+                          ng-click="changePage(1)">«</a></li>
+                      <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === 1}">
+                        <a ng-click="changePage(pageNumber - 1)">‹</a>
+                      </li>
+                      <li class="footable-page" ng-class="{'active' : item === pageNumber}"
+                        ng-repeat="item in getPageArray()">
+                        <a ng-click="changePage(item)">{{item}}</a></li>
+                      <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                        <a ng-click="changePage(pageNumber + 1)">›</a>
+                      </li>
+                      <li class="footable-page-arrow" ng-class="{'disabled': pageNumber === getLastPage()}">
+                        <a ng-click="changePage(getLastPage())">»</a>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- table-responsive -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
