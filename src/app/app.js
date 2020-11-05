@@ -419,19 +419,19 @@ angular.module('supportAdminApp', [
         resolve: { auth: authenticate }
       })
       .state('index.v5challenges', {
-        url: 'v5-challenges',
+        url: '/v5-challenges',
         templateUrl: 'app/v5_challenges/challenges.list.html',
         data: { pageTitle: 'Challenge Management' },
         resolve: { auth: authenticate }
       })
       .state('index.v5ChallengeDetail', {
-        url: 'v5-challenge-details/:id',
+        url: '/v5-challenge-details/:id',
         templateUrl: 'app/v5_challenges/challenge.detail.html',
         data: { pageTitle: 'Challenge Detail' },
         resolve: { auth: authenticate }
       })
       .state('index.v5ChallengeManageUser', {
-        url: 'v5-challenge-manage-users/:id',
+        url: '/v5-challenge-manage-users/:id',
         templateUrl: 'app/v5_challenges/challenge.manage.user.html',
         data: { pageTitle: 'Manage Users' },
         resolve: { auth: authenticate }

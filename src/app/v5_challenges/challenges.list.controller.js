@@ -28,14 +28,14 @@ module.controller('v5challenge.ListController', ['$scope', '$rootScope', 'AuthSe
 
         // load challenge types
         $challengeService.v5.getChallengeTypes().then(function (challengeTypes) {
-            $scope.challengeTypes = challengeTypes;
+            $scope.challengeTypes = [{ abbreviation: null, name: '' }].concat(challengeTypes);
         }).catch(function (challengeTypeError) {
             $alert.error(challengeTypeError.error, $rootScope);
         });
 
         // load challenge tracks
         $challengeService.v5.getChallengeTracks().then(function (challengeTracks) {
-            $scope.challengeTracks = challengeTracks;
+            $scope.challengeTracks = [{ abbreviation: null, name: '' }].concat(challengeTracks);
         }).catch(function (challengeTypeError) {
             $alert.error(challengeTypeError.error, $rootScope);
         });
