@@ -29,6 +29,8 @@ module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', '
         $scope.calender.signTermsFromOpen = false;
         $scope.calender.signTermsToOpen = false;
         $scope.title = '';
+        $scope.id = '';
+        $scope.legacyId = '';
 
         // list data
         $scope.data = [];
@@ -36,6 +38,8 @@ module.controller('terms.ListTermsUsersController', ['$scope', '$stateParams', '
 
         TermsService.findTermsById($stateParams.termsId).then(function (data) {
             $scope.title = data.title;
+            $scope.id = data.id;
+            $scope.legacyId = data.legacyId;
         }).catch(function (error) {
             $alert.error(error.error, $scope);
         });

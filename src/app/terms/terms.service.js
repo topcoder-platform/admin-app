@@ -128,7 +128,7 @@ angular.module('supportAdminApp')
       TermsService.getTypes = function () {
         var deferred = $q.defer();
         $http({
-          url: TermsService.getBasePath() + '/terms/type',
+          url: TermsService.getBasePath() + '/terms/types',
         }).then(function (response) {
           deferred.resolve(response.data);
         }).catch(function (error) {
@@ -273,6 +273,24 @@ angular.module('supportAdminApp')
             totalCount: response.headers('x-total')
           }
           deferred.resolve(data);
+        }).catch(function (error) {
+          TermsService.handleError(error, deferred);
+        })
+        return deferred.promise;
+      };
+
+      /**
+       * gets all agreeability types.
+       * @returns {Promise} the agreeability types.
+       */
+      TermsService.getAgreeabilityTypes = function () {
+        var deferred = $q.defer();
+        var request = $http({
+          method: 'GET',
+          url: TermsService.getBasePath() + '/terms/agreeability-types'
+        });
+        request.then(function (response) {
+          deferred.resolve(response.data);
         }).catch(function (error) {
           TermsService.handleError(error, deferred);
         })
