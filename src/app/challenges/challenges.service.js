@@ -1,14 +1,24 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('ChallengeService', ['$q', '$http', 'API_URL',
-    function($q, $http, API_URL) {
+  .factory('ChallengeService', ['$q', '$http', 'API_URL', 'CHALLENGES_V5_API_URL', 'RESOURCE_V5_API_URL',
+    function ($q, $http, API_URL, V5_API_URL, RESOURCE_V5_API_URL) {
 
       var service = {
         findChallengeById: findChallengeById,
         getChallengePhases: getChallengePhases,
         updateChallengeFixedFee: updateChallengeFixedFee,
         updateChallengePercentageFee: updateChallengePercentageFee,
+        v5: {
+          search: search,
+          getChallengeTypes: getChallengeTypes,
+          getChallengeTracks: getChallengeTracks,
+          getChallengeById: getChallengeById,
+          getChallengeResources: getChallengeResources,
+          getResourceRoles: getResourceRoles,
+          deleteChallengeResource: deleteChallengeResource,
+          addChallengeResource: addChallengeResource
+        }
       }
 
       return service;
@@ -18,7 +28,7 @@ angular.module('supportAdminApp')
        */
       function _processRequest(request) {
         return request.then(
-          function(response) {
+          function (response) {
             if (response.data.result.content || response.data.result.content.length > 0) {
               return response.data.result.content.length > 0 ? response.data.result.content[0] : response.data.result.content;
             } else {
@@ -29,7 +39,7 @@ angular.module('supportAdminApp')
               return $q.reject(err);
             }
           },
-          function(error) {
+          function (error) {
             var err;
             if (error && error.data && error.data.result) {
               err = {
@@ -148,7 +158,7 @@ angular.module('supportAdminApp')
         var request = $http({
           method: 'PUT',
           url: API_URL + '/v3/challenges/' + challenge.id,
-          data:  JSON.stringify({
+          data: JSON.stringify({
             param: {
               fixedFee: challenge.fixedFee
             }
@@ -170,7 +180,7 @@ angular.module('supportAdminApp')
         var request = $http({
           method: 'PUT',
           url: API_URL + '/v3/challenges/' + challenge.id,
-          data:  angular.toJson({
+          data: angular.toJson({
             param: {
               percentageFee: challenge.percentageFee
             }
@@ -183,5 +193,210 @@ angular.module('supportAdminApp')
         return _processRequest(request);
       };
 
+      /**
+      * Handle API response error.
+      * @param  {Error}      error           the error as received in catch callback.
+      * @param  {Object}     deferred        the deferred object.
+      */
+      function handleError(error, deferred) {
+        var err;
+        if (error && error.data) {
+          err = {
+            status: error.status,
+            error: error.data.message
+          };
+        }
+        if (!err) {
+          err = {
+            status: error.status,
+            error: error.message
+          };
+        }
+        deferred.reject(err);
+      };
+
+      /**
+       * search the challenges using v5 api.
+       * @param {string} filter the filter query.
+       * @returns {Promise} the promise base api result.
+       */
+      function search(filter) {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: V5_API_URL + '/challenges?' + filter,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          var data = {
+            result: response.data,
+            totalCount: response.headers('x-total')
+          };
+          deferred.resolve(data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * gets the challenge types.
+       * @returns {Promise} the promise base api result.
+       */
+      function getChallengeTypes() {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: V5_API_URL + '/challenge-types?isActive=true',
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * gets the challenge tracks.
+       * @returns {Promise} the promise base api result.
+       */
+      function getChallengeTracks() {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: V5_API_URL + '/challenge-tracks',
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * gets the challenge details by id.
+       * @param {string} id the challenge id. 
+       * @returns {Promise} the promise base api result.
+       */
+      function getChallengeById(id) {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: V5_API_URL + '/challenges/' + id,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * get the challenge resources
+       * @param {string} challengeId the challenge id.
+       * @returns {Promise} the promise base api result.
+       */
+      function getChallengeResources(challengeId, filter) {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: RESOURCE_V5_API_URL + '/resources?challengeId=' + challengeId + filter,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Access-Control-Expose-Headers': '*'
+          }
+        }).then(function (response) {
+          var data = {
+            result: response.data,
+            totalCount: response.headers('x-total')
+          };
+          deferred.resolve(data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * get the resource roles.
+       * @returns {Promise} the promise base api result.
+       */
+      function getResourceRoles() {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: RESOURCE_V5_API_URL + '/resource-roles',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * delete the challenge resource.
+       * @param {object} data the data.
+       * @returns {Promise} the promise base api result.
+       */
+      function deleteChallengeResource(data) {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'DELETE',
+          url: RESOURCE_V5_API_URL + '/resources',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: data
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * add the resource in the challenge.
+       * @param {object} data the resource data.
+       */
+      function addChallengeResource(data) {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'POST',
+          url: RESOURCE_V5_API_URL + '/resources',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: data
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      }
     }]);
 

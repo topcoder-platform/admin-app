@@ -4,30 +4,30 @@
  * support-admin-app
  */
 angular.module('supportAdminApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngTouch',
-    'ngSanitize',
-    'ngResource',
-    'csvReader',
-    'ui.router',
-    'ui.bootstrap',
-    'app.constants',
-    'angular-clipboard',
-    'ng-file-model',
-    'btorfs.multiselect',
-    'ui.bootstrap.datetimepicker',
-    'angularMoment',
-    'angular-jwt',
-    'ui.tinymce'])
+  'ngAnimate',
+  'ngCookies',
+  'ngTouch',
+  'ngSanitize',
+  'ngResource',
+  'csvReader',
+  'ui.router',
+  'ui.bootstrap',
+  'app.constants',
+  'angular-clipboard',
+  'ng-file-model',
+  'btorfs.multiselect',
+  'ui.bootstrap.datetimepicker',
+  'angularMoment',
+  'angular-jwt',
+  'ui.tinymce'])
   // In the run phase of your Angular application
   .run(function (AuthService) {
     // init AuthService, it has to be done once, when app starts
     AuthService.init();
   })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
-    var authenticate = ['AuthService', '$q', '$state', function(AuthService, $q, $state) {
-      return AuthService.authenticate().catch(function(err) {
+    var authenticate = ['AuthService', '$q', '$state', function (AuthService, $q, $state) {
+      return AuthService.authenticate().catch(function (err) {
         // if we get error that use doesn't have permissions
         // then go to auth page, which will show permissions denied error
         if (err === AuthService.ERROR.NO_PERMISSIONS) {
@@ -43,9 +43,9 @@ angular.module('supportAdminApp', [
         templateUrl: 'app/auth/auth.html',
         data: { pageTitle: 'Authentication' },
         resolve: {
-          auth: ['AuthService', '$q', function(AuthService, $q) {
+          auth: ['AuthService', '$q', function (AuthService, $q) {
             // for auth state we use another resolver then all other states
-            return AuthService.authenticate().catch(function(err) {
+            return AuthService.authenticate().catch(function (err) {
               // if we get error that use doesn't have permissions
               // we still resolve the promise and proceed to auth page
               // which will show permissions denied error
@@ -141,10 +141,10 @@ angular.module('supportAdminApp', [
             value: 'develop',
             name: 'Develop'
           },
-            {
-              value: 'design',
-              name: 'Design'
-            }];
+          {
+            value: 'design',
+            name: 'Design'
+          }];
 
           $scope.tagStatuses = [{
             value: 'approved',
@@ -154,14 +154,14 @@ angular.module('supportAdminApp', [
             name: 'Pending'
           }];
 
-          TagService.getTechnologyStatuses().then(function(techStatuses) {
-            _.forEach(techStatuses, function(status) {
+          TagService.getTechnologyStatuses().then(function (techStatuses) {
+            _.forEach(techStatuses, function (status) {
               status.value = _.lowerCase(status.description);
               status.name = status.description;
             });
             $scope.techStatuses = techStatuses;
           });
-          $scope.getTagStatuses = function(domainType) {
+          $scope.getTagStatuses = function (domainType) {
             if (domainType === 'technology') {
               return $scope.techStatuses;
             } else {
@@ -415,7 +415,25 @@ angular.module('supportAdminApp', [
       .state('index.challenges', {
         url: 'challenges',
         templateUrl: 'app/challenges/challenges.html',
-        data: { pageTitle: 'Challenge Management'},
+        data: { pageTitle: 'Challenge Management' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.v5challenges', {
+        url: 'v5-challenges',
+        templateUrl: 'app/v5_challenges/challenges.list.html',
+        data: { pageTitle: 'Challenge Management' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.v5ChallengeDetail', {
+        url: 'v5-challenge-details/:id',
+        templateUrl: 'app/v5_challenges/challenge.detail.html',
+        data: { pageTitle: 'Challenge Detail' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.v5ChallengeManageUser', {
+        url: 'v5-challenge-manage-users/:id',
+        templateUrl: 'app/v5_challenges/challenge.manage.user.html',
+        data: { pageTitle: 'Manage Users' },
         resolve: { auth: authenticate }
       })
       .state('index.ideas', {
@@ -464,7 +482,7 @@ angular.module('supportAdminApp', [
         templateUrl: 'app/terms/terms.users.list.html',
         controller: 'terms.ListTermsUsersController',
         data: { pageTitle: 'Term Users' },
-        params:{
+        params: {
           title: null
         },
         resolve: { auth: authenticate }
