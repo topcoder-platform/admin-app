@@ -15,6 +15,8 @@
     "GROUP_V5_API_URL": "http://localhost:3000/v5",
     "LOOKUP_V5_API_URL": "http://localhost:3000/v5",
     "TERMS_V5_API_URL": "http://localhost:3000/v5",
+    "CHALLENGES_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "RESOURCE_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
     "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
     "DEFAULT_TERMS_TYPE_ID": 5
@@ -35,6 +37,8 @@
     "GROUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "LOOKUP_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "TERMS_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "CHALLENGES_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "RESOURCE_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
     "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
     "DEFAULT_TERMS_TYPE_ID": 5
@@ -55,6 +59,8 @@
     "GROUP_V5_API_URL": "http://localhost:9000",
     "LOOKUP_V5_API_URL": "http://localhost:3000/v5",
     "TERMS_V5_API_URL": "http://localhost:3000/v5",
+    "CHALLENGES_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "RESOURCE_V5_API_URL": "https://api.topcoder-dev.com/v5",
     "AGREE_FOR_DOCUSIGN_TEMPLATE": "999a26ad-b334-453c-8425-165d4cf496d7",
     "AGREE_ELECTRONICALLY": "5b2798b2-ae82-4210-9b4d-5d6428125ccb",
     "DEFAULT_TERMS_TYPE_ID": 5
@@ -75,6 +81,8 @@
     "GROUP_V5_API_URL": "https://api.topcoder.com/v5",
     "LOOKUP_V5_API_URL": "https://api.topcoder.com/v5",
     "TERMS_V5_API_URL": "https://api.topcoder.com/v5",
+    "CHALLENGES_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "RESOURCE_V5_API_URL": "https://api.topcoder-dev.com/v5", 
     "AGREE_FOR_DOCUSIGN_TEMPLATE": "1363a7ab-fd3e-4d7c-abbb-2f7440b8b355",
     "AGREE_ELECTRONICALLY": "2db6c920-4089-4755-9cd1-99b0df0af961",
     "DEFAULT_TERMS_TYPE_ID": 5
