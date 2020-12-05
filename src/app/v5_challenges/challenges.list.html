@@ -13,7 +13,12 @@
                     <div class="row">
                         <form role="form">
                             <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
-                            <div class="form-group col-md-8">
+                            <div class="form-group col-md-4">
+                                <label for="search-condition-challenge-name">Name</label>
+                                <input id="search-condition-challenge-name" type="text" class="form-control"
+                                    ng-model="filterCriteria.name" ng-disabled="isLoading">
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label for="search-condition-challenge-id">Challenge ID</label>
                                 <input id="search-condition-challenge-id" type="text" class="form-control"
                                     ng-model="filterCriteria.challengeId" ng-disabled="isLoading">
@@ -61,29 +66,59 @@
                     <div ng-show="!isLoading &&  !challenges.length && searched" class="table-responsive">
                         <p> No record found. </p>
                     </div>
-                    <div ng-show="!isLoading && challenges.length > 0" class="table-responsive">
-                        <table class="footable table table-stripped toggle-arrow-tiny">
+                    <div ng-show="!isLoading && challenges.length > 0" class="table-responsive table-challenge-overflow">
+                        <table class="footable table table-stripped toggle-arrow-tiny table-challenge-list">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Title</th>
+                                    <th>Legacy ID</th>
+                                    <th>Type & Track</th>
+                                    <th>Current Phase</th>
                                     <th>Status</th>
-                                    <th># Registrants</th>
-                                    <th># Submissions</th>
+                                    <th>Stats</th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <tr class="animate-repeat" ng-repeat="challenge in challenges">
+                                <tr class="animate-repeat" ng-repeat="challenge in challenges" id="{{chalenge.id}}">
+                                    <td><track-icon track="{{challenge.track}}" type="getChallengeType(challenge.typeId)"></track-icon></td>
                                     <td>
                                         <a ui-sref="index.v5ChallengeDetail({id: challenge.id})">
                                             {{challenge.name}}
                                         </a>
                                     </td>
+                                    <td>{{challenge.legacyId}}</td>
+                                    <td>{{challenge.type}}<br>{{challenge.track}}{{challenge.legacy.subTrack ? ' / ' + challenge.legacy.subTrack : ''}}</td>
+                                    <td><current-phase challenge="challenge"></current-phase></td>
                                     <td>{{challenge.status}}</td>
-                                    <td>{{challenge.numOfRegistrants}}</td>
-                                    <td>{{challenge.numOfSubmissions}}</td>
+                                    <td><challenge-users-stats challenge="challenge"></challenge-users-stats></td>
                                     <td class="btn-toolbar">
                                         <a ui-sref="index.v5ChallengeManageUser({id: challenge.id})" class="btn btn-sm btn-info">Manage Users</a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                Go To <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-go-to" role="menu">
+                                                <li ng-switch="challenge.hasOwnProperty('projectId') && challenge.projectId != null">
+                                                    <a ng-switch-when="true" ng-href="{{CONNECT_URL}}/projects/{{challenge.projectId}}" target="_blank">Connect Project</a>
+                                                    <a ng-switch-when="false" class="link-disabled">Connect Project</a>
+                                                </li>
+                                                <li ng-switch="challenge.hasOwnProperty('legacyId') && challenge.legacyId != null">
+                                                    <a ng-switch-when="true" ng-href="{{DIRECT_URL}}/contest/detail?projectId={{challenge.legacyId}}" target="_blank">Direct Project</a>
+                                                    <a ng-switch-when="false" class="link-disabled">Direct Project</a>
+                                                </li>
+                                                <li ng-switch="challenge.hasOwnProperty('projectId') && challenge.projectId != null">
+                                                    <a ng-switch-when="true" ng-href="{{WORK_MANAGER_URL}}/projects/{{challenge.projectId}}/challenges/{{challenge.id}}/view" target="_blank">Work Manager</a>
+                                                    <a ng-switch-when="false" class="link-disabled">Work Manager</a>
+                                                </li>
+                                                <li ng-switch="challenge.hasOwnProperty('legacyId') && challenge.legacyId != null">
+                                                    <a ng-switch-when="true" ng-href="{{ONLINE_REVIEW_URL}}/actions/ViewProjectDetails?pid={{challenge.legacyId}}" target="_blank">Online Review</a>
+                                                    <a ng-switch-when="false" class="link-disabled">Online Review</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

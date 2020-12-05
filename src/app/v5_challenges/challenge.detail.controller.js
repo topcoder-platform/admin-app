@@ -9,6 +9,7 @@ module.controller('v5challenge.DetailController', ['$scope', '$rootScope', 'Auth
         $scope.challenge = {};
         $scope.id = $stateParams.id;
         $scope.challengeData = '';
+        $scope.error = false;
 
         /**
          * Check if user is logged in.
@@ -52,12 +53,18 @@ module.controller('v5challenge.DetailController', ['$scope', '$rootScope', 'Auth
             );
         };
 
-        // fetch challenge detail
-        $challengeService.v5.getChallengeById($stateParams.id).then(function (data) {
+        // fetch challenge detail, either by id(string) or legacyId(number)
+        var getChallengeDetail;
+        if (isNaN($stateParams.id))
+            getChallengeDetail = $challengeService.v5.getChallengeById($stateParams.id);
+        else
+            getChallengeDetail = $challengeService.v5.getChallengeByLegacyId($stateParams.id);
+        getChallengeDetail.then(function (data) {
             $scope.challenge = data;
             $scope.challengeData = prettifyJson(data, true);
         }).catch(function (error) {
             $alert.error(error.error, $rootScope);
+            $scope.error = true;
         }).finally(function () {
             $scope.isLoading = false;
         });
