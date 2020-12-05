@@ -25,19 +25,43 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         });
 
         /**
+         * gets challenge detail
+         * If the state id is a legacy id it fetches the challengeId by using the corresponding service
+         * else it returns a promise with the state id
+         * @returns {Promise} the challengeId
+         */
+        $scope.getChallengeDetail = function() {
+            if (isNaN($stateParams.id)) {
+                return Promise.resolve($stateParams.id);
+            }
+            else {
+                return $challengeService.v5.getChallengeByLegacyId($stateParams.id)
+                .then(function (data) {
+                    return data.id;
+                }).catch(function (error) {
+                    $alert.error(error.error, $rootScope);
+                    $scope.error = true;
+                })
+            }
+        }
+
+        /**
          * gets the user data.
          */
         $scope.search = function () {
             $scope.isLoading = true;
             var filter = '&page=' + $scope.filterCriteria.page
                 + '&perPage=' + $scope.filterCriteria.perPage;
-            $challengeService.v5.getChallengeResources($stateParams.id, filter).then(function (data) {
-                $scope.users = data.result;
-                $scope.totalCount = data.totalCount;
-            }).catch(function (error) {
-                $alert.error(error.error, $rootScope);
-            }).finally(function () {
-                $scope.isLoading = false;
+            $scope.getChallengeDetail().then(function(id) {
+                $scope.id = id;
+                $challengeService.v5.getChallengeResources(id, filter).then(function (data) {
+                    $scope.users = data.result;
+                    $scope.totalCount = data.totalCount;
+                }).catch(function (error) {
+                    $alert.error(error.error, $rootScope);
+                }).finally(function () {
+                    $scope.isLoading = false;
+                });
             });
         };
 
@@ -67,7 +91,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
             if (window.confirm(confirmation)) {
                 user.isRemoving = true;
                 $challengeService.v5.deleteChallengeResource({
-                    challengeId: $stateParams.id, memberHandle: user.memberHandle, roleId: user.roleId
+                    challengeId: $scope.id, memberHandle: user.memberHandle, roleId: user.roleId
                 }).then(function () {
                     $scope.search();
                 }).catch(function (error) {
@@ -91,7 +115,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                         return $scope;
                     },
                     challenge: function () {
-                        return { id: $stateParams.id };
+                        return { id: $scope.id };
                     }
                 }
             });

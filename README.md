@@ -46,6 +46,10 @@ The following configuration parameters are available:
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID from Database of the `"DocuSign Template"` Agreeable type      |
 | AGREE_ELECTRONICALLY | UUID from Database of the `Electronically` Agreeable Type  |
 | DEFAULT_TERMS_TYPE_ID | The default terms type id    |
+| CONNECT_URL | URL of Topcoder Connect |
+| DIRECT_URL | URL of Topcoder Direct |
+| WORK_MANAGER_URL | URL of Topcoder Work Manager |
+| ONLINE_REVIEW_URL | URL of Topcoder Online Review |
 
 
 ## Start the Application
