@@ -6,8 +6,8 @@ Internal application used to administer specific support tasks related to the To
 
 ## Software Requirements
 
-- node.js v6+
-- npm v3+
+- node.js v6 (not later)
+- npm v3
 - Google Chrome browser version >= 55.0.2883.0
 
 ## Installation
