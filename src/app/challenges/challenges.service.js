@@ -14,6 +14,7 @@ angular.module('supportAdminApp')
           getChallengeTypes: getChallengeTypes,
           getChallengeTracks: getChallengeTracks,
           getChallengeById: getChallengeById,
+          getChallengeByLegacyId: getChallengeByLegacyId,
           getChallengeResources: getChallengeResources,
           getResourceRoles: getResourceRoles,
           deleteChallengeResource: deleteChallengeResource,
@@ -299,6 +300,31 @@ angular.module('supportAdminApp')
           }
         }).then(function (response) {
           deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * gets the challenge details by legacyId.
+       * Throws an error message if no challenge is found, as of now the api returns 200 and an empty array
+       * @param {string} legacyId the challenge legacyId.
+       * @returns {Promise} the promise base api result.
+       */
+      function getChallengeByLegacyId(id) {
+        var deferred = $q.defer();
+
+        $http({
+          method: 'GET',
+          url: V5_API_URL + '/challenges?legacyId=' + id,
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (response) {
+          if (Array.isArray(response.data) && response.data.length > 0)
+            deferred.resolve(response.data[0]);
+          else throw({"message":" Invalid \"legacyId\""});
         }).catch(function (error) {
           handleError(error, deferred);
         });

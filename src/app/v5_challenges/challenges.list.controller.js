@@ -2,21 +2,39 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('v5challenge.ListController', ['$scope', '$rootScope', 'AuthService', 'ChallengeService', 'Alert',
-    function ($scope, $rootScope, $authService, $challengeService, $alert) {
+module.controller('v5challenge.ListController', ['$scope', '$rootScope', '$location', 'AuthService', 'ChallengeService', 'Alert', 'CONNECT_URL', 'DIRECT_URL', 'WORK_MANAGER_URL', 'ONLINE_REVIEW_URL',
+    function ($scope, $rootScope, $location, $authService, $challengeService, $alert, CONNECT_URL, DIRECT_URL, WORK_MANAGER_URL, ONLINE_REVIEW_URL) {
         $scope.isLoading = false;
         $scope.totalChallenges = 0;
         $scope.searched = false;
         $scope.filterCriteria = {
             page: 1,
             perPage: 25,
+            name: null,
             challengeId: null,
             legacyId: null,
             type: null,
             track: null,
             status: 'Active',
         };
+
+        $scope.CONNECT_URL = CONNECT_URL;
+        $scope.DIRECT_URL = DIRECT_URL;
+        $scope.WORK_MANAGER_URL = WORK_MANAGER_URL;
+        $scope.ONLINE_REVIEW_URL = ONLINE_REVIEW_URL;
+
+        /**
+         * Checks for search parameters in the query string
+         * If one is found and its a filter criteria, apply it
+         */
+        Object.keys($location.search()).forEach(function (key) {
+            if ($scope.filterCriteria.hasOwnProperty(key)) {
+                $scope.filterCriteria[key] = $location.search()[key];
+            }
+        });
+
         $scope.statusOptions = [
+            '',
             'New',
             'Draft',
             'Active',
@@ -56,8 +74,7 @@ module.controller('v5challenge.ListController', ['$scope', '$rootScope', 'AuthSe
             $scope.isLoading = true;
             var filter = '';
             filter = 'page=' + $scope.filterCriteria.page +
-                '&perPage=' + $scope.filterCriteria.perPage +
-                '&status=' + $scope.filterCriteria.status;
+                '&perPage=' + $scope.filterCriteria.perPage;
 
             if ($scope.filterCriteria.legacyId) {
                 filter += '&legacyId=' + $scope.filterCriteria.legacyId;
@@ -75,6 +92,13 @@ module.controller('v5challenge.ListController', ['$scope', '$rootScope', 'AuthSe
                 filter += '&id=' + $scope.filterCriteria.challengeId;
             }
 
+            if ($scope.filterCriteria.name) {
+                filter += '&name=' + $scope.filterCriteria.name;
+            }
+
+            if ($scope.filterCriteria.status)
+                filter += '&status=' + $scope.filterCriteria.status;
+
             $challengeService.v5.search(filter).then(function (response) {
                 $scope.challenges = response.result;
                 $scope.totalChallenges = response.totalCount;
@@ -83,6 +107,7 @@ module.controller('v5challenge.ListController', ['$scope', '$rootScope', 'AuthSe
             }).finally(function () {
                 $scope.isLoading = false;
             });
+            $location.search($scope.filterCriteria);
         };
 
         /**
@@ -119,5 +144,21 @@ module.controller('v5challenge.ListController', ['$scope', '$rootScope', 'AuthSe
         $scope.getLastPage = function () {
             return parseInt($scope.totalChallenges / 25) + 1;
         };
+
+        /**
+         * gets the challenge type details according to the id
+         * @param {string} typeId
+         * @returns {string} the abbreviation or empty string if not found
+         */
+        $scope.getChallengeType = function(typeId) {
+            var challengeTypes = $scope.challengeTypes.filter(function(type) {
+                return type.id == typeId;
+            });
+            if (Array.isArray(challengeTypes) && challengeTypes.length > 0)
+                return challengeTypes[0];
+            return null;
+        }
+
+        $scope.search();
     }
 ]);

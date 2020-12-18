@@ -6,7 +6,7 @@
     <!-- add member button row -->
     <div class="row">
         <div class="col col-md-12 col-lg-12">
-            <a class="btn btn-primary pull-right m-b" ui-sref="index.v5challenges" style="margin-left: 20px">
+            <a class="btn btn-primary pull-right m-b" style="margin-left: 20px" back-button>
                 <strong>Back</strong>
             </a>
             <a class="btn btn-info pull-right m-b" ui-sref="index.v5ChallengeManageUser({id: id})">
@@ -17,17 +17,21 @@
     <!-- list members row -->
     <div class="row">
         <div class="col-lg-12">
+            <div class="col-md-10 col-md-offset-1" ng-include src="'components/alert/alert.html'"></div>
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <div class="text-center" ng-show="isLoading">
                         <img src="assets/images/loading.gif" />
                     </div>
-                    <dl class="dl-horizontal" ng-show="!isLoading">
+                    <dl class="dl-horizontal" ng-show="!isLoading && !error">
                         <div class="m-b">
                             <label style="margin-right: 1%;">Title:</label>
                             <span>{{challenge.name}}</span>
                         </div>
                         <pre ng-bind-html="challengeData"></pre>
+                    </dl>
+                    <dl class="dl-horizontal" ng-show="!isLoading && error">
+                        Challenge not found
                     </dl>
                 </div>
             </div>

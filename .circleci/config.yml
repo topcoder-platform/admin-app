@@ -20,13 +20,13 @@ install_deploysuite: &install_deploysuite
 build_steps: &build_steps
       - checkout
       - run: curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
-      - restore_cache:
-          key: node-modules-{{ checksum "package-lock.json" }}
+      # - restore_cache:
+      #     key: node-modules-{{ checksum "package-lock.json" }}
       - run: npm install
-      - save_cache:
-          key: node-modules-{{ checksum "package-lock.json" }}
-          paths: 
-            - node_modules
+      # - save_cache:
+      #     key: node-modules-{{ checksum "package-lock.json" }}
+      #     paths: 
+      #       - node_modules
       - run: ./node_modules/gulp/bin/gulp.js clean
       - run: ./node_modules/gulp/bin/gulp.js build
       # - run: ./node_modules/gulp/bin/gulp.js publish

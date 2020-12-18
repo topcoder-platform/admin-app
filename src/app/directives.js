@@ -73,4 +73,50 @@ angular.module('supportAdminApp')
                 });
             }
         };
+    })
+    .directive('backButton', function($window) {
+        return {
+            restrict: 'AE',
+            link: function(scope, element, attrs) {
+                element.on('click', function() {
+                    $window.history.back();
+                });
+            }
+        }
+
+    })
+    // gets current phase according to a predefined logic, based on the phases array of a challenge
+    .directive('currentPhase', function(moment) {
+        return {
+            restrict: 'AE',
+            replace: true,
+            template: '<span>{{phaseMessage}}</span>',
+            scope: {
+                challenge: '='
+            },
+            link: function(scope, element, attrs) {
+                var statusPhase = null;
+
+                if (scope.challenge.phases) {
+                    statusPhase = scope.challenge.phases
+                    .filter(function(p) {
+                        return p.name !== 'Registration' && p.isOpen
+                    })
+                    .sort(function(a, b) {
+                        return moment(a.scheduledEndDate).diff(b.scheduledEndDate);
+                    })[0];
+                }
+
+                if (!statusPhase && scope.challenge.type === 'First2Finish' && scope.challenge.phases.length) {
+                    statusPhase = _.clone(scope.challenge.phases[0]);
+                    statusPhase.name = 'Submission';
+                }
+
+                scope.phaseMessage = "Stalled";
+                if (statusPhase)
+                    scope.phaseMessage = statusPhase.name;
+                else if (scope.challenge.status === 'Draft')
+                    scope.phaseMessage = "In Draft";
+            }
+        }
     });

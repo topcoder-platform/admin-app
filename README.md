@@ -6,8 +6,8 @@ Internal application used to administer specific support tasks related to the To
 
 ## Software Requirements
 
-- node.js v6+
-- npm v3+
+- node.js v6 (not later)
+- npm v3
 - Google Chrome browser version >= 55.0.2883.0
 
 ## Installation
@@ -46,6 +46,10 @@ The following configuration parameters are available:
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID from Database of the `"DocuSign Template"` Agreeable type      |
 | AGREE_ELECTRONICALLY | UUID from Database of the `Electronically` Agreeable Type  |
 | DEFAULT_TERMS_TYPE_ID | The default terms type id    |
+| CONNECT_URL | URL of Topcoder Connect |
+| DIRECT_URL | URL of Topcoder Direct |
+| WORK_MANAGER_URL | URL of Topcoder Work Manager |
+| ONLINE_REVIEW_URL | URL of Topcoder Online Review |
 
 
 ## Start the Application
