@@ -12,6 +12,9 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         $scope.users = [];
         $scope.roles = [{name: "", id: ""}];
         const DEFAULT_ROLE_FILTER_NAME = "Submitter";
+        $scope.selectedUsers = {};
+        $scope.roles = [];
+        $scope.isRemovingMultipleUsers = false;
 
         $scope.filterCriteria = {
             page: 1,
@@ -81,21 +84,53 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         };
 
         /**
-         * handles the remove user click.
+         * performs user removal, used by both single-user and multiple-user remove buttons
          * @param {object} user the selected user.
          */
         $scope.removeUser = function (user) {
+            return $challengeService.v5.deleteChallengeResource({
+                challengeId: $scope.id, memberHandle: user.memberHandle, roleId: user.roleId
+            });
+        };
+
+        /**
+         * handles the remove user click.
+         * @param {object} user the selected user.
+         */
+        $scope.removeSingleUser = function (user) {
             var confirmation = 'Are you sure? You want to remove user ' + user.memberHandle + '?';
             if (window.confirm(confirmation)) {
                 user.isRemoving = true;
-                $challengeService.v5.deleteChallengeResource({
-                    challengeId: $scope.id, memberHandle: user.memberHandle, roleId: user.roleId
-                }).then(function () {
+                $scope.removeUser(user)
+                .then(function () {
                     $scope.search();
                 }).catch(function (error) {
                     $alert.error(error.error, $rootScope);
                 }).finally(function () {
                     user.isRemoving = false;
+                });
+            }
+        };
+
+        /**
+         * handles removing the selected users by clicking on "Remove Seleted"
+         */
+        $scope.removeSelectedUsers = function () {
+            var confirmation = $scope.getNumberOfSelectedUsers() + ' users will be removed, are you sure?';
+            if (window.confirm(confirmation)) {
+                var usersToRemove = $scope.users.filter(function(user) {
+                    return ($scope.selectedUsers.hasOwnProperty(user.id) && $scope.selectedUsers[user.id]);
+                })
+
+                $scope.isRemovingMultipleUsers = true;
+                Promise.all(usersToRemove.map(function(user) {
+                    return $scope.removeUser(user);
+                })).then(function () {
+                    $scope.search();
+                }).catch(function (error) {
+                    $alert.error(error.error, $rootScope);
+                }).finally(function () {
+                    $scope.isRemovingMultipleUsers = false;
                 });
             }
         };
@@ -118,6 +153,18 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 }
             });
         };
+
+        /**
+         * handles checking for selected users
+         * @param {*} pageNumber
+         */
+        $scope.getNumberOfSelectedUsers = function() {
+            return Object.keys($scope.selectedUsers).reduce(function (num, userId) {
+                if ($scope.selectedUsers[userId])
+                    return num + 1;
+                return num;
+            }, 0);
+        }
 
         /**
          * handles change to a specific page.

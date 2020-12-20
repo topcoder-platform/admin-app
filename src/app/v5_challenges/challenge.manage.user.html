@@ -58,6 +58,7 @@
                                 data-page-size="100">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th data-sort-ignore="true">Handle</th>
                                         <th data-sort-ignore="true">Role</th>
                                         <th data-sort-ignore="true">Registered</th>
@@ -67,6 +68,7 @@
 
                                 <tbody>
                                     <tr class="animate-repeat" ng-repeat="user in users" id="{{user.id}}">
+                                        <td><input type="checkbox" class="form-check-input" ng-model="selectedUsers[user.id]" value="{{user.id}}"></td>
                                         <td>{{user.memberHandle}}</td>
                                         <td ng-show="roles.length==0">
                                             loading..
@@ -78,8 +80,8 @@
                                             {{user.created}}
                                         </td>
                                         <td>
-                                            <button data-ng-click='removeUser(user)' class="btn btn-sm btn-danger"
-                                                ng-show="!user.isRemoving">
+                                            <button data-ng-click='removeSingleUser(user)' class="btn btn-sm btn-danger"
+                                                ng-show="!user.isRemoving" ng-disabled="isRemovingMultipleUsers">
                                                 <strong>Remove</strong>
                                             </button>
                                             <img src="assets/images/loading.gif" ng-show="user.isRemoving"
@@ -116,6 +118,12 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            <button data-ng-click='removeSelectedUsers()' class="btn btn-sm btn-danger"
+                                ng-show="!isRemovingMultipleUsers"
+                                ng-disabled="isRemovingMultipleUsers || getNumberOfSelectedUsers() < 1">
+                                <strong>Remove Selected</strong>
+                            </button>
+                            <img src="assets/images/loading.gif" ng-show="isRemovingMultipleUsers" style="height: 25px;" />
                             <div ng-show="!users.length && !isLoading">No users</div><br />
                         </div>
                         <!-- table-responsive -->
