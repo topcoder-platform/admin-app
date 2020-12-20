@@ -15,6 +15,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         $scope.selectedUsers = {};
         $scope.roles = [];
         $scope.isRemovingMultipleUsers = false;
+        $scope.selectAll = false;
 
         $scope.filterCriteria = {
             page: 1,
@@ -48,6 +49,8 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          */
         $scope.search = function () {
             $scope.users = [];
+            $scope.selectAll = false;
+            $scope.selectedUsers = {};
             $scope.isLoading = true;
             var filter = '&page=' + $scope.filterCriteria.page
                 + '&perPage=' + $scope.filterCriteria.perPage;
@@ -61,7 +64,13 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 }).catch(function (error) {
                     $alert.error(error.error, $rootScope);
                 }).finally(function () {
-                    $scope.isLoading = false;
+                    if ($scope.users.length == 0 && $scope.filterCriteria.page > 1) { // goes back to last page with results if the current one is empty
+                        $scope.filterCriteria.page = $scope.getLastPage();
+                        $scope.search();
+                    }
+                    else {
+                        $scope.isLoading = false;
+                    }
                 });
             });
         };
@@ -82,6 +91,23 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 return 'NOT FOUND';
             }
         };
+
+        /**
+         * handles select all checkbox select event
+         */
+        $scope.toggleSelectall = function () {
+            $scope.users.forEach(function(user) {
+                $scope.selectedUsers[user.id] = $scope.selectAll;
+            });
+        }
+
+        /**
+         * handles unselecting the "select all" checkbox when a single user checkbox is toggled
+         */
+        $scope.toggleSelectSingleUser = function() {
+            if ($scope.selectAll)
+                $scope.selectAll = false;
+        }
 
         /**
          * performs user removal, used by both single-user and multiple-user remove buttons
@@ -198,7 +224,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * handles move to the last page.
          */
         $scope.getLastPage = function () {
-            return parseInt($scope.totalCount / 100) + 1;
+            return Math.ceil($scope.totalCount / $scope.filterCriteria.perPage);
         };
 
         // get resource roles on first load and then search

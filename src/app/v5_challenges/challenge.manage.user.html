@@ -58,7 +58,7 @@
                                 data-page-size="100">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th><input type="checkbox" class="form-check-input" ng-model="selectAll" ng-change="toggleSelectall()"></th>
                                         <th data-sort-ignore="true">Handle</th>
                                         <th data-sort-ignore="true">Role</th>
                                         <th data-sort-ignore="true">Registered</th>
@@ -68,7 +68,7 @@
 
                                 <tbody>
                                     <tr class="animate-repeat" ng-repeat="user in users" id="{{user.id}}">
-                                        <td><input type="checkbox" class="form-check-input" ng-model="selectedUsers[user.id]" value="{{user.id}}"></td>
+                                        <td><input type="checkbox" class="form-check-input" ng-model="selectedUsers[user.id]" value="{{user.id}}" ng-change="toggleSelectSingleUser()"></td>
                                         <td>{{user.memberHandle}}</td>
                                         <td ng-show="roles.length==0">
                                             loading..
