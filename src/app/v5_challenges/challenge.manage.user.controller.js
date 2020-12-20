@@ -10,19 +10,14 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         $scope.isLoading = true;
         $scope.totalCount = 0;
         $scope.users = [];
-        $scope.roles = [];
+        $scope.roles = [{name: "", id: ""}];
+        const DEFAULT_ROLE_FILTER_NAME = "Submitter";
 
         $scope.filterCriteria = {
             page: 1,
-            perPage: 100
+            perPage: 100,
+            roleId: ""
         };
-
-        // get resource roles
-        $challengeService.v5.getResourceRoles().then(function (data) {
-            $scope.roles = data;
-        }).catch(function (roleError) {
-            $alert.error(roleError.error, $rootScope);
-        });
 
         /**
          * gets challenge detail
@@ -49,9 +44,12 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * gets the user data.
          */
         $scope.search = function () {
-            $scope.isLoading = true;
+            $scope.users = [];
+            $scope.isLoading = true;            
             var filter = '&page=' + $scope.filterCriteria.page
                 + '&perPage=' + $scope.filterCriteria.perPage;
+            if ($scope.filterCriteria.roleId != "")
+                filter += '&roleId=' + $scope.filterCriteria.roleId;
             $scope.getChallengeDetail().then(function(id) {
                 $scope.id = id;
                 $challengeService.v5.getChallengeResources(id, filter).then(function (data) {
@@ -156,6 +154,18 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
             return parseInt($scope.totalCount / 100) + 1;
         };
 
-        $scope.search();
+        // get resource roles on first load and then search
+        $challengeService.v5.getResourceRoles().then(function (data) {
+            $scope.roles = $scope.roles.concat(data);
+            $scope.filterCriteria.roleId = $scope.roles.filter(function(role) {
+                return role.name === DEFAULT_ROLE_FILTER_NAME;
+            }).map(function (role) {
+                return role.id;
+            })[0];
+            $scope.search();
+        }).catch(function (roleError) {
+            $alert.error(roleError.error, $rootScope);
+        });
+
     }
 ]);
