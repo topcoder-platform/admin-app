@@ -43,6 +43,7 @@ The following configuration parameters are available:
 | TERMS_V5_API_URL            | URL of the v5 Terms API      |
 | CHALLENGES_V5_API_URL       | URL of the v5 Challenges API    |
 | RESOURCE_V5_API_URL         | URL of the v5 Resources API    |
+| MEMBER_V5_API_URL           | URL of the v5 Member API    |
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID from Database of the `"DocuSign Template"` Agreeable type      |
 | AGREE_ELECTRONICALLY | UUID from Database of the `Electronically` Agreeable Type  |
 | DEFAULT_TERMS_TYPE_ID | The default terms type id    |
