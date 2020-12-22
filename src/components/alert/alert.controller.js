@@ -20,5 +20,9 @@ module.controller('AlertController', ['$scope', '$rootScope',
       $scope.$on('alert.ClearAll', function(event, alert){
         $scope.alerts.length = 0;
       });
+
+      $scope.isArray = function(val) {
+        return Array.isArray(val);
+      }
     }
   ]);

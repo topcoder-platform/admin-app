@@ -1,13 +1,13 @@
 module.controller('v5challenge.AddUserController', [
     '$scope',
-    '$timeout',
+    '$q',
     '$uibModalInstance',
     'UserService',
     'ChallengeService',
     'Alert',
     'parentScope',
     'challenge',
-    function ($scope, $timeout, $modalInstance, UserService, $challengeService, $alert, $parentScope, challenge) {
+    function ($scope, $q, $modalInstance, UserService, $challengeService, $alert, $parentScope, challenge) {
         $scope.challenge = challenge
         $scope.handle = '';
         $scope.isLoading = false;
@@ -28,17 +28,7 @@ module.controller('v5challenge.AddUserController', [
             $modalInstance.close();
         };
 
-        /**
-         * searches the handle.
-         * @param {string} filter the filter.
-         */
-        $scope.searchHandle = function (filter) {
-            $scope.isLoading = true;
-            return UserService.getMemberSuggestByHandle(filter).then(function (data) {
-                $scope.isLoading = false;
-                return _.map(data, function (x) { return x.handle });
-            })
-        };
+
 
         /**
          * handles save click.
@@ -46,17 +36,37 @@ module.controller('v5challenge.AddUserController', [
         $scope.save = function () {
             $scope.clearError()
             $scope.isLoading = true;
+            var success = [];
+            var errors = [];
 
-            $challengeService.v5.addChallengeResource({
-                challengeId: $scope.challenge.id,
-                memberHandle: $scope.handle,
-                roleId: $scope.roleId
-            }).then(function () {
-                $alert.success('User has been added.', $scope);
-                $parentScope.search();
-            }).catch(function (error) {
-                $alert.error(error.error, $scope);
-            }).finally(function () {
+            var promiseArray = $scope.handles.map(function(handle) {
+                return $challengeService.v5.addChallengeResource({
+                    challengeId: $scope.challenge.id,
+                    memberHandle: handle,
+                    roleId: $scope.roleId
+                }).then(function () {
+                    success.push({handle: handle});
+                }).catch(function (error) {
+                    errors.push({handle: handle, message: error.error});
+                })
+            })
+
+            $q.all(promiseArray)
+            .finally(function () {
+                if (success.length) {
+                    $parentScope.search();
+                    if (success.length > 1)
+                        $alert.success(success.length + ' users have been added.', $scope);
+                    else
+                        $alert.success('User has been added.', $scope);
+                }
+                if (errors.length) {
+                    var messages = [];
+                    messages = errors.map(function(error) {
+                        return error.handle + ": " + error.message;
+                    })
+                    $alert.error(messages, $scope);
+                }
                 $scope.isLoading = false;
             });
         };
