@@ -405,6 +405,24 @@ angular
         }, helper.handleError)
       };
 
+      /**
+       * gets a list of members given a list of handles.
+       * @param {Array} handles the handle.
+       */
+      UserService.getMembersByHandle = function (handles) {
+        var qs = "";
+        handles.forEach(function(handle) {
+          qs += "&handlesLower[]=" + handle.toLowerCase();
+        })
+        var request = $http({
+          method: 'GET',
+          url: 'https://api.topcoder-dev.com/v5/members?fields=userId,handle' + qs
+        });
+        return request.then(function (response) {
+          return response.data;
+        }, helper.handleError)
+      };
+
       return UserService;
     }
   ]);

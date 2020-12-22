@@ -1,0 +1,12 @@
+<span class="multiple-member-handle">
+    <span ng-repeat="handleTag in handlesSearch"
+        role="presentation"
+        ng-class="hasFoundHandle(handleTag) ? 'label label-secondary' : 'label label-danger'" class="multiple-member-handle-tag">
+        {{handleTag}}
+        <a ng-click="removeHandle(handleTag)"><span class="glyphicon glyphicon-remove"  aria-hidden="true"></span></a>
+    </span>
+    <input id="auto-handle" type="text" class="form-control multiple-member-handle-input" ng-model="handle"
+        ng-keydown="checkEmptyAndDeleteTag($event)"
+        uib-typeahead="handle for handle in searchHandle($viewValue)" name="handle"
+        required="required" typeahead-on-select="selectHandle()" ng-change="handleMultipleHandles()" ng-model-options="{ debounce: 500 }">
+</span>
