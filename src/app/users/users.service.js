@@ -10,7 +10,8 @@ angular
     'API_URL',
     'API_VERSION_PATH',
     'helper',
-    function ($log, $q, $http, User, API_URL, API_VERSION_PATH, helper) {
+    'MEMBER_V5_API_URL',
+    function ($log, $q, $http, User, API_URL, API_VERSION_PATH, helper, MEMBER_V5_API_URL) {
       // local dev var API_URL = 'http://local.topcoder-dev.com:8080'; The base path
       // of the API including version.
       var basePath = API_URL + '/' + API_VERSION_PATH;
@@ -402,6 +403,24 @@ angular
         });
         return request.then(function (response) {
           return response.data.result.content
+        }, helper.handleError)
+      };
+
+      /**
+       * gets a list of members given a list of handles.
+       * @param {Array} handles the handle.
+       */
+      UserService.getMembersByHandle = function (handles) {
+        var qs = "";
+        handles.forEach(function(handle) {
+          qs += "&handlesLower[]=" + handle.toLowerCase();
+        })
+        var request = $http({
+          method: 'GET',
+          url: MEMBER_V5_API_URL +'/members?fields=userId,handle' + qs
+        });
+        return request.then(function (response) {
+          return response.data;
         }, helper.handleError)
       };
 

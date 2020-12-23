@@ -8,13 +8,11 @@
     <div class="modal-body">
         <div class="row">
             <form role="form" name="addUserForm" data-toggle="validator" autocomplete="off">
-                <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+                <div class="col-md-12" ng-include src="'components/alert/alert-list.html'"></div>
                 <div class="form-group scrollable-dropdown-menu"
                     ng-class="{'has-error': addUserForm.handle.$touched && addUserForm.handle.$invalid}">
                     <label for="auto-handle">Handle</label>
-                    <input id="auto-handle" type="text" class="form-control" ng-model="handle"
-                        uib-typeahead="handle for handle in searchHandle($viewValue)" name="handle"
-                        required="required">
+                    <multiple-member-handler handles="handles"/>
                 </div>
                 <div class="form-group" ng-class="{'has-error': addUserForm.roleId.$touched && addUserForm.roleId.$invalid}">
                     <label for="role">Role</label>
@@ -31,7 +29,7 @@
             Close
         </button>
         <button type="button" class="btn btn-primary" ng-click="save()"
-            ng-disabled="addUserForm.$invalid || isLoading">
+            ng-disabled="handles.length < 1 || !roleId || isLoading">
             Add User
         </button>
     </div>
