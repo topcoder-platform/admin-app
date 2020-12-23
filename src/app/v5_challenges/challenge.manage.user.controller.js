@@ -45,7 +45,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          */
         $scope.search = function () {
             $scope.users = [];
-            $scope.isLoading = true;            
+            $scope.isLoading = true;
             var filter = '&page=' + $scope.filterCriteria.page
                 + '&perPage=' + $scope.filterCriteria.perPage;
             if ($scope.filterCriteria.roleId != "")
@@ -156,12 +156,8 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
 
         // get resource roles on first load and then search
         $challengeService.v5.getResourceRoles().then(function (data) {
-            $scope.roles = $scope.roles.concat(data);
-            $scope.filterCriteria.roleId = $scope.roles.filter(function(role) {
-                return role.name === DEFAULT_ROLE_FILTER_NAME;
-            }).map(function (role) {
-                return role.id;
-            })[0];
+            $scope.roles = _.orderBy($scope.roles.concat(data), 'name');
+            $scope.filterCriteria.roleId = _.find($scope.roles, { name: DEFAULT_ROLE_FILTER_NAME }).id
             $scope.search();
         }).catch(function (roleError) {
             $alert.error(roleError.error, $rootScope);
