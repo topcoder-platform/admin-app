@@ -73,11 +73,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * @param {string} roleId the role id.
          */
         $scope.getRole = function (roleId) {
-            var role = _.find($scope.roles, function (x) {
-                if (x.id == roleId) {
-                    return x;
-                }
-            });
+            var role = _.find($scope.roles, { id: roleId });
             if (role) {
                 return role.name;
             } else {
@@ -90,16 +86,12 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * @param {string} userId the user id.
          */
         $scope.getEmail = function (userId) {
-            var user = _.find($scope.usersEmails, function (x) {
-                if (x.userId == userId) {
-                    return x;
-                }
-            });
+            var user = _.find($scope.usersEmails, { userId: parseInt(userId) });
             if (user) {
                 return user.email;
             } else {
                 return 'NOT FOUND';
-            }
+            }            
         };
 
         /**

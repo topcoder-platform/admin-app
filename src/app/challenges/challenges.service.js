@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('ChallengeService', ['$q', '$http', 'API_URL', 'CHALLENGES_V5_API_URL', 'RESOURCE_V5_API_URL', 'MEMBER_V5_API_URL',
-    function ($q, $http, API_URL, V5_API_URL, RESOURCE_V5_API_URL, MEMBER_V5_API_URL) {
+  .factory('ChallengeService', ['$q', '$http', 'API_URL', 'CHALLENGES_V5_API_URL', 'RESOURCE_V5_API_URL', 'MEMBER_V5_API_URL', '$httpParamSerializer',
+    function ($q, $http, API_URL, V5_API_URL, RESOURCE_V5_API_URL, MEMBER_V5_API_URL, $httpParamSerializer) {
 
       var service = {
         findChallengeById: findChallengeById,
@@ -387,12 +387,16 @@ angular.module('supportAdminApp')
        */
       function getResourceEmails(users) {
         var deferred = $q.defer();
-
-        var qs = users.reduce(function (currentString, user, i) {
-          if (i != 0)
-            currentString += "&";
-          return currentString + "userIds[]=" +user.memberId;
-        },"");
+        var qs = ""
+        if (users.length > 1) {
+          qs = $httpParamSerializer({
+            userIds: users.map(function(user) { return user.memberId })
+          });
+        } else { // need to check if the list is made of just one user, in this case the qs parameter must be userId instead of userIds
+          qs = $httpParamSerializer({
+            userId: users.map(function(user) { return user.memberId })
+          });
+        }
 
         $http({
           method: 'GET',
