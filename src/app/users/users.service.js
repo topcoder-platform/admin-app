@@ -12,7 +12,7 @@ angular
     'helper',
     'MEMBER_V5_API_URL',
     function ($log, $q, $http, User, API_URL, API_VERSION_PATH, helper, MEMBER_V5_API_URL) {
-      // local dev var API_URL = 'http://local.topcoder-dev.com:8080'; The base path
+      // local dev var API_URL = 'http://localhost:8080'; The base path
       // of the API including version.
       var basePath = API_URL + '/' + API_VERSION_PATH;
 
