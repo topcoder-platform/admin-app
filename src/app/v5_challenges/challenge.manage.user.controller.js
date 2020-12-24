@@ -12,6 +12,8 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         $scope.users = [];
         $scope.roles = [{name: "", id: ""}];
         const DEFAULT_ROLE_FILTER_NAME = "Submitter";
+        $scope.roles = [];
+        $scope.usersEmails = [];
 
         $scope.filterCriteria = {
             page: 1,
@@ -55,6 +57,9 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 $challengeService.v5.getChallengeResources(id, filter).then(function (data) {
                     $scope.users = data.result;
                     $scope.totalCount = data.totalCount;
+                    $challengeService.v5.getResourceEmails($scope.users).then(function (data) {
+                        $scope.usersEmails = data;
+                    });
                 }).catch(function (error) {
                     $alert.error(error.error, $rootScope);
                 }).finally(function () {
@@ -68,16 +73,25 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * @param {string} roleId the role id.
          */
         $scope.getRole = function (roleId) {
-            var role = _.find($scope.roles, function (x) {
-                if (x.id == roleId) {
-                    return x;
-                }
-            });
+            var role = _.find($scope.roles, { id: roleId });
             if (role) {
                 return role.name;
             } else {
                 return 'NOT FOUND';
             }
+        };
+
+        /**
+         * gets the e-mail by user id.
+         * @param {string} userId the user id.
+         */
+        $scope.getEmail = function (userId) {
+            var user = _.find($scope.usersEmails, { userId: parseInt(userId) });
+            if (user) {
+                return user.email;
+            } else {
+                return 'NOT FOUND';
+            }            
         };
 
         /**

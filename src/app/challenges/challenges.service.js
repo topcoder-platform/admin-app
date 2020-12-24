@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('supportAdminApp')
-  .factory('ChallengeService', ['$q', '$http', 'API_URL', 'CHALLENGES_V5_API_URL', 'RESOURCE_V5_API_URL',
-    function ($q, $http, API_URL, V5_API_URL, RESOURCE_V5_API_URL) {
+  .factory('ChallengeService', ['$q', '$http', 'API_URL', 'CHALLENGES_V5_API_URL', 'RESOURCE_V5_API_URL', 'MEMBER_V5_API_URL', '$httpParamSerializer',
+    function ($q, $http, API_URL, V5_API_URL, RESOURCE_V5_API_URL, MEMBER_V5_API_URL, $httpParamSerializer) {
 
       var service = {
         findChallengeById: findChallengeById,
@@ -17,6 +17,7 @@ angular.module('supportAdminApp')
           getChallengeByLegacyId: getChallengeByLegacyId,
           getChallengeResources: getChallengeResources,
           getResourceRoles: getResourceRoles,
+          getResourceEmails: getResourceEmails,
           deleteChallengeResource: deleteChallengeResource,
           addChallengeResource: addChallengeResource
         }
@@ -379,6 +380,37 @@ angular.module('supportAdminApp')
         });
         return deferred.promise;
       };
+
+      /**
+       * gets a list of e-mails based on a list of users
+       * @returns {Promise} the promise with a list of userIds and e-mails.
+       */
+      function getResourceEmails(users) {
+        var deferred = $q.defer();
+        var qs = ""
+        if (users.length > 1) {
+          qs = $httpParamSerializer({
+            userIds: users.map(function(user) { return user.memberId })
+          });
+        } else { // need to check if the list is made of just one user, in this case the qs parameter must be userId instead of userIds
+          qs = $httpParamSerializer({
+            userId: users.map(function(user) { return user.memberId })
+          });
+        }
+
+        $http({
+          method: 'GET',
+          url: MEMBER_V5_API_URL + '/members?' + qs + '&fields=userId,email&perPage=' + users.length,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }).then(function (response) {
+          deferred.resolve(response.data);
+        }).catch(function (error) {
+          handleError(error, deferred);
+        });
+        return deferred.promise;
+      }
 
       /**
        * delete the challenge resource.

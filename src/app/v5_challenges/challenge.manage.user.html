@@ -60,6 +60,7 @@
                                     <tr>
                                         <th data-sort-ignore="true">Handle</th>
                                         <th data-sort-ignore="true">Role</th>
+                                        <th data-sort-ignore="true">E-Mail</th>
                                         <th data-sort-ignore="true">Registered</th>
                                         <th data-sort-ignore="true">&nbsp;</th>
                                     </tr>
@@ -73,6 +74,12 @@
                                         </td>
                                         <td ng-show="roles.length!=0">
                                             {{getRole(user.roleId)}}
+                                        </td>
+                                        <td ng-show="usersEmails.length==0">
+                                            loading..
+                                        </td>
+                                        <td ng-show="usersEmails.length!=0">
+                                            {{getEmail(user.memberId)}}
                                         </td>
                                         <td>
                                             {{user.created}}
