@@ -2,8 +2,8 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', 'AuthService', 'ChallengeService', 'Alert', '$stateParams', '$state', '$uibModal',
-    function ($scope, $rootScope, $authService, $challengeService, $alert, $stateParams, $state, $modal) {
+module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', 'AuthService', 'ChallengeService', 'Alert', '$stateParams', '$state', '$uibModal', '$q',
+    function ($scope, $rootScope, $authService, $challengeService, $alert, $stateParams, $state, $modal, $q) {
         $scope.isLoading = false;
         $scope.id = $stateParams.id;
         $scope.title = $state.current.data.pageTitle;
@@ -116,7 +116,13 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         $scope.removeUser = function (user) {
             return $challengeService.v5.deleteChallengeResource({
                 challengeId: $scope.id, memberHandle: user.memberHandle, roleId: user.roleId
-            });
+            }).then(function() {
+                $scope.users = $scope.users.filter(function(member) {
+                    return member.id !== user.id;
+                })
+                if ($scope.selectedUsers.hasOwnProperty(user.id))
+                    delete $scope.selectedUsers[user.id];                
+            })
         };
 
         /**
@@ -149,7 +155,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 })
 
                 $scope.isRemovingMultipleUsers = true;
-                Promise.all(usersToRemove.map(function(user) {
+                $q.all(usersToRemove.map(function(user) {
                     return $scope.removeUser(user);
                 })).then(function () {
                     $scope.search();
