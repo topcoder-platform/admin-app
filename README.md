@@ -58,7 +58,6 @@ The following configuration parameters are available:
 Simply execute the following command to start the app in development mode (with browsersync)
 ```
 npm install
-npm run build
 npm run dev
 ```
 Application will be hosted and running at http://localhost:3000.
