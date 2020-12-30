@@ -430,6 +430,18 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'Challenge Detail' },
         resolve: { auth: authenticate }
       })
+      .state('index.v5ChallengeForums', {
+        url: '/v5-challenge-details/:id/forums',
+        templateUrl: 'app/forums/forums.html',
+        data: { pageTitle: 'Forums' },
+        resolve: { auth: authenticate }
+      })
+      .state('index.v5ChallengeForumsComment', {
+        url: '/user/:id/comments',
+        templateUrl: 'app/forums/comments.html',
+        data: { pageTitle: 'Comments' },
+        resolve: { auth: authenticate }
+      })
       .state('index.v5ChallengeManageUser', {
         url: '/v5-challenge-manage-users/:id',
         templateUrl: 'app/v5_challenges/challenge.manage.user.html',
