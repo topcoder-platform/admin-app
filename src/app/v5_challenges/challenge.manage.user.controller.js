@@ -2,8 +2,8 @@
 
 var module = angular.module('supportAdminApp');
 
-module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', 'AuthService', 'ChallengeService', 'Alert', '$stateParams', '$state', '$uibModal',
-    function ($scope, $rootScope, $authService, $challengeService, $alert, $stateParams, $state, $modal) {
+module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', 'AuthService', 'ChallengeService', 'Alert', '$stateParams', '$state', '$uibModal', '$q',
+    function ($scope, $rootScope, $authService, $challengeService, $alert, $stateParams, $state, $modal, $q) {
         $scope.isLoading = false;
         $scope.id = $stateParams.id;
         $scope.title = $state.current.data.pageTitle;
@@ -12,7 +12,9 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         $scope.users = [];
         $scope.roles = [{name: "", id: ""}];
         const DEFAULT_ROLE_FILTER_NAME = "Submitter";
-        $scope.roles = [];
+        $scope.selectedUsers = {};
+        $scope.isRemovingMultipleUsers = false;
+        $scope.selectAll = false;
         $scope.usersEmails = [];
 
         $scope.filterCriteria = {
@@ -47,6 +49,8 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          */
         $scope.search = function () {
             $scope.users = [];
+            $scope.selectAll = false;
+            $scope.selectedUsers = {};
             $scope.isLoading = true;
             var filter = '&page=' + $scope.filterCriteria.page
                 + '&perPage=' + $scope.filterCriteria.perPage;
@@ -63,7 +67,13 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 }).catch(function (error) {
                     $alert.error(error.error, $rootScope);
                 }).finally(function () {
-                    $scope.isLoading = false;
+                    if ($scope.users.length == 0 && $scope.filterCriteria.page > 1) { // goes back to last page with results if the current one is empty
+                        $scope.filterCriteria.page = $scope.getLastPage();
+                        $scope.search();
+                    }
+                    else {
+                        $scope.isLoading = false;
+                    }
                 });
             });
         };
@@ -82,6 +92,24 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
         };
 
         /**
+         * handles select all checkbox select event
+         */
+        $scope.toggleSelectall = function () {
+            $scope.users.forEach(function(user) {
+                $scope.selectedUsers[user.id] = $scope.selectAll;
+            });
+        }
+
+        /**
+         * handles unselecting the "select all" checkbox when a single user checkbox is toggled
+         */
+        $scope.toggleSelectSingleUser = function() {
+            if ($scope.selectAll)
+                $scope.selectAll = false;
+        }
+
+        /**
+         * performs user removal, used by both single-user and multiple-user remove buttons
          * gets the e-mail by user id.
          * @param {string} userId the user id.
          */
@@ -99,17 +127,55 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * @param {object} user the selected user.
          */
         $scope.removeUser = function (user) {
+            return $challengeService.v5.deleteChallengeResource({
+                challengeId: $scope.id, memberHandle: user.memberHandle, roleId: user.roleId
+            }).then(function() {
+                $scope.users = $scope.users.filter(function(member) {
+                    return member.id !== user.id;
+                })
+                if ($scope.selectedUsers.hasOwnProperty(user.id))
+                    delete $scope.selectedUsers[user.id];                
+            })
+        };
+
+        /**
+         * handles the remove user click.
+         * @param {object} user the selected user.
+         */
+        $scope.removeSingleUser = function (user) {
             var confirmation = 'Are you sure? You want to remove user ' + user.memberHandle + '?';
             if (window.confirm(confirmation)) {
                 user.isRemoving = true;
-                $challengeService.v5.deleteChallengeResource({
-                    challengeId: $scope.id, memberHandle: user.memberHandle, roleId: user.roleId
-                }).then(function () {
+                $scope.removeUser(user)
+                .then(function () {
                     $scope.search();
                 }).catch(function (error) {
                     $alert.error(error.error, $rootScope);
                 }).finally(function () {
                     user.isRemoving = false;
+                });
+            }
+        };
+
+        /**
+         * handles removing the selected users by clicking on "Remove Seleted"
+         */
+        $scope.removeSelectedUsers = function () {
+            var confirmation = $scope.getNumberOfSelectedUsers() + ' users will be removed, are you sure?';
+            if (window.confirm(confirmation)) {
+                var usersToRemove = $scope.users.filter(function(user) {
+                    return ($scope.selectedUsers.hasOwnProperty(user.id) && $scope.selectedUsers[user.id]);
+                })
+
+                $scope.isRemovingMultipleUsers = true;
+                $q.all(usersToRemove.map(function(user) {
+                    return $scope.removeUser(user);
+                })).then(function () {
+                    $scope.search();
+                }).catch(function (error) {
+                    $alert.error(error.error, $rootScope);
+                }).finally(function () {
+                    $scope.isRemovingMultipleUsers = false;
                 });
             }
         };
@@ -132,6 +198,18 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
                 }
             });
         };
+
+        /**
+         * handles checking for selected users
+         * @param {*} pageNumber
+         */
+        $scope.getNumberOfSelectedUsers = function() {
+            return Object.keys($scope.selectedUsers).reduce(function (num, userId) {
+                if ($scope.selectedUsers[userId])
+                    return num + 1;
+                return num;
+            }, 0);
+        }
 
         /**
          * handles change to a specific page.
@@ -165,7 +243,7 @@ module.controller('v5challenge.ManageUserController', ['$scope', '$rootScope', '
          * handles move to the last page.
          */
         $scope.getLastPage = function () {
-            return parseInt($scope.totalCount / 100) + 1;
+            return Math.ceil($scope.totalCount / $scope.filterCriteria.perPage);
         };
 
         // get resource roles on first load and then search
