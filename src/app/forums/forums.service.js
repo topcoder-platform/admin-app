@@ -23,7 +23,7 @@ angular.module('supportAdminApp')
 
       /**
        * helper function to process error.
-       * @param {Error} error 
+       * @param {Error} error
        */
       function _handleError(error) {
         var err;
@@ -406,6 +406,5 @@ angular.module('supportAdminApp')
           }
         );
       };
-
     }]);
 

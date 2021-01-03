@@ -168,8 +168,19 @@ module.controller('index.v5ChallengeForums', ['$scope', 'AuthService', 'Challang
       $scope.isLoading = true;
       var currentUser = $scope.users[userIndex];
       $challangeForumService.removeUserFromGroup(currentUser.userID, $scope.currentForum.groupID).then(function () {
-        $scope.getMembers($scope.currentForum.groupID);
-        $alert.success('Member removed success fully.', $scope);
+        $challangeForumService.getVanillaGroupMembers($scope.currentForum.groupID).then(
+          function (members) {
+            $scope.users = members;
+            $scope.isLoading = false;
+            $scope.hasMember = members.length > 0;
+            $alert.success('Member removed success fully.', $scope);
+          },
+          function (error) {
+            $scope.hasMember = false;
+            $alert.error(error.message, $scope);
+            $scope.isLoading = false;
+          }
+        );
       }).catch(function (error) {
         $alert.error(error.message, $scope);
       }).finally(function () {

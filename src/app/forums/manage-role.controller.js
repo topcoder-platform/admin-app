@@ -136,7 +136,7 @@ module.controller('forums.RolesManageDialogController', [
             });
         }
 
-        /** 
+        /**
          * Trigger initial data load.
          */
         $scope.loadData();
