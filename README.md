@@ -57,15 +57,11 @@ The following configuration parameters are available:
 
 ## Start the Application
 
-As application uses Topcoder authorization we have to run it on the one of allowed domains. For development purposes we can use `local.topcoder-dev.com:3000`. So before run we have to add into `hosts` file the line `127.0.0.1 local.topcoder-dev.com`. Be aware, that we also have to run on the port `3000` to be able to authorize when run locally.
-
 Simply execute the following command to start the app in development mode (with browsersync)
 
 ```
 npm install
-npm run build
 npm run dev
-```
 
 Application will be hosted and running at http://local.topcoder-dev.com:3000.
 
