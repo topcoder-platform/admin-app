@@ -1,0 +1,66 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" ng-click="close()"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="reg-dialog-label">Roles of {{user.name}}</h4>
+    </div>
+    <div class="modal-body" style="background-color: #fff;">
+        <div class="row">
+            <div class="col-md-12" ng-include src="'components/alert/alert.html'"></div>
+            <div class="text-center" ng-show="isLoading">
+                <img src="assets/images/loading.gif" />
+            </div>
+            <div ng-show="!isLoading" class="table-responsive">
+                <table class="table table-stripped" ng-show="userRoles.length">
+                    <thead>
+                        <tr>
+                            <th>Role ID</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="animate-repeat" ng-repeat="role in userRoles"
+                            ng-class="{'footable-odd': $index % 2}">
+                            <td>{{role.roleID}}
+                            <td>{{role.name}}</td>
+                            <td>
+                                <button data-ng-click='removeRole(role)' class="btn btn-sm btn-danger"
+                                    ng-disabled="role.isRemoving">
+                                    <strong>Remove</strong>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div ng-show="!userRoles.length">No roles<br /><br /></div>
+            </div>
+            <!-- table-responsive -->
+        </div>
+        <div class="row" ng-show="!isLoading">
+            <form name="addRoleForm" class="form-horizontal">
+                <div class="form-group" style="margin-bottom: 0; border-top: 1px solid #e5e5e5; padding-top: 30px;">
+                    <label for="roleToAdd" class="col-md-3 control-label">Add role: </label>
+                    <div class="col-md-7">
+                        <select id="roleToAdd" class="form-control" ng-model="roleToAdd" ng-required="true"
+                            ng-disabled="availableRoles.length < 1 || isAdding">
+                            <option value="">{{availableRoles.length < 1 ? 'No Roles' : '' }}</option>
+                            <option ng-repeat="role in availableRoles" ng-value="role.roleID">{{role.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary" ng-disabled="addRoleForm.$invalid || isAdding"
+                            ng-click="addRole()">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="close()" ng-disabed="form.isLoading">
+            Close
+        </button>
+    </div>
+</div>
