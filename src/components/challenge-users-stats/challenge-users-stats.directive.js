@@ -18,4 +18,4 @@
       }
     }
   }
-})()
+})(); // add ";" to avoid issues after building into one file

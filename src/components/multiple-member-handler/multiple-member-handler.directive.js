@@ -1,9 +1,9 @@
 (function() {
     'use strict'
-  
+
 
     angular.module('supportAdminApp').directive('multipleMemberHandler', ['UserService', multipleMemberHandler])
-  
+
     function multipleMemberHandler(UserService) {
       return {
         restrict: 'AE',
@@ -43,7 +43,7 @@
                     }
                 }
             }
-    
+
             /**
              * checks if the handle has been found in the backend
              * @param {string} handle
@@ -53,7 +53,7 @@
                     return handleFound.toLowerCase() === handle.toLowerCase();
                 }).length > 0;
             }
-    
+
             /**
              * handles removing a tag containing a handle previously selected
              * @param {string} handle
@@ -64,9 +64,9 @@
                 });
                 scope.handles = scope.handles.filter(function(handleFound) {
                     return !(handleFound === handle);
-                });            
+                });
             }
-    
+
             /**
              * adds a handle tag to the frontend, wether it has been found in the backend or not
              * @param {string} handleTag
@@ -79,8 +79,8 @@
                     return true;
                 }
                 return false;
-            } 
-    
+            }
+
             /**
              * used by typeahead when using autocomplete when adding a single user
              */
@@ -122,5 +122,4 @@
         }
       }
     }
-  })()
-  
+  })(); // add ";" to avoid issues after building into one file
