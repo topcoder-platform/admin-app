@@ -24,9 +24,7 @@
     "CONNECT_URL": "https://connect.topcoder-dev.com",
     "DIRECT_URL": "https://www.topcoder-dev.com/direct",
     "WORK_MANAGER_URL": "https://challenges.topcoder-dev.com",
-    "ONLINE_REVIEW_URL": "https://software.topcoder-dev.com/review",
-    "FORUMS_API_ENDPOINT": "https://vanilla.topcoder-dev.com/api/v2",
-    "FORUMS_API_TOKEN": "va.HNbQh52LEsnvn6KQgJCmS10Zv_-jAJ9M.xzFBcg.3yMpRqr"
+    "ONLINE_REVIEW_URL": "https://software.topcoder-dev.com/review"
   },
   "dev": {
     "API_URL": "https://api.topcoder-dev.com",
@@ -53,9 +51,7 @@
     "CONNECT_URL": "https://connect.topcoder-dev.com",
     "DIRECT_URL": "https://www.topcoder-dev.com/direct",
     "WORK_MANAGER_URL": "https://challenges.topcoder-dev.com",
-    "ONLINE_REVIEW_URL": "https://software.topcoder-dev.com/review",
-    "FORUMS_API_ENDPOINT": "https://vanilla.topcoder-dev.com/api/v2",
-    "FORUMS_API_TOKEN": "va.HNbQh52LEsnvn6KQgJCmS10Zv_-jAJ9M.xzFBcg.3yMpRqr"
+    "ONLINE_REVIEW_URL": "https://software.topcoder-dev.com/review"
   },
   "qa": {
     "API_URL": "https://api.topcoder-qa.com",
@@ -82,9 +78,7 @@
     "CONNECT_URL": "https://connect.topcoder-dev.com",
     "DIRECT_URL": "https://www.topcoder-dev.com/direct",
     "WORK_MANAGER_URL": "https://challenges.topcoder-dev.com",
-    "ONLINE_REVIEW_URL": "https://software.topcoder-dev.com/review",
-    "FORUMS_API_ENDPOINT": "https://vanilla.topcoder-dev.com/api/v2",
-    "FORUMS_API_TOKEN": "va.HNbQh52LEsnvn6KQgJCmS10Zv_-jAJ9M.xzFBcg.3yMpRqr"
+    "ONLINE_REVIEW_URL": "https://software.topcoder-dev.com/review"
   },
   "prod": {
     "API_URL": "https://api.topcoder.com",
@@ -102,8 +96,8 @@
     "GROUP_V5_API_URL": "https://api.topcoder.com/v5",
     "LOOKUP_V5_API_URL": "https://api.topcoder.com/v5",
     "TERMS_V5_API_URL": "https://api.topcoder.com/v5",
-    "CHALLENGES_V5_API_URL": "https://api.topcoder-dev.com/v5",
-    "RESOURCE_V5_API_URL": "https://api.topcoder-dev.com/v5",
+    "CHALLENGES_V5_API_URL": "https://api.topcoder.com/v5",
+    "RESOURCE_V5_API_URL": "https://api.topcoder.com/v5",
     "MEMBER_V5_API_URL": "https://api.topcoder.com/v5",
     "AGREE_FOR_DOCUSIGN_TEMPLATE": "1363a7ab-fd3e-4d7c-abbb-2f7440b8b355",
     "AGREE_ELECTRONICALLY": "2db6c920-4089-4755-9cd1-99b0df0af961",
@@ -111,8 +105,6 @@
     "CONNECT_URL": "https://connect.topcoder.com",
     "DIRECT_URL": "https://www.topcoder.com/direct",
     "WORK_MANAGER_URL": "https://challenges.topcoder.com",
-    "ONLINE_REVIEW_URL": "https://software.topcoder.com/review",
-    "FORUMS_API_ENDPOINT": "https://vanilla.topcoder-dev.com/api/v2",
-    "FORUMS_API_TOKEN": "va.HNbQh52LEsnvn6KQgJCmS10Zv_-jAJ9M.xzFBcg.3yMpRqr"
+    "ONLINE_REVIEW_URL": "https://software.topcoder.com/review"
   }
 }
