@@ -4,7 +4,7 @@ angular.module('supportAdminApp')
   .factory('SSOService', ['$log', '$q','$http', 'API_URL',
     function ($log, $q, $http, API_URL) {
     // local dev
-    // var API_URL = 'http://local.topcoder-dev.com:8080';
+    // var API_URL = 'http://localhost:8080';
       return ({
         /* add sso user */
         addSSOUser: function(jsonInput, activate, showFullResponse) {

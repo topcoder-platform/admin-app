@@ -43,6 +43,7 @@ The following configuration parameters are available:
 | TERMS_V5_API_URL            | URL of the v5 Terms API      |
 | CHALLENGES_V5_API_URL       | URL of the v5 Challenges API    |
 | RESOURCE_V5_API_URL         | URL of the v5 Resources API    |
+| MEMBER_V5_API_URL           | URL of the v5 Member API    |
 | AGREE_FOR_DOCUSIGN_TEMPLATE            | UUID from Database of the `"DocuSign Template"` Agreeable type      |
 | AGREE_ELECTRONICALLY | UUID from Database of the `Electronically` Agreeable Type  |
 | DEFAULT_TERMS_TYPE_ID | The default terms type id    |
@@ -54,15 +55,12 @@ The following configuration parameters are available:
 
 ## Start the Application
 
-As application uses Topcoder authorization we have to run it on the one of allowed domains. For development purposes we can use `local.topcoder-dev.com:3000`. So before run we have to add into `hosts` file the line `127.0.0.1 local.topcoder-dev.com`. Be aware, that we also have to run on the port `3000` to be able to authorize when run locally.
-
 Simply execute the following command to start the app in development mode (with browsersync)
 ```
 npm install
-npm run build
 npm run dev
 ```
-Application will be hosted and running at http://local.topcoder-dev.com:3000.
+Application will be hosted and running at http://localhost:3000.
 
 ## Execute E2E Tests
 

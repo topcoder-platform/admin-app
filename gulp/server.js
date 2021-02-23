@@ -28,12 +28,11 @@ function browserSyncInit(baseDir, files, browser) {
       routes: routes
     },
     browser: browser,
-    host: 'local.topcoder-dev.com',
-    open: 'external'
+    host: 'localhost'
   });
 }
 
-gulp.task('serve', ['watch'], function () {
+gulp.task('serve', ['ng-config', 'watch'], function () {
   browserSyncInit([
     paths.tmp + '/serve',
     paths.src

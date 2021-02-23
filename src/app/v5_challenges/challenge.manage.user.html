@@ -22,6 +22,33 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col col-md-12 col-lg-12">
+                                <form role="form" name="searchFrom" novalidate="novalidate" autocomplete="off">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label for="search-condition-handle">Role</label>
+                                            <div class="row">
+                                                <div class="col-md-4 ">
+                                                    <select class="form-control m-b" ng-model="filterCriteria.roleId"
+                                                        ng-options="role.id as role.name for role in roles"
+                                                        ng-disabled="isLoading">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 no-padding-left">
+                                                    <button ng-click="filterCriteria.page=1;search();" ng-disabled="isLoading" type="submit"
+                                                    class="btn btn-sm btn-primary pull-left">
+                                                        <strong>Filter</strong>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <div class="ibox-content">
                         <div class="text-center" ng-show="isLoading">
                             <img src="assets/images/loading.gif" />
@@ -31,8 +58,10 @@
                                 data-page-size="100">
                                 <thead>
                                     <tr>
+                                        <th><input type="checkbox" class="form-check-input" ng-model="selectAll" ng-change="toggleSelectall()"></th>
                                         <th data-sort-ignore="true">Handle</th>
                                         <th data-sort-ignore="true">Role</th>
+                                        <th data-sort-ignore="true">E-Mail</th>
                                         <th data-sort-ignore="true">Registered</th>
                                         <th data-sort-ignore="true">&nbsp;</th>
                                     </tr>
@@ -40,6 +69,7 @@
 
                                 <tbody>
                                     <tr class="animate-repeat" ng-repeat="user in users" id="{{user.id}}">
+                                        <td><input type="checkbox" class="form-check-input" ng-model="selectedUsers[user.id]" value="{{user.id}}" ng-change="toggleSelectSingleUser()"></td>
                                         <td>{{user.memberHandle}}</td>
                                         <td ng-show="roles.length==0">
                                             loading..
@@ -47,12 +77,18 @@
                                         <td ng-show="roles.length!=0">
                                             {{getRole(user.roleId)}}
                                         </td>
+                                        <td ng-show="usersEmails.length==0">
+                                            loading..
+                                        </td>
+                                        <td ng-show="usersEmails.length!=0">
+                                            {{getEmail(user.memberId)}}
+                                        </td>
                                         <td>
                                             {{user.created}}
                                         </td>
                                         <td>
-                                            <button data-ng-click='removeUser(user)' class="btn btn-sm btn-danger"
-                                                ng-show="!user.isRemoving">
+                                            <button data-ng-click='removeSingleUser(user)' class="btn btn-sm btn-danger"
+                                                ng-show="!user.isRemoving" ng-disabled="isRemovingMultipleUsers">
                                                 <strong>Remove</strong>
                                             </button>
                                             <img src="assets/images/loading.gif" ng-show="user.isRemoving"
@@ -89,6 +125,12 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            <button data-ng-click='removeSelectedUsers()' class="btn btn-sm btn-danger"
+                                ng-show="!isRemovingMultipleUsers"
+                                ng-disabled="isRemovingMultipleUsers || getNumberOfSelectedUsers() < 1">
+                                <strong>Remove Selected</strong>
+                            </button>
+                            <img src="assets/images/loading.gif" ng-show="isRemovingMultipleUsers" style="height: 25px;" />
                             <div ng-show="!users.length && !isLoading">No users</div><br />
                         </div>
                         <!-- table-responsive -->
