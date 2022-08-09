@@ -486,6 +486,12 @@ angular.module('supportAdminApp', [
           title: null
         },
         resolve: { auth: authenticate }
+      })
+      .state('index.settings', {
+        url: '/settings',
+        templateUrl: 'app/settings/settings.html',
+        data: { pageTitle: 'Settings' },
+        resolve: { auth: authenticate }
       });
 
     $urlRouterProvider.otherwise('/index/main');
