@@ -74,7 +74,7 @@ jobs:
     steps: *build_steps
             
   deploy_prod:
-    <<: *defaults
+    <<: *deploy_defaults
     environment:
       BUILD_ENV: "prod"
       DEPLOY_ENV: "PROD"
@@ -82,7 +82,7 @@ jobs:
     steps: *deploy_steps
 
   deploy_dev:
-    <<: *defaults
+    <<: *deploy_defaults
     environment:
       BUILD_ENV: "dev"    
       DEPLOY_ENV: "DEV" 
