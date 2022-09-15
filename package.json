@@ -20,7 +20,7 @@
     "auth0-angular": "~4.0.4",
     "auth0-js": "^9.19.0",
     "auth0-lock": "~11.21.0",
-    "bootstrap": "~3.3.5",
+    "bootstrap": "~3.4.1",
     "bootstrap-ui-datetime-picker": "^2.4.0",
     "font-awesome": "~4.3.0",
     "footable": "~2.0.3",
