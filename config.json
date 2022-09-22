@@ -1,7 +1,7 @@
 {
   "local": {
     "API_URL": "https://api.topcoder-dev.com",
-    "ADMIN_TOOL_URL": "https://api.topcoder-dev.com/v2",
+    "ADMIN_TOOL_URL": "https://api.topcoder-dev.com/v4",
     "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "http://localhost:5000",
@@ -28,7 +28,7 @@
   },
   "dev": {
     "API_URL": "https://api.topcoder-dev.com",
-    "ADMIN_TOOL_URL": "https://api.topcoder-dev.com/v2",
+    "ADMIN_TOOL_URL": "https://api.topcoder-dev.com/v4",
     "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts-auth0.topcoder-dev.com",
@@ -55,7 +55,7 @@
   },
   "qa": {
     "API_URL": "https://api.topcoder-qa.com",
-    "ADMIN_TOOL_URL": "https://api.topcoder-qa.com/v2",
+    "ADMIN_TOOL_URL": "https://api.topcoder-qa.com/v4",
     "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts.topcoder-qa.com/member",
@@ -82,7 +82,7 @@
   },
   "prod": {
     "API_URL": "https://api.topcoder.com",
-    "ADMIN_TOOL_URL": "https://api.topcoder.com/v2",
+    "ADMIN_TOOL_URL": "https://api.topcoder.com/v4",
     "API_VERSION_PATH": "v3",
     "COOKIES_SECURE": false,
     "AUTH_URL": "https://accounts-auth0.topcoder.com",
