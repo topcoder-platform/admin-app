@@ -114,10 +114,6 @@ module.controller('users.UserSearchController', [
       $scope.activate = function(index) {
         $alert.clear();
         var user = $scope.users[index];
-        if(!user.credential || !user.credential.activationCode) {
-          $alert.error('The user \'' + user.handle + '\' is invalid. Unable to activate it.', $scope);
-          return;
-        };
         
         var confirmation = 'Are you sure you want to activate user \'' + user.handle + '\'?';
         if(!user.emailActive) {
