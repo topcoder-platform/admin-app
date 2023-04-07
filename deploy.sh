@@ -8,4 +8,9 @@ BUCKET_URL=$1
 #AWS_SECRET_ACCESS_KEY=$(eval "echo \$${ENV}_AWS_SECRET_ACCESS_KEY")
 
 # aws s3 sync dist s3://${BUCKET_URL} --acl public-read --delete
-AWS_BUCKET=$BUCKET_URL ./node_modules/.bin/gulp publish
+#AWS_BUCKET=$BUCKET_URL ./node_modules/.bin/gulp publish
+
+AWS_S3_BUCKET=$1
+AWS_S3_SOURCE_SYNC_PATH="./dist"
+
+./master_deploy.sh -d CFRONT -e $DEPLOY_ENV -c true
