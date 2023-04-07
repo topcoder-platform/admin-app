@@ -14,7 +14,7 @@ install_dependency: &install_dependency
 install_deploysuite: &install_deploysuite
   name: Installation of install_deploysuite.
   command: |
-    git clone --branch v1.4 https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
+    git clone --branch v1.4.14 https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
     cp ./../buildscript/master_deploy.sh .
     cp ./../buildscript/buildenv.sh .
     cp ./../buildscript/awsconfiguration.sh .
@@ -57,7 +57,13 @@ jobs:
   build_and_test:
     <<: *defaults  
     steps: *build_steps
-            
+
+  build_and_qa:
+    <<: *defaults
+    environment:
+      BUILD_ENV: "qa"    
+    steps: *build_steps
+
   build_and_prod:
     <<: *defaults
     environment:
@@ -70,6 +76,14 @@ jobs:
       BUILD_ENV: "prod"
       DEPLOY_ENV: "PROD"
       BUCKET_NAME: "admin.topcoder.com"    
+    steps: *deploy_steps
+
+  deploy_qa:
+    <<: *defaults
+    environment:
+      BUILD_ENV: "qa"
+      DEPLOY_ENV: "QA"
+      BUCKET_NAME: "admin.topcoder-qa.com"    
     steps: *deploy_steps
 
   deploy_dev:
@@ -87,7 +101,11 @@ workflows:
       - build_and_test:
           filters:
             branches:
-              only: dev      
+              only: dev 
+      - build_and_qa:
+          filters:
+            branches:
+              only: qa                     
       - build_and_prod:
           filters:
             branches:
@@ -99,6 +117,13 @@ workflows:
               only: dev
           requires:
             - build_and_test
+      - deploy_qa:
+          context : org-global
+          filters:
+            branches:
+              only: qa
+          requires:
+            - build_and_qa           
       - deploy_prod:
           context : org-global
           filters:
