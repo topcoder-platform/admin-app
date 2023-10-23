@@ -51,6 +51,19 @@ angular.module('supportAdminApp')
         return API_URL + '/' + API_VERSION_PATH;
       }
 
+      function normalizeSavePayload(payload) {
+        delete payload.challengeBudgets;
+        delete payload.availableBudget;
+        payload.clientId = payload.client.id;
+        delete payload.client;
+        if (payload.startDate && payload.startDate.length) {
+          payload.startDate = payload.startDate.substring(0,16) + 'Z';
+        }
+        if (payload.endDate && payload.endDate.length) {
+          payload.endDate = payload.endDate.substring(0,16) + 'Z';
+        }
+      }
+
       /**
        * Search billing accounts
        */
@@ -87,10 +100,7 @@ angular.module('supportAdminApp')
 
       BillingAccountService.createBillingAccount = function (entity) {
         var request = angular.copy(entity);
-        request.startDate = request.startDate.substring(0,16) + 'Z';
-        request.endDate = request.endDate.substring(0,16) + 'Z';
-        request.clientId = request.client.id;
-        delete request.client;
+        normalizeSavePayload(request);
         request.salesTax = 0;
         if (request.paymentTerms) {
           request.paymentTerms = {
@@ -120,8 +130,7 @@ angular.module('supportAdminApp')
         entity.paymentTerms = {
           id: 1
         };
-        entity.clientId = entity.client.id;
-        delete entity.client;
+        normalizeSavePayload(entity);
         var deferred = $q.defer();
         $http({
           method: 'PATCH',
