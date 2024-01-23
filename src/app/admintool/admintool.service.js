@@ -34,7 +34,7 @@ angular.module('supportAdminApp')
                 error: data.error
               });
             } else {
-              return data.result.content;
+              return data;
             }
           },
           function (error) {
@@ -234,7 +234,7 @@ angular.module('supportAdminApp')
       function findReviewBoardProjectCategories() {
         var request = $http({
           method: 'GET',
-          url: ADMIN_TOOL_URL + '/challenge-types/develop-design',
+          url: ADMIN_TOOL_URL + '/challenge-types/',
           headers: {
             "Content-Type": "application/json",
           }

@@ -1,7 +1,6 @@
 dist
 node_modules
 bower_components
-src/app/config.js
 .tmp
 .idea
 .awspublish*
