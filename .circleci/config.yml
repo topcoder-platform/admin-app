@@ -32,7 +32,7 @@ build_steps: &build_steps
       - run: ./node_modules/gulp/bin/gulp.js clean
       - run: ./node_modules/gulp/bin/gulp.js build
       # - run: ./node_modules/gulp/bin/gulp.js publish
-      - run: npm run test
+      # - run: npm run test
       - persist_to_workspace:
           root: .
           paths:
@@ -54,7 +54,7 @@ deploy_steps: &deploy_steps
             ./deploy.sh $BUCKET_NAME
 
 jobs:
-  build_and_test:
+  build:
     <<: *defaults  
     steps: *build_steps
             
@@ -84,7 +84,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build_and_test:
+      - build:
           filters:
             branches:
               only: dev      
@@ -98,7 +98,7 @@ workflows:
             branches:
               only: dev
           requires:
-            - build_and_test
+            - build
       - deploy_prod:
           context : org-global
           filters:

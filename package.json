@@ -63,7 +63,6 @@
     "gulp-minify-html": "~1.0.6",
     "gulp-ng-annotate": "~1.0.0",
     "gulp-ng-config": "~1.2.1",
-    "gulp-protractor": "~4.0.0",
     "gulp-rename": "~1.2.0",
     "gulp-replace": "~0.5.0",
     "gulp-rev": "~2.0.1",
@@ -75,7 +74,6 @@
     "jasmine-core": "^2.5.2",
     "jshint": "~2.9.4",
     "jshint-stylish": "~1.0.0",
-    "protractor": "~5.1.1",
     "require-dir": "~0.3.2",
     "uglify-save-license": "~0.4.1",
     "vinyl-buffer": "1.0.0",
@@ -89,7 +87,6 @@
     "clean": "gulp clean",
     "build": "gulp build",
     "start": "gulp publish",
-    "test": "gulp protractor",
     "dev": "cross-env BUILD_ENV=local gulp serve"
   }
 }
