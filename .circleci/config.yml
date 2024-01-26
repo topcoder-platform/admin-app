@@ -6,10 +6,11 @@ defaults: &defaults
 install_dependency: &install_dependency
   name: Installation of build and deployment dependencies.
   command: |
-    sudo apt update
-    sudo apt install jq python3-pip --yes
-    sudo (yes || true) | pip3 install awscli --upgrade 
-    # sudo pip3 install docker-compose
+    apk update
+    apk add --no-cache bash openssl curl
+    apk upgrade
+    apk add --no-cache jq py-pip sudo
+    sudo pip install awscli --upgrade
     
 install_deploysuite: &install_deploysuite
   name: Installation of install_deploysuite.
