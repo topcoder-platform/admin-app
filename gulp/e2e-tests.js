@@ -9,12 +9,7 @@ var browserSync = require('browser-sync');
 var paths = gulp.paths;
 
 // Downloads the selenium webdriver
-gulp.task('webdriver-update', $.protractor.webdriver_update);
-
-gulp.task('webdriver-standalone', $.protractor.webdriver_standalone);
-
 function runProtractor (done) {
-
   gulp.src(paths.e2e + '/**/*.js')
     .pipe($.protractor.protractor({
       configFile: 'protractor.conf.js',
@@ -29,7 +24,3 @@ function runProtractor (done) {
       done();
     });
 }
-
-gulp.task('protractor', ['protractor:src']);
-gulp.task('protractor:src', ['serve:e2e', 'webdriver-update'], runProtractor);
-gulp.task('protractor:dist', ['serve:e2e-dist', 'webdriver-update'], runProtractor);

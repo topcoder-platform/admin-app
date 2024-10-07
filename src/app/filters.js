@@ -21,9 +21,9 @@ angular.module('supportAdminApp')
   // The resulting link will point to the public member profile,
   // use 'tcPrivateProfileLink' instead to link to the private profile.
   .filter('tcProfileLink', function () {
-    return function (id) {
-      if (id && id !== 'unassigned')
-        return 'http://www.topcoder.com/tc?module=MemberProfile&cr=' + id;
+    return function (handle) {
+      if (handle)
+        return 'https://profiles.topcoder.com/' + handle;
       return 'javascript:;';
     };
   })
@@ -31,7 +31,7 @@ angular.module('supportAdminApp')
   .filter('tcPrivateProfileLink', function () {
     return function (handle) {
       if (handle)
-        return 'http://www.topcoder.com/tc?module=LegacyReport&t=profile&ha=' + handle;
+        return 'https://profiles.topcoder.com/' + handle;
       return 'javascript:;';
     };
   })

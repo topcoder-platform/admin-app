@@ -75,7 +75,7 @@ angular.module('supportAdminApp')
             window.addEventListener('message', receiveMessage)
 
             var payload = $.extend({}, { type: REQUEST }, params)
-
+            console.log("Payload: " + JSON.stringify(payload) + " " + url);
             connectorIFrame.contentWindow.postMessage(payload, url)
           })
         }
@@ -131,9 +131,8 @@ angular.module('supportAdminApp')
        */
       AuthService.retriveFreshToken = function() {
         return proxyCall(GET_FRESH_TOKEN_REQUEST, GET_FRESH_TOKEN_SUCCESS, GET_FRESH_TOKEN_FAILURE)
-          .then(function(data) {
+          .then(function (data) {
               var user = jwtHelper.decodeToken(data.token);
-
               if ($.inArray('administrator', user && user.roles) < 0) {
                 return $q.reject(AuthService.ERROR.NO_PERMISSIONS);
               } else {
@@ -192,7 +191,7 @@ angular.module('supportAdminApp')
           if (AuthService.isLoggedIn()) {
             return $q.resolve();
           } else {
-            if (AuthService.getTokenV2()) {
+            if (AuthService.getTokenV3()) {
               return AuthService.retriveFreshToken().catch(function(err) {
                 // if error about permission denied we will pass this error through
                 // otherwise got to login page
@@ -222,9 +221,17 @@ angular.module('supportAdminApp')
        * Save token V3 to cookies
        */
       AuthService.setTokenV3 = function(token) {
-        return $cookies.put(JWT_V3_NAME, token, {
-          secure: COOKIES_SECURE,
-        });
+        $cookies.remove(JWT_V2_NAME);
+        return $cookies.set(JWT_V3_NAME, token);
+      }
+
+      /**
+       * Remove the v2 token once we have the v3 one to avoid
+       * large Cookie header that breaks APIs
+       */
+      AuthService.removeV2Token = function(){
+        console.log("Removing v2 token");
+        $cookies.remove(JWT_V2_NAME);
       }
 
       /**

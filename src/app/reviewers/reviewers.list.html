@@ -1,0 +1,80 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-show="authorized()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!isLoading" class="table-responsive">
+                        <table class="footable table table-stripped toggle-arrow-tiny" ng-show="reviewSummaries.length"
+                            data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th data-type="numeric">Challenge</th>
+                                    <th>ID</th>
+                                    <th>Status</th>
+                                    <th>Submission End Date</th>
+                                    <th>Submissions</th>
+                                    <th>Reviewer Spots</th>
+                                    <th>Approved</th>
+                                    <th>Pending</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="reviewSummary in reviewSummaries">
+                                    <td>
+                                        <a ng-href="{{ TOPCODER_URL }}/challenges/{{ reviewSummary.legacyChallengeId }}" target="_blank">
+                                            {{ reviewSummary.challengeName }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a ng-href="{{ ONLINE_REVIEW_URL }}/actions/ViewProjectDetails?pid={{ reviewSummary.legacyChallengeId }}" target="_blank">
+                                            {{ reviewSummary.legacyChallengeId }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ reviewSummary.challengeStatus }}
+                                    </td>
+                                    <td>
+                                        {{ reviewSummary.submissionEndDate }}
+                                    </td>
+                                    <td>
+                                        {{ reviewSummary.numberOfSubmissions }}
+                                    </td>
+                                    <td>
+                                        {{ reviewSummary.numberOfReviewerSpots }}
+                                    </td>
+                                    <td>
+                                        {{ reviewSummary.numberOfApprovedApplications }}
+                                    </td>
+                                    <td>
+                                        <b>{{ reviewSummary.numberOfPendingApplications }}</b>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td class="btn-toolbar">
+                                       <a ui-sref="index.manageReviewers({id: reviewSummary.legacyChallengeId})" class="btn btn-sm btn-info">Manage Reviewers</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div ng-show="!reviewSummaries.length">No active challenges found</div>
+                    </div>
+                    <!-- table-responsive -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

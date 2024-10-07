@@ -37,7 +37,7 @@
                                     <div class="col-md-4" ng-if="formSearch.isReviewer()">
                                         <select id="search-condition-category" class="form-control m-b"
                                                 ng-model="formSearch.categoryId"
-                                                ng-options="projectCategory.challengeCategoryId as projectCategory.name for projectCategory in reviewBoardProjectCategories"
+                                                ng-options="projectCategory.name as projectCategory.name for projectCategory in reviewBoardProjectCategories"
                                                 ng-disabled="formSearch.isLoading"
                                                 ng-change="changeRole()">
                                         </select>

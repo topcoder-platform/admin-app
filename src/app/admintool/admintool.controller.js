@@ -83,9 +83,6 @@ module.controller('admintool.AdminToolController', [
 
     $scope.formSearch.setLoading(true);
     $adminToolService.findReviewBoardProjectCategories().then(function (projectCategories) {
-        projectCategories = projectCategories.filter(function (projectCategory) {
-          return $const.ExcludeCategories.indexOf(angular.lowercase(projectCategory.name)) === -1;
-        });
         projectCategories = projectCategories.sort(function (p1, p2) {
           return p1.name.localeCompare(p2.name);
         });

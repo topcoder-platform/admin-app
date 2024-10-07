@@ -75,6 +75,26 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'User Management' },
         resolve: { auth: authenticate }
       })
+      .state('index.reviewers', {
+        abstract: true,
+        url: '/reviewers',
+        templateUrl: 'app/reviewers/reviewers.html',
+        data: { pageTitle: 'Reviewers' },
+        controller: 'ReviewerController'
+      })
+      .state('index.reviewers.list', {
+        url: '/list',
+        templateUrl: 'app/reviewers/reviewers.list.html',
+        data: { pageTitle: 'Reviewer Management' },
+        controller: 'ReviewerListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.manageReviewers', {
+        url: '/manage-reviewers/:id',
+        templateUrl: 'app/reviewers/reviewers.manage.html',
+        data: { pageTitle: 'Manage Reviewers' },
+        resolve: { auth: authenticate }
+      })
       .state('index.admintool', {
         url: '/admintool',
         templateUrl: 'app/admintool/admintool.html',
@@ -111,83 +131,6 @@ angular.module('supportAdminApp', [
         templateUrl: 'app/submissions/submissions.new.html',
         controller: 'NewSubmissionCtrl',
         data: { pageTitle: 'New Submission' },
-        resolve: { auth: authenticate }
-      })
-      .state('index.tags', {
-        abstract: true,
-        url: '/tags',
-        templateUrl: 'app/tags/tags.html',
-        data: { pageTitle: 'Tags' },
-        controller: function ($scope, $state, TagService) {
-          $scope.$state = $state;
-          $scope.tagDomains = [{
-            value: 'skills',
-            name: 'Skills'
-          }, {
-            value: 'events',
-            name: 'Events'
-          }, {
-            value: 'technology',
-            name: 'Technology'
-          }, {
-            value: 'platform',
-            name: 'Platform'
-          }];
-
-          $scope.tagCategories = [{
-            value: 'data_science',
-            name: 'Data Science'
-          }, {
-            value: 'develop',
-            name: 'Develop'
-          },
-          {
-            value: 'design',
-            name: 'Design'
-          }];
-
-          $scope.tagStatuses = [{
-            value: 'approved',
-            name: 'Approved'
-          }, {
-            value: 'pending',
-            name: 'Pending'
-          }];
-
-          TagService.getTechnologyStatuses().then(function (techStatuses) {
-            _.forEach(techStatuses, function (status) {
-              status.value = _.lowerCase(status.description);
-              status.name = status.description;
-            });
-            $scope.techStatuses = techStatuses;
-          });
-          $scope.getTagStatuses = function (domainType) {
-            if (domainType === 'technology') {
-              return $scope.techStatuses;
-            } else {
-              return $scope.tagStatuses;
-            }
-          }
-        }
-      })
-      .state('index.tags.list', {
-        url: '/list',
-        templateUrl: 'app/tags/tags.list.html',
-        controller: 'TagListCtrl',
-        resolve: { auth: authenticate }
-      })
-      .state('index.tags.new', {
-        url: '/new',
-        templateUrl: 'app/tags/tags.new.html',
-        controller: 'NewTagCtrl',
-        data: { pageTitle: 'New Tag' },
-        resolve: { auth: authenticate }
-      })
-      .state('index.tags.edit', {
-        url: '/edit/:tagId',
-        templateUrl: 'app/tags/tags.edit.html',
-        controller: 'EditTagCtrl',
-        data: { pageTitle: 'Edit Tag' },
         resolve: { auth: authenticate }
       })
       .state('index.work', {

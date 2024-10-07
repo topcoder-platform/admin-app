@@ -21,17 +21,13 @@ angular.module('supportAdminApp')
       /**
        * helper function to process http request
        */
-      var _processRequest = function (request, key) {
+      var _processRequest = function (request) {
         return request.then(
           function (response) {
-            var data = response.data && key && response.data[key] ? response.data[key] : response.data;
-            // only two requests to get review board categories actually
-            if (Array.isArray(response) && response.length === 2 && Array.isArray(response[0].data) && Array.isArray(response[1].data)) {
-              data = response[0].data.concat(response[1].data);
-            }
-            if (data && data.success === false) {
+            var data = response.data;
+            if (data && data.result && data.result.success === false) {
               return $q.reject({
-                error: data.message || 'Unknown server error'
+                error: data.result.message || 'Unknown server error'
               });
             } else if (data && data.error) {
               return $q.reject({
@@ -68,12 +64,12 @@ angular.module('supportAdminApp')
       function findAdmins() {
         var request = $http({
           method: 'GET',
-          url: ADMIN_TOOL_URL + '/admin/admins',
+          url: ADMIN_TOOL_URL + '/admins',
           headers: {
             "Content-Type": "application/json",
           }
         });
-        return _processRequest(request, 'allAdmins');
+        return _processRequest(request);
       }
 
       /**
@@ -82,7 +78,7 @@ angular.module('supportAdminApp')
       function createAdmin(data) {
         var request = $http({
           method: 'POST',
-          url: ADMIN_TOOL_URL + '/admin/admins',
+          url: ADMIN_TOOL_URL + '/admins',
           headers: {
             "Content-Type": "application/json",
           },
@@ -97,7 +93,7 @@ angular.module('supportAdminApp')
       function deleteAdmin(data) {
         var request = $http({
           method: "DELETE",
-          url: ADMIN_TOOL_URL + "/admin/admins",
+          url: ADMIN_TOOL_URL + "/admins",
           headers: {
             "Content-Type": "application/json",
           },
@@ -113,12 +109,12 @@ angular.module('supportAdminApp')
       function findCopilots() {
         var request = $http({
           method: 'GET',
-          url: ADMIN_TOOL_URL + '/admin/copilots',
+          url: ADMIN_TOOL_URL + '/copilots',
           headers: {
             "Content-Type": "application/json",
           }
         });
-        return _processRequest(request, 'allCopilots');
+        return _processRequest(request);
       }
 
       /**
@@ -127,7 +123,7 @@ angular.module('supportAdminApp')
       function createCopilot(data) {
         var request = $http({
           method: 'POST',
-          url: ADMIN_TOOL_URL + '/admin/copilots',
+          url: ADMIN_TOOL_URL + '/copilots',
           headers: {
             "Content-Type": "application/json",
           },
@@ -142,7 +138,7 @@ angular.module('supportAdminApp')
       function deleteCopilot(data) {
         var request = $http({
           method: "DELETE",
-          url: ADMIN_TOOL_URL + "/admin/copilots",
+          url: ADMIN_TOOL_URL + "/copilots",
           headers: {
             "Content-Type": "application/json",
           },
@@ -167,7 +163,7 @@ angular.module('supportAdminApp')
       function findReviewers(categoryId) {
         var request = $http({
           method: 'GET',
-          url: ADMIN_TOOL_URL + '/admin/reviewers',
+          url: ADMIN_TOOL_URL + '/reviewers',
           params: {
             categoryId: categoryId
           },
@@ -175,7 +171,7 @@ angular.module('supportAdminApp')
             "Content-Type": "application/json",
           }
         });
-        return _processRequest(request, 'reviewers');
+        return _processRequest(request);
       }
 
 
@@ -185,7 +181,7 @@ angular.module('supportAdminApp')
       function createReviewer(data) {
         var request = $http({
           method: 'POST',
-          url: ADMIN_TOOL_URL + '/admin/reviewers',
+          url: ADMIN_TOOL_URL + '/reviewers',
           headers: {
             "Content-Type": "application/json",
           },
@@ -200,7 +196,7 @@ angular.module('supportAdminApp')
       function deleteReviewer(data) {
         var request = $http({
           method: "DELETE",
-          url: ADMIN_TOOL_URL + "/admin/reviewers",
+          url: ADMIN_TOOL_URL + "/reviewers",
           headers: {
             "Content-Type": "application/json",
           },
@@ -236,19 +232,13 @@ angular.module('supportAdminApp')
        * Find review board project categories
        */
       function findReviewBoardProjectCategories() {
-        var request = $q.all([$http({
+        var request = $http({
           method: 'GET',
-          url: ADMIN_TOOL_URL + '/develop/challengetypes',
+          url: ADMIN_TOOL_URL + '/challenge-types/',
           headers: {
             "Content-Type": "application/json",
           }
-        }), $http({
-          method: 'GET',
-          url: ADMIN_TOOL_URL + '/design/challengetypes',
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })]);
+        });
         return _processRequest(request);
       }
 
