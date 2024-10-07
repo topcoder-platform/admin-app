@@ -39,6 +39,7 @@ The following configuration parameters are available:
 | SPIGIT_API_URL             | SPIGIT api base url       |
 | SPIGIT_API_VERSION_PATH            | SPIGIT api version path     |
 | GROUP_V5_API_URL            | URL of the v5 Groups API      |
+| REVIEW_SERVICE_V5_API_URL            | URL of the v3 ap-review-microservice API      |
 | LOOKUP_V5_API_URL            | URL of the v5 Devices API      |
 | TERMS_V5_API_URL            | URL of the v5 Terms API      |
 | CHALLENGES_V5_API_URL       | URL of the v5 Challenges API    |

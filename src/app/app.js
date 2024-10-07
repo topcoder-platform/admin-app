@@ -75,6 +75,26 @@ angular.module('supportAdminApp', [
         data: { pageTitle: 'User Management' },
         resolve: { auth: authenticate }
       })
+      .state('index.reviewers', {
+        abstract: true,
+        url: '/reviewers',
+        templateUrl: 'app/reviewers/reviewers.html',
+        data: { pageTitle: 'Reviewers' },
+        controller: 'ReviewerController'
+      })
+      .state('index.reviewers.list', {
+        url: '/list',
+        templateUrl: 'app/reviewers/reviewers.list.html',
+        data: { pageTitle: 'Reviewer Management' },
+        controller: 'ReviewerListController',
+        resolve: { auth: authenticate }
+      })
+      .state('index.manageReviewers', {
+        url: '/manage-reviewers/:id',
+        templateUrl: 'app/reviewers/reviewers.manage.html',
+        data: { pageTitle: 'Manage Reviewers' },
+        resolve: { auth: authenticate }
+      })
       .state('index.admintool', {
         url: '/admintool',
         templateUrl: 'app/admintool/admintool.html',

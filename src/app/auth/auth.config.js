@@ -14,17 +14,7 @@ angular.module('supportAdminApp')
     jwtInterceptorProvider.tokenGetter = [
               'AuthService', '$http', 'API_URL', 'ADMIN_TOOL_URL', 'config',  'SPIGIT_API_URL',
       function($authService, $http, API_URL, ADMIN_TOOL_URL, config, SPIGIT_API_URL) {
-        // token V2 for API V2
-        if (config.url.indexOf(ADMIN_TOOL_URL) > -1) {
-          if ($authService.getTokenV2()) {
-            return $authService.getTokenV2();
-          } else {
-            $authService.login();
-          }
-
-        // token V3 for API V3
-        } else {
-          if (config.url.indexOf(SPIGIT_API_URL) === -1) {
+        if (config.url.indexOf(SPIGIT_API_URL) === -1) {
 
             var currentToken = $authService.getTokenV3();
 
@@ -34,6 +24,7 @@ angular.module('supportAdminApp')
               newToken = (ref = res.data) != null ? (ref1 = ref.result) != null ? (ref2 = ref1.content) != null ? ref2.token : void 0 : void 0 : void 0;
 
               $authService.setTokenV3(newToken);
+              $authService.removeV2Token();
 
               return newToken;
             };
@@ -54,15 +45,17 @@ angular.module('supportAdminApp')
                   .then(handleRefreshResponse)["finally"](refreshingTokenComplete)
                   .catch(function () {
                     $authService.login();
+                    $authService.removeV2Token();
+
                   });
               }
               return refreshingToken;
             } else {
+              $authService.removeV2Token();
               return currentToken;
             }
           }
-        }
-      }];
+        }];
 
     return $httpProvider.interceptors.push('jwtInterceptor');
   });

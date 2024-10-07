@@ -1,0 +1,95 @@
+
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="ReviewersManageController" ng-show="authorized()">
+    <div class="col-lg-10">
+        <h2>{{pageTitle}} For <a ng-href="{{ONLINE_REVIEW_URL}}/actions/ViewProjectDetails?pid={{id}}" target="_blank">{{id}}</a></h2>
+    </div>
+    <!-- add member button row -->
+    <div class="row">
+        <div class="col col-md-12 col-lg-12">
+            <a class="btn btn-primary pull-right m-b" style="margin-left: 20px" back-button>
+                <strong>Back</strong>
+            </a>
+            <button data-ng-click='rejectPending' class="btn btn-danger pull-right m-b">
+                <i class="fa fa-times"></i> Reject Pending
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="text-center" ng-show="isLoading">
+                        <img src="assets/images/loading.gif" />
+                    </div>
+                    <div ng-show="!isLoading" class="table-responsive">
+                        <table class="footable table table-stripped toggle-arrow-tiny" ng-show="reviewApplications.length"
+                            data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th>Reviewer</th>
+                                    <th>Email</th>
+                                    <th>Application Status</th>
+                                    <th>Date Applied</th>
+                                    <th data-type="numeric">Last 60 Days</th>
+                                    <th data-type="numeric">Current Spots</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="animate-repeat" ng-repeat="reviewApplication in reviewApplications">
+                                    <td>
+                                        <a ng-href="{{ PROFILES_URL }}/{{ reviewApplication.handle }}"
+                                            target="_blank">
+                                            {{ reviewApplication.handle }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a ng-href="mailto:{{ reviewApplication.emailAddress }}">
+                                        {{ reviewApplication.emailAddress }}
+                                        </a>
+                                    </td>
+                                        <td ng-show="reviewApplication.applicationStatus==='Pending'">
+                                            <b>{{ reviewApplication.applicationStatus }}</b>
+                                        </td>
+                                        <td ng-show="reviewApplication.applicationStatus==='Rejected'">
+                                            <span class="text-danger"><b>{{ reviewApplication.applicationStatus }}</b></span>
+                                        </td>
+                                        <td ng-show="reviewApplication.applicationStatus==='Approved'">
+                                            <span class="text-success"><b>{{ reviewApplication.applicationStatus }}</b></span>
+                                        </td>
+                                    <td>
+                                        {{ reviewApplication.applicationDate }}
+                                    </td>
+                                    <td>
+                                        {{ reviewApplication.reviewsInPast60Days }}
+                                    </td>
+                                    <td>
+                                        {{ reviewApplication.currentNumberOfReviewPositions }}
+                                    </td>
+                                    <td ng-show="reviewApplication.applicationStatus==='Pending'" class="btn-toolbar">
+                                        <button data-ng-click='approveApplication(reviewApplication)' class="btn btn-sm btn-info" >
+                                            <i class="fa fa-check"></i> Approve Reviewer
+                                        </button>
+                                    </td>
+                                    <td ng-show="reviewApplication.applicationStatus != 'Pending'">
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div ng-show="!reviewApplications.length">No review applications found</div>
+                    </div>
+                    <!-- table-responsive -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
