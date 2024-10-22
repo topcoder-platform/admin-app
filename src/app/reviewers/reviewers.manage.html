@@ -55,6 +55,9 @@
                                         <td ng-show="reviewApplication.applicationStatus==='Rejected'">
                                             <span class="text-danger"><b>{{ reviewApplication.applicationStatus }}</b></span>
                                         </td>
+                                        <td ng-show="reviewApplication.applicationStatus==='Cancelled'">
+                                            <span class="text-danger"><b>{{ reviewApplication.applicationStatus }}</b></span>
+                                        </td>
                                         <td ng-show="reviewApplication.applicationStatus==='Approved'">
                                             <span class="text-success"><b>{{ reviewApplication.applicationStatus }}</b></span>
                                         </td>
